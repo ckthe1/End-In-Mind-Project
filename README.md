@@ -19,17 +19,11 @@ Before you get started, make sure you have the following software installed on y
 
 ## Create database and table
 
-Create a new database called `prime_app` and create a `user` table:
+database is called `end_in_mind`. Look in database.sql file to create initial database
 
-```SQL
-CREATE TABLE "user" (
-    "id" SERIAL PRIMARY KEY,
-    "username" VARCHAR (80) UNIQUE NOT NULL,
-    "password" VARCHAR (1000) NOT NULL
-);
-```
 
-If you would like to name your database something else, you will need to change `prime_app` to the name of your new database name in `server/modules/pool.js`
+
+If you would like to name your database something else, you will need to change `end_in_mind` to the name of your new database name in `server/modules/pool.js`
 
 ## Development Setup Instructions
 
