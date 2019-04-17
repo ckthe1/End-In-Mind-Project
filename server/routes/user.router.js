@@ -19,10 +19,13 @@ router.post('/register', (req, res, next) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
 
-  const queryText = 'INSERT INTO "users" (username, password) VALUES ($1, $2) RETURNING id';
-  pool.query(queryText, [username, password])
+  const queryText = 'INSERT INTO "users" (username, password, email) VALUES ($1, $2, $3) RETURNING id';
+  pool.query(queryText, [username, password, "butt@fart.net"])
     .then(() => res.sendStatus(201))
-    .catch(() => res.sendStatus(500));
+    .catch((error) => {
+      res.sendStatus(500)
+      console.log('error registering', error);
+    });
 });
 
 // Handles login form authenticate/login POST
