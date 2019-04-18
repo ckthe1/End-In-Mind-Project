@@ -33,6 +33,18 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     
 });
 
+// Patrick's get request that grabs all users contact info from the selected community 
+router.get('/contacts/:id', rejectUnauthenticated, (req, res) => {
+
+  const queryText = `SELECT "full_name", "email", "phone_number" FROM "users" WHERE "community_id"=($1)`;
+  pool.query(queryText, [Number(req.params.id)])
+      .then((result) => { res.send(result.rows); })
+      .catch((err) => {
+        console.log('Error with GET', err);
+        res.sendStatus(500);
+      });
+});
+
 /**
  * POST route template
  */

@@ -42,13 +42,26 @@ function* addEvent(action) {
 
   }
   catch(error) {
-    console.log('fuck you', error);
+    console.log(`you dun f'd up, hoe`, error);
+  }
+}
+
+function* fetchContacts(action) {
+  try {
+      console.log('Patricks payload action:', action.payload)
+    const response = yield axios.get(`api/events/contacts/${action.payload.communityID}`);
+    console.log('Patricks response:', response)
+    yield put({ type: 'SET_CONTACTS', payload: response.data });
+  } catch (error) {
+    console.log('Contact get request failed', error);
   }
 }
 
 function* eventSaga() {
   yield takeLatest('FETCH_EVENTS', fetchEvents);
   yield takeEvery('ADD_EVENT', addEvent);
+  yield takeEvery('FETCH_CONTACTS', fetchContacts);
+
 }
 
 export default eventSaga;
