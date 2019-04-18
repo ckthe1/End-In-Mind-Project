@@ -4,8 +4,12 @@ import {connect} from 'react-redux';
 
 class EventCard extends Component {
 
-	onClick = eventId => () => {
+	deleteEvent = eventId => () => {
 		this.props.dispatch({type: "REMOVE_EVENT", payload: eventId});
+	}
+
+	editEvent = eventId => () => {
+		// TODO
 	}
 
   render() {
@@ -14,16 +18,15 @@ class EventCard extends Component {
 
     return (
 			<div className="event-card">
-				{myEvent && (
-					<div>
+				{  (
+					<div>						
 						<p>{myEvent.title}</p>
 						<p>{myEvent.description}</p>
 						{myEvent.start && <p>{myEvent.start.toString()}</p>}
 						{myEvent.end && <p>{myEvent.end.toString()}</p>}
 						<p>{myEvent.author}</p>
-						<button onClick={this.onClick(myEvent.id)}>Delete</button>
-						<button onClick={this.onClick(myEvent.id)}>Edit</button>
-
+						<button onClick={this.deleteEvent(myEvent.id)}>Delete</button>
+						<button onClick={this.editEvent(myEvent.id)}>Edit</button>
 					</div>
 
 				)}
