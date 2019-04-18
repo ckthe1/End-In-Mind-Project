@@ -5,7 +5,7 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
-
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import {connect} from 'react-redux';
 
 // import Nav from '../Nav/Nav';
@@ -20,6 +20,36 @@ import InfoPage from '../InfoPage/InfoPage';
 
 import './App.css';
 import Calendar from '../Calendar/Calendar';
+import EventCreateForm from '../EventCreateForm/EventCreateForm';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#33ab9f',
+      main: '#4534e5',
+      dark: '#4534e5',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#ff7961',
+      main: '#f44336',
+      dark: '#ba000d',
+      contrastText: '#000',
+    },
+  },
+  typography: {
+    fontFamily: [
+      'PostGrotesk-Book',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+    ].join(','),
+    fontSize: '13',
+    useNextVariants: true,
+  },
+});
 
 class App extends Component {
   componentDidMount () {
@@ -29,6 +59,7 @@ class App extends Component {
   render() {
     return (
       <Router>
+        <MuiThemeProvider theme={theme}>
         <div>
           <NavNew />
           <Switch>
@@ -54,8 +85,8 @@ class App extends Component {
             they will see the info page instead. */}
             <ProtectedRoute
               exact
-              path="/info"
-              component={InfoPage}
+              path="/event/create"
+              component={EventCreateForm}
             />
 
             <ProtectedRoute
@@ -68,6 +99,7 @@ class App extends Component {
           </Switch>
           <Footer />
         </div>
+        </MuiThemeProvider>
       </Router>
   )}
 }
