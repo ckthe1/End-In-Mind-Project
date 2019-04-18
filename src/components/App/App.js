@@ -8,7 +8,8 @@ import {
 
 import {connect} from 'react-redux';
 
-import Nav from '../Nav/Nav';
+// import Nav from '../Nav/Nav';
+import NavNew from '../Nav/NavNew';
 import Footer from '../Footer/Footer';
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
@@ -30,7 +31,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Nav />
+          <NavNew />
           <Switch>
             {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
             <Redirect exact from="/" to="/home" />

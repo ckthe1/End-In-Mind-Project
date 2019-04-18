@@ -1,0 +1,202 @@
+@font-face {
+  font-family: 'PostGrotesk-Book';
+  src: url('/public/fonts/PostGrotesk-Book.otf') format('open-type'),
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+    font-family: 'PostGrotesk-Book', sans-serif;
+}
+
+
+.navbar {
+    font-size: 20px;
+    padding-bottom: 10px;
+    box-shadow: 0 2px 2px #efefef;
+}
+
+.main-nav {
+    list-style-type: none;
+    display: none;
+}
+
+.nav-links,
+.logo {
+    text-decoration: none;
+    color: #000;
+}
+
+a.nav-links {
+    margin-top: 20px;
+}
+
+.main-nav li {
+    text-align: center;
+    margin: 15px auto;
+    animation-name: 'fade-in-list';
+    opacity: 0;
+    animation-delay: .2s;
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+}
+
+.logo {
+    display: inline-block;
+    font-size: 22px;
+    margin-top: 10px;
+    margin-left: 20px;
+    animation-name: 'fade-in-logo';
+    animation-duration: 2s;
+}
+
+
+.logo img {
+  height: 55px;
+  margin: 10px 0;
+}
+
+.navbar-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    color: #4534e5;
+    font-size: 35px;
+}
+
+.active {
+    display: block;
+    animation-name: 'fade-in-menu';
+    animation-duration: .5s;
+}
+
+.dropdown .dropbtn {
+  border: none;
+  outline: none;
+  color: #000;
+  margin-left: 8px;
+  box-shadow: none;
+  padding: 0;
+  font-family: 'PostGrotesk-Book', sans-serif; 
+  font-size: 20px; 
+}
+
+.nav-links:hover,
+.dropbtn:hover {
+  color: #4534e5;
+}
+
+.fa-caret-down {
+  padding-left: 5px;
+}
+
+.dropdown-content {
+  display: none;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.dropdown-content a:hover {
+  background-color: #4634e5d3;
+  color: white;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+@media screen and (min-width: 888px) {
+    .navbar {
+        font-size: 17px;
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 0;
+        height: 80px;
+        align-items: center;
+    }
+
+    .main-nav {
+        display: flex;
+        margin-right: 30px;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .main-nav li {
+        margin: 0;
+    }
+
+    .nav-links {
+        margin-left: 40px;
+        transition: all .4s;
+    }
+
+    .logo {
+        margin-top: 0;
+    }
+
+    .navbar-toggle {
+        display: none;
+    }
+
+  .dropdown-content {
+    position: absolute;
+    min-width: 130px;
+  }
+
+  .dropdown .dropbtn {
+    font-size: 17px; 
+    margin-left: 40px;
+  }
+
+}
+
+@keyframes fade-in-logo {
+  0% {
+    opacity: 0;
+    margin-left: 50px;
+  }
+
+  100% {
+    opacity: 1;
+    margin-left: 20px;
+  }
+}
+
+@keyframes fade-in-menu {
+  0% {
+    height: 0;
+  }
+
+  100% {
+    height: 250px;
+  }
+}
+
+@keyframes fade-in-list {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
