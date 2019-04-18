@@ -53,6 +53,7 @@ CREATE TABLE "users" (
   "created_at" varchar,
   "is_super_admin" boolean,
   "is_community_admin" boolean,
+  "community_id" INT REFERENCES "communities",
   "archived" boolean,
   "phone_number" VARCHAR,
   "files_id" INT
