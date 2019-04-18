@@ -5,7 +5,6 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import Container from "../Container/Container";
 import EventCard from "../EventCard/EventCard";
 import { connect } from 'react-redux';
 import Event from "../../classes/Event";
@@ -67,21 +66,14 @@ class CalendarView extends Component {
         <header className="App-header">
         </header>
 
-        <Container>
         <DnDCalendar
-          selectable
           defaultDate={new Date()}
           defaultView="month"
           events={this.props.events}
           onSelectEvent={this.eventSelected}
-          onSelectSlot={this.createNewEvent}
           onEventDrop={this.onEventDrop}
-          onEventResize={this.onEventResize}
-          resizable
           style={this.calendarStyle}
         />
-        <EventCard />
-        </Container>
       </div>
     );
   }

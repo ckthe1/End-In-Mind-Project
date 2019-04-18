@@ -16,6 +16,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
+import CalendarLanding from '../CalendarLanding/CalendarLanding';
 
 import './App.css';
 import Calendar from '../Calendar/Calendar';
@@ -60,7 +61,7 @@ class App extends Component {
             <ProtectedRoute
               exact
               path="/calendar"
-              component={Calendar}
+              component={CalendarLanding}
             />
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />

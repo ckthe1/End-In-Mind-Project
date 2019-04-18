@@ -1,0 +1,18 @@
+.calendar-landing {
+    display: grid;
+    grid-template-columns: 24px 70% auto 24px;
+    width: 100%;
+}
+
+.calendar-space {
+
+    grid-column: 2 /3;
+
+}
+
+.contact-space {
+
+    grid-column: 3 / 4;
+    background-color: blue;
+
+}
