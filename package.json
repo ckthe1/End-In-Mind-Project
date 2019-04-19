@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:5000",
   "dependencies": {
+    "@material-ui/core": "^3.9.3",
     "aws-sdk": "^2.440.0",
     "axios": "^0.17.1",
     "bcrypt": "^3.0.2",

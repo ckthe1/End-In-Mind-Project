@@ -17,6 +17,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
+import CalendarLanding from '../CalendarLanding/CalendarLanding';
 
 import './App.css';
 import Calendar from '../Calendar/Calendar';
@@ -62,7 +63,7 @@ class App extends Component {
             <ProtectedRoute
               exact
               path="/calendar"
-              component={Calendar}
+              component={CalendarLanding}
             />
 
               <ProtectedRoute
