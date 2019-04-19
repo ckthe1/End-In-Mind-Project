@@ -20,6 +20,7 @@ import InfoPage from '../InfoPage/InfoPage';
 
 import './App.css';
 import Calendar from '../Calendar/Calendar';
+import Upload from '../Upload/Upload';
 
 class App extends Component {
   componentDidMount () {
@@ -62,6 +63,12 @@ class App extends Component {
               exact
               path="/calendar"
               component={Calendar}
+            />
+
+              <ProtectedRoute
+              exact
+              path="/files"
+              component={Upload}
             />
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />
