@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 
 class FileDisplay extends Component {
 
@@ -7,22 +8,20 @@ class FileDisplay extends Component {
   deleteButton = () => {
     console.log('delete!');
 
-    let fileToDelete = {
-      taco: this.props.myFile.key,
-    }
+    this.props.dispatch({
+      type: "DELETE_FILE",
+      payload: this.props.myFile.key,
+    });
 
-
-    console.log(fileToDelete);
+    return;
 
      axios({
        method: "DELETE",
-       url: "/delete-file",
+       url: "/api/aws",
        params: {
          awsKey: this.props.myFile.key
        }
-     }).then(() => {
-       this.getResults();
-     });
+     })
   }
 
 
@@ -47,4 +46,4 @@ class FileDisplay extends Component {
   }
 }
 
-export default FileDisplay;
+export default connect()(FileDisplay);

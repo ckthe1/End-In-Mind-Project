@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import FileList from './FileList';
+import { connect } from 'react-redux';
 
 class FileUpload extends Component {
   constructor() {
@@ -12,21 +13,11 @@ class FileUpload extends Component {
 
   submitFile = event => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("file", this.state.file[0]);
-    axios
-      .post(`/upload`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      })
-      .then(response => {
-        // handle your response;
-        alert("file uploaded successfully");
-      })
-      .catch(error => {
-        // handle your error
-      });
+
+    this.props.dispatch({
+      type: 'ADD_FILE',
+      payload: this.state.file,
+    });
   };
 
   handleFileUpload = event => {
@@ -55,4 +46,4 @@ class FileUpload extends Component {
   }
 }
 
-export default FileUpload;
+export default connect()(FileUpload);

@@ -6,6 +6,7 @@ import events from "./Events.reducer";
 import selectedEvent from "./SelectedEvent.reducer";
 import contacts from "./Contacts.reducer";
 import eventDialog from "./EventDialog.reducer";
+import AWS from './awsFilesReducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   selectedEvent,		// The event we're viewing details of 
   contacts,     // Main contacts of a selected community
   eventDialog,    // Is there an event dialog open?
+  AWS,
 });
 
 export default rootReducer;
