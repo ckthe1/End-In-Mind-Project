@@ -44,7 +44,7 @@ const uploadFile = (buffer, name, type) => {
  };
 
 
- router.get("/aws", (request, response) => {
+ router.get("/", (request, response) => {
    console.log('hi were in the get route kthx');
 
   const objectsArray = s3.listObjects(params, function(err, data) {
@@ -75,7 +75,7 @@ const uploadFile = (buffer, name, type) => {
 
  
 // Define POST route
-router.post("/upload", (request, response) => {
+router.post("/", (request, response) => {
     console.log('is this working?');
   
     
@@ -102,7 +102,7 @@ router.post("/upload", (request, response) => {
 
 
 
-router.delete("/delete-file", (req, res) => {
+router.delete("/", (req, res) => {
   console.log("/ DELETE request was hit taco");
   console.log("req.query:", req.query);
    var params = {
@@ -114,10 +114,16 @@ router.delete("/delete-file", (req, res) => {
 
    s3.deleteObject(params, function(err, data) {
 
-     if (err) console.log(err, err.stack);
+     if (err) {
+       console.log(err, err.stack);
+       res.sendStatus(500);
+     }
 
      // an error occurred
-     else console.log(data); // successful response
+     else {
+      console.log(data); // successful response
+      res.sendStatus(200);
+     }
    });
 });
 

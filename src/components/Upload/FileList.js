@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import FileDisplay from "./FileDisplay";
+import { connect } from 'react-redux';
 
 class FileList extends Component {
 
@@ -9,12 +10,12 @@ class FileList extends Component {
   }
 
   componentDidMount() {
-    this.getFiles();
+    this.props.dispatch({type: 'FETCH_FILES'})
   }
 
   getFiles = () => {
     console.log('hi im gettinr files ok');
-    axios.get('aws')
+    axios.get('api/aws')
     .then(response => {
       console.log(response.data.siftedArray);
       this.setState({files: response.data.siftedArray});
@@ -26,13 +27,17 @@ class FileList extends Component {
   }
 
   render() {
+    console.log(this.props);
+    
     return (
       <div>
-        {this.state.files.map((file, index) => 
+        {this.props.AWS.map((file, index) => 
           <FileDisplay myFile={file} key={index}/>)}
       </div>
     );
   }
 }
 
-export default FileList;
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps)(FileList);
