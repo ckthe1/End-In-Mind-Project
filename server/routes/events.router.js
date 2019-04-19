@@ -17,8 +17,8 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     const convertedEvents = response.rows.map( event => {
 
       let newEvent = {...event};
-      newEvent.start = Date(event.start_time);
-      newEvent.end = Date(event.end_time);
+      newEvent.start = event.start_time;
+      newEvent.end = event.end_time;
       newEvent.title = event.event_name;
       return newEvent;
     })

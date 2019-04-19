@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import EventCard from "../EventCard/EventCard";
 
-class Container extends Component {
+class CalendarLand extends Component {
 
 
 	handleClose = () => {
@@ -37,4 +37,4 @@ class Container extends Component {
 
 const reduxMap = reduxState => reduxState;
 
-export default connect(reduxMap)(Container);
+export default connect(reduxMap)(CalendarLand);
