@@ -21,6 +21,7 @@ import CalendarLanding from '../CalendarLanding/CalendarLanding';
 
 import './App.css';
 import Calendar from '../Calendar/Calendar';
+import Upload from '../Upload/Upload';
 
 class App extends Component {
   componentDidMount () {
@@ -63,6 +64,12 @@ class App extends Component {
               exact
               path="/calendar"
               component={CalendarLanding}
+            />
+
+              <ProtectedRoute
+              exact
+              path="/files"
+              component={Upload}
             />
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />
