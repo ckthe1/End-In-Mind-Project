@@ -7,6 +7,7 @@ const bluebird = require("bluebird");
 const multiparty = require("multiparty");
 require("dotenv").config();
 const cleanFilename = require('./cleanFilename')
+const pool = require("../modules/pool");
 
 
 
@@ -80,6 +81,8 @@ router.post("/", (request, response) => {
   
     
   const form = new multiparty.Form();
+
+
   form.parse(request, async (error, fields, files) => {
     // console.log(files);
     
@@ -92,6 +95,17 @@ router.post("/", (request, response) => {
       const newFilename = cleanFilename(files.file[0].originalFilename);
       const fileName = `Public/${newFilename}_${timestamp}`;
       const data = await uploadFile(buffer, fileName, type);
+      console.log("hi we got the data", data.Location);
+
+      // await axios.post('/api/files');
+      // now that we have the file in the bucket, we need to add
+      // to our database 
+      await pool.query(
+        `INSERT INTO "files" ("author_user_id", "url") 
+        VALUES (1, '${data.Location}')`
+      );
+
+
       return response.status(200).send(data);
     } catch (error) {
         console.log(error);
