@@ -6,7 +6,15 @@ const router = express.Router();
  * GET route template
  */
 router.get('/', (req, res) => {
-    
+    const queryText = `SELECT * from "files"`;
+    pool.query(queryText)
+    .then (response => {
+        res.send(response.rows);
+    })
+    .catch ( error => {
+        res.sendStatus(500);
+        console.log(error);
+    });
 });
 
 /**
@@ -18,10 +26,10 @@ router.post('/', (req, res) => {
 
     // now that we have the file in the bucket, we need to add
     // to our database 
-    const queryText = `INSERT INTO "files" ("title", "description", "author_user_id", "url") 
-        VALUES ($1, $2, 1, $3)`;
+    const queryText = `INSERT INTO "files" ("title", "description", "author_user_id", "url", "key") 
+        VALUES ($1, $2, 1, $3, $4)`;
 
-    pool.query(queryText, [req.body.title, req.body.description, req.body.url])
+    pool.query(queryText, [req.body.title, req.body.description, req.body.url, req.body.key])
     .then(response => {
         res.sendStatus(200);
     })

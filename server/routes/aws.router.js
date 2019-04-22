@@ -44,9 +44,30 @@ const uploadFile = (buffer, name, type) => {
    MaxKeys: 10
  };
 
+ router.get("/signed-url", async (req, resp) => {
+
+  console.log(req.query);
+
+   let params = { Bucket: process.env.S3_BUCKET, Key: req.query.key };
+
+   s3.getObject(params, (error, data) =>{
+
+    if (error) {
+      console.log(error);
+      resp.sendStatus(500);
+    }else {
+      console.log(data);
+    }
+   })
+
+
+   let signedUrl = await s3.getSignedUrl(`getObject`, params);
+
+   resp.send({signedUrl});
+ })
 
  router.get("/", (request, response) => {
-   console.log('hi were in the get route kthx');
+   console.log('hi were in the get route');
 
   const objectsArray = s3.listObjects(params, function(err, data) {
       if (err) {
@@ -77,7 +98,6 @@ const uploadFile = (buffer, name, type) => {
  
 // Define POST route
 router.post("/", (request, response) => {
-  console.log('is this working?');    
   const form = new multiparty.Form();
 
   form.parse(request, async (error, fields, files) => {

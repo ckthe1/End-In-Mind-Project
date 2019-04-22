@@ -31,8 +31,23 @@ class FileList extends Component {
     
     return (
       <div>
-        {this.props.AWS.map((file, index) => 
-          <FileDisplay myFile={file} key={index}/>)}
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>File</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.AWS.map((file, index) => (
+              <tr>
+                <FileDisplay myFile={file} key={index} />
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
