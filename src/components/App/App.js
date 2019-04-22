@@ -5,23 +5,56 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
-
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import {connect} from 'react-redux';
 
 // import Nav from '../Nav/Nav';
 import NavNew from '../Nav/NavNew';
 import Footer from '../Footer/Footer';
 
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
+import Upload from '../Upload/Upload';
 import CalendarLanding from '../CalendarLanding/CalendarLanding';
+
+import Dashboard from '../Dashboard/Dashboard';
+import EventView from '../EventView/EventView';
 
 import './App.css';
 import Calendar from '../Calendar/Calendar';
-import Upload from '../Upload/Upload';
+import EventCreateForm from '../EventCreateForm/EventCreateForm';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#33ab9f',
+      main: '#4534e5',
+      dark: '#4534e5',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#ff7961',
+      main: '#f44336',
+      dark: '#ba000d',
+      contrastText: '#000',
+    },
+  },
+  typography: {
+    fontFamily: [
+      'PostGrotesk-Book',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+    ].join(','),
+    fontSize: '13',
+    useNextVariants: true,
+  },
+});
 
 class App extends Component {
   componentDidMount () {
@@ -31,6 +64,7 @@ class App extends Component {
   render() {
     return (
       <Router>
+        <MuiThemeProvider theme={theme}>
         <div>
           <NavNew />
           <Switch>
@@ -56,10 +90,14 @@ class App extends Component {
             they will see the info page instead. */}
             <ProtectedRoute
               exact
-              path="/info"
-              component={InfoPage}
+              path="/event/create"
+              component={EventCreateForm}
             />
-
+            <ProtectedRoute
+              exact
+              path="/dashboard"
+              component={Dashboard}
+            />
             <ProtectedRoute
               exact
               path="/calendar"
@@ -71,11 +109,18 @@ class App extends Component {
               path="/files"
               component={Upload}
             />
+            <ProtectedRoute
+              exact
+              path="/event/view"
+              component={EventView}
+            />
+
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />
           </Switch>
           <Footer />
         </div>
+        </MuiThemeProvider>
       </Router>
   )}
 }

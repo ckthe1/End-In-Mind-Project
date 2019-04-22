@@ -56,7 +56,7 @@ a.nav-links {
 
 
 .logo img {
-  height: 55px;
+  height: 65px;
   margin: 10px 0;
 }
 
@@ -68,6 +68,7 @@ a.nav-links {
     color: #4534e5;
     font-size: 35px;
 }
+
 
 .active {
     display: block;
@@ -127,7 +128,7 @@ a.nav-links {
         display: flex;
         justify-content: space-between;
         padding-bottom: 0;
-        height: 80px;
+        height: 100px;
         align-items: center;
     }
 
