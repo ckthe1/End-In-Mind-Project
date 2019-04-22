@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import Dialog from "@material-ui/core/Dialog";
 import EventCard from "../EventCard/EventCard";
 
+
 class Container extends Component {
 
 
