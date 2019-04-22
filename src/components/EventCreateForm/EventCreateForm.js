@@ -58,8 +58,8 @@ const styles = theme => ({
 class EventCreateForm extends Component {
 
     state = {
-        authorUserId: this.props.users.id,
-        communityId: this.props.users.community_id,
+        authorUserId: this.props.user.id,
+        communityId: this.props.user.community_id,
         eventTitle: '',
         description: '',
         selectedDate: new Date(),
