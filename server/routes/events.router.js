@@ -52,11 +52,39 @@ router.get('/contacts/:id', rejectUnauthenticated, (req, res) => {
  * POST route template
  */
 router.post('/', (req, res) => {
-
   console.log(req.body);
-
-  // TODO actually add this to the database
-  pool.query(``)
+  let event = req.body;
+  const queryText = `INSERT INTO "events"
+    (event_name, 
+    event_type, 
+    expected_attendees, 
+    event_date, 
+    location, 
+    description, 
+    contact_name, 
+    contact_email, 
+    contact_phone, 
+    community_id, 
+    author_user_id)
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);`
+    pool.query(queryText,[
+    event.eventTitle,
+    event.eventTypeArray,
+    event.audienceSize,
+    event.selectedDate,
+    event.location,
+    event.description,
+    event.contactName,
+    event.contactEmail,
+    event.contactPhone,
+    event.communityId,
+    event.authorUserId,
+])
+  .then(() => {res.sendStatus(201)})
+  .catch((err) => {
+      console.log('error posting event', err);
+      res.sendStatus(500);
+  })
 });
 
 module.exports = router;

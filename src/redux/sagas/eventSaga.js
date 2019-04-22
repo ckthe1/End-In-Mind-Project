@@ -47,12 +47,11 @@ function* addEvent(action) {
       withCredentials: true,
     };
 
-    console.log('add event?????', action);
+    console.log('add event', action);
 
     // the config includes credentials which
     // allow the server session to recognize the user
     yield axios.post('api/events', action.payload, config);
-
     yield put({ type: 'FETCH_EVENTS' });
 
   }
