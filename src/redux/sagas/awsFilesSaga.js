@@ -9,9 +9,11 @@ function* fetchFiles() {
       withCredentials: true
     };
 
-    const response = yield axios.get("api/aws", config);
+    const response = yield axios.get("api/files", config);
 
-    yield put({ type: "SET_FILES", payload: response.data.siftedArray });
+    console.log(response);
+
+    yield put({ type: "SET_FILES", payload: response.data });
   } catch (error) {
     console.log("Files get request failed", error);
   }
@@ -19,18 +21,31 @@ function* fetchFiles() {
 
 function* addFile(action) {
   try {
+
     const config = {
       headers: { "Content-Type": "application/json" },
       withCredentials: true
     };
 
+    // posting to AWS
     const formData = new FormData();
-    formData.append("file", action.payload[0]);
-    yield axios.post(`/api/aws`, formData, {
+    formData.append("file", action.payload.file[0]);
+    const bucketResponse = yield axios.post(`/api/aws`, formData, {
       headers: {
         "Content-Type": "multipart/form-data"
       }
     });
+
+    console.log("bucket response:",bucketResponse);
+
+    // using the URL from aws, post to our database
+    yield axios.post('/api/files', {
+      title: action.payload.title,
+      description: action.payload.description,
+      url: bucketResponse.data.Location,
+      key: bucketResponse.data.key,
+    });
+
     yield put({ type: "FETCH_FILES" });
   } catch (error) {
     console.log("its an error with adding file", error);
@@ -44,7 +59,7 @@ function* deleteFile(action) {
       withCredentials: true
     };
 
-    console.log("delete event?????", action);
+    console.log("delete event", action);
 
 
    yield axios({
@@ -57,7 +72,7 @@ function* deleteFile(action) {
 
     yield put({ type: "FETCH_FILES" });
   } catch (error) {
-    console.log(`you dun fud up g`, error);
+    console.log(`error`, error);
   }
 }
 

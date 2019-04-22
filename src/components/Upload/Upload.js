@@ -1,38 +1,46 @@
 import React, { Component } from "react";
-import axios from "axios";
-import FileList from './FileList';
-import { connect } from 'react-redux';
+import FileList from "./FileList";
+import { connect } from "react-redux";
 
 class FileUpload extends Component {
-  constructor() {
-    super();
-    this.state = {
+    state = {
+      title: '',
+      description: '',
       file: null
     };
-  }
+  
 
   submitFile = event => {
     event.preventDefault();
-
     this.props.dispatch({
-      type: 'ADD_FILE',
-      payload: this.state.file,
-    });
+      type: "ADD_FILE",
+      payload: this.state
+    }); 
+    this.setState({
+      title: '',
+      description: '',
+    });   
   };
 
   handleFileUpload = event => {
-    this.setState({ file: event.target.files });
+    this.setState({ 
+      file: event.target.files 
+    });
   };
 
-
-
-
-
+  handleChangeFor = (property) => (event) => {
+    this.setState ({
+      ...this.state,
+      [property]: event.target.value
+    })
+  };
 
   render() {
     return (
       <div>
         <form onSubmit={this.submitFile}>
+          <input value={this.state.title} label="title" placeholder="Title" type="text" onChange={this.handleChangeFor('title')}/>
+          <input value={this.state.description} label="description" placeholder="Description" type="text" onChange={this.handleChangeFor('description')} />
           <input
             label="upload file"
             type="file"
@@ -40,7 +48,7 @@ class FileUpload extends Component {
           />
           <button type="submit">Send</button>
         </form>
-        <FileList/>
+        <FileList />
       </div>
     );
   }
