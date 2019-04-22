@@ -9,7 +9,7 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
  */
 router.get('/', rejectUnauthenticated, (req, res) => {
 
-  pool.query(`SELECT * FROM "events"`)
+  pool.query(`SELECT * FROM "events" JOIN "communities" ON "events"."community_id" = "communities"."id" ORDER BY "events"."id"`)
 
   .then (response => {
 
@@ -20,6 +20,9 @@ router.get('/', rejectUnauthenticated, (req, res) => {
       newEvent.start = Date(event.start_time);
       newEvent.end = Date(event.end_time);
       newEvent.title = event.event_name;
+      newEvent.eventType = event.event_type;
+      newEvent.expectedAttendees = event.expected_attendees;
+      newEvent.community = event.name;
       return newEvent;
     })
     res.send(convertedEvents)
