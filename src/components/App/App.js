@@ -12,14 +12,14 @@ import {connect} from 'react-redux';
 import NavNew from '../Nav/NavNew';
 import Footer from '../Footer/Footer';
 
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import Upload from '../Upload/Upload';
 import CalendarLanding from '../CalendarLanding/CalendarLanding';
-
+import EventView from '../EventView/EventView';
 import './App.css';
 import Calendar from '../Calendar/Calendar';
 import EventCreateForm from '../EventCreateForm/EventCreateForm';
@@ -102,6 +102,12 @@ class App extends Component {
               path="/files"
               component={Upload}
             />
+            <ProtectedRoute
+              exact
+              path="/event/view"
+              component={EventView}
+            />
+
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />
           </Switch>

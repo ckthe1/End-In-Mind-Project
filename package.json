@@ -45,6 +45,8 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/helper-regex": "^7.4.3",
     "nodemon": "^1.18.10"
   },
   "browserslist": [
