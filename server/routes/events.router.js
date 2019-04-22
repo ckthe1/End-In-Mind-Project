@@ -33,6 +33,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     
 });
 
+
 // Patrick's get request that grabs all users contact info from the selected community 
 router.get('/contacts/:id', rejectUnauthenticated, (req, res) => {
 
