@@ -1,5 +1,5 @@
 const express = require("express");
-const app = express();
+const router = express.Router();
 const AWS = require("aws-sdk");
 const fs = require("fs");
 const fileType = require("file-type");
@@ -7,9 +7,6 @@ const bluebird = require("bluebird");
 const multiparty = require("multiparty");
 require("dotenv").config();
 const cleanFilename = require('./cleanFilename')
-const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: true }));
-
 
 
 
@@ -47,7 +44,7 @@ const uploadFile = (buffer, name, type) => {
  };
 
 
- app.get("/aws", (request, response) => {
+ router.get("/", (request, response) => {
    console.log('hi were in the get route kthx');
 
   const objectsArray = s3.listObjects(params, function(err, data) {
@@ -78,7 +75,7 @@ const uploadFile = (buffer, name, type) => {
 
  
 // Define POST route
-app.post("/test-upload", (request, response) => {
+router.post("/", (request, response) => {
     console.log('is this working?');
   
     
@@ -105,7 +102,7 @@ app.post("/test-upload", (request, response) => {
 
 
 
-app.delete("/delete-file", (req, res) => {
+router.delete("/", (req, res) => {
   console.log("/ DELETE request was hit taco");
   console.log("req.query:", req.query);
    var params = {
@@ -117,16 +114,22 @@ app.delete("/delete-file", (req, res) => {
 
    s3.deleteObject(params, function(err, data) {
 
-     if (err) console.log(err, err.stack);
+     if (err) {
+       console.log(err, err.stack);
+       res.sendStatus(500);
+     }
 
      // an error occurred
-     else console.log(data); // successful response
+     else {
+      console.log(data); // successful response
+      res.sendStatus(200);
+     }
    });
 });
 
 
 
 
-app.listen(process.env.PORT || 9000);
-console.log("Server up and running...");
 
+
+module.exports = router;

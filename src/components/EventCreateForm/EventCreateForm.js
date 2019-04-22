@@ -5,8 +5,8 @@ import Grid from '@material-ui/core/Grid';
 // import Snackbar from '@material-ui/core/Snackbar';
 import DateFnsUtils from '@date-io/date-fns';
 import Button from '@material-ui/core/Button';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
+// import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+// import ErrorIcon from '@material-ui/icons/Error';
 import { MuiPickersUtilsProvider, DatePicker, TimePicker } from 'material-ui-pickers';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -58,11 +58,15 @@ const styles = theme => ({
 class EventCreateForm extends Component {
 
     state = {
+        authorUserId: this.props.users.id,
+        communityId: this.props.users.community_id,
         eventTitle: '',
+        description: '',
         selectedDate: new Date(),
         location: '',
         contactName: '',
         contactEmail: '',
+        contactPhone: '',
         audienceSize: '',
         eventTypeArray: '',
         eventTypes: {
@@ -80,10 +84,9 @@ class EventCreateForm extends Component {
         audienceDropdown: ['0-10', '10-20', '20-30', '50-100', '100-200', '200+'],
     }
 
-    // send fetch dispatch to redux which will return all items from 'tags' table on database
-    componentDidMount = () => {
-        this.props.dispatch({ type: 'FETCH_TAGS' });
-    }
+    // componentDidMount = () => {
+    //     this.props.dispatch({ type: 'FETCH_TAGS' });
+    // }
 
 
 
@@ -111,13 +114,15 @@ class EventCreateForm extends Component {
     // handles form submit button, sends post dispatch to redux with payload of all selected form inputs + clears form 
     handleSubmit = () => {
         this.getEventTypes();
-        this.props.dispatch({ type: 'POST_PROJECT', payload: this.state });
+        this.props.dispatch({ type: 'ADD_EVENT', payload: this.state });
         this.setState({
             eventTitle: '',
+            description: '',
             selectedDate: new Date(),
             location: '',
             contactName: '',
             contactEmail: '',
+            contactPhone: '',
             audienceSize: '',
             eventTypeArray: '',
             eventTypes: {
@@ -153,22 +158,22 @@ class EventCreateForm extends Component {
 
 
     // determines which message will display on snackbar depending if post to database was successful  
-    alertMessage = () => {
-        const { classes } = this.props;
-        if (this.props.confirmPost.status) {
-            return <span id="message-id" style={{ display: 'flex', alignItems: 'center' }}>
-                <CheckCircleIcon className={classes.icon} />Project Successfully Added!</span>
-        }
-        else {
-            return <span id="message-id" style={{ display: 'flex', alignItems: 'center' }}>
-                <ErrorIcon className={classes.icon} />Project add was unsuccessful</span>
-        }
-    }
+    // alertMessage = () => {
+    //     const { classes } = this.props;
+    //     if (this.props.confirmPost.status) {
+    //         return <span id="message-id" style={{ display: 'flex', alignItems: 'center' }}>
+    //             <CheckCircleIcon className={classes.icon} />Project Successfully Added!</span>
+    //     }
+    //     else {
+    //         return <span id="message-id" style={{ display: 'flex', alignItems: 'center' }}>
+    //             <ErrorIcon className={classes.icon} />Project add was unsuccessful</span>
+    //     }
+    // }
 
     // handles close from snackbar and sends reset dispatch to redux  
-    handleClose = () => {
-        this.props.dispatch({ type: 'RESET_POST' })
-    };
+    // handleClose = () => {
+    //     this.props.dispatch({ type: 'RESET_POST' })
+    // };
 
 
     render() {
@@ -195,7 +200,7 @@ class EventCreateForm extends Component {
                                     name="eventTitle"
                                     type="text"
                                     margin="normal"
-                                    value={this.state.name}
+                                    value={this.state.eventTitle}
                                     validators={['required']}
                                     errorMessages={['this field is required']}
                                     variant="outlined"
@@ -224,8 +229,8 @@ class EventCreateForm extends Component {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={this.state.checkedA}
-                                            onChange={this.handleEventTypeChange('popUpPodcasts')}
+                                            checked={this.state.eventTypes.popUpPodcast}
+                                            onChange={this.handleEventTypeChange('popUpPodcast')}
                                             color="primary"
                                             value="Pop-up Podcasts"
                                         />
@@ -235,7 +240,7 @@ class EventCreateForm extends Component {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={this.state.checkedA}
+                                            checked={this.state.eventTypes.endInMindClub}
                                             onChange={this.handleEventTypeChange('endInMindClub')}
                                             color="primary"
                                             value="End in Mind Book Club"
@@ -246,7 +251,7 @@ class EventCreateForm extends Component {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={this.state.checkedA}
+                                            checked={this.state.eventTypes.deathOverDinner}
                                             onChange={this.handleEventTypeChange('deathOverDinner')}
                                             color="primary"
                                             value="Death Over Dinner"
@@ -257,7 +262,7 @@ class EventCreateForm extends Component {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={this.state.checkedA}
+                                            checked={this.state.eventTypes.honoringTraining}
                                             onChange={this.handleEventTypeChange('honoringTraining')}
                                             color="primary"
                                             value="Honoring Choices Training"
@@ -268,7 +273,7 @@ class EventCreateForm extends Component {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={this.state.checkedA}
+                                            checked={this.state.eventTypes.stevieRay}
                                             onChange={this.handleEventTypeChange('stevieRay')}
                                             color="primary"
                                             value="The Life and Death Comedy Show with Stevie Ray"
@@ -279,7 +284,7 @@ class EventCreateForm extends Component {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={this.state.checkedA}
+                                            checked={this.state.eventTypes.deathCafe}
                                             onChange={this.handleEventTypeChange('deathCafe')}
                                             color="primary"
                                             value="Death Cafe"
@@ -290,7 +295,7 @@ class EventCreateForm extends Component {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={this.state.checkedA}
+                                            checked={this.state.eventTypes.livingWills}
                                             onChange={this.handleEventTypeChange('livingWills')}
                                             color="primary"
                                             value="Living Wills Through Art"
@@ -301,7 +306,7 @@ class EventCreateForm extends Component {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={this.state.checkedA}
+                                            checked={this.state.eventTypes.tedTalks}
                                             onChange={this.handleEventTypeChange('tedTalks')}
                                             color="primary"
                                             value="Discuss TED Talks"
@@ -312,7 +317,7 @@ class EventCreateForm extends Component {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={this.state.checkedA}
+                                            checked={this.state.eventTypes.writingParty}
                                             onChange={this.handleEventTypeChange('writingParty')}
                                             color="primary"
                                             value="Legacy Letter Writing Party"
@@ -323,7 +328,7 @@ class EventCreateForm extends Component {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={this.state.checkedA}
+                                            checked={this.state.eventTypes.healthStory}
                                             onChange={this.handleEventTypeChange('healthStory')}
                                             color="primary"
                                             value="Host a Health Story Collaborative"
@@ -457,8 +462,8 @@ class EventCreateForm extends Component {
                                     fullWidth
                                     rowsMax="4"
                                     type="text"
-                                    value={this.state.contactNumber}
-                                    onChange={this.handleChange('contactNumber')}
+                                    value={this.state.contactPhone}
+                                    onChange={this.handleChange('contactPhone')}
                                     className={classes.textField}
                                     validators={['required']}
                                     errorMessages={['this field is required']}

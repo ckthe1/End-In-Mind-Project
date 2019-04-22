@@ -13,13 +13,18 @@ class Contacts extends Component {
 	
   render() {
 
-
+        console.log("props:", this.props);
     return (
 			<div>
-                <p>
                     Contact Info:
-                    {JSON.stringify(this.props.contacts)}
-                </p>
+                    {this.props.contacts.map((contact)=>{
+                        return(
+                        <ul>
+                            <li>{contact.full_name}</li>
+                            <li>{contact.email}</li>
+                            <li>{contact.phone_number}</li>
+                        </ul>
+                    )})}
 			</div>
 		);
   }

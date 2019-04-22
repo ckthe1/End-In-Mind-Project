@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import './NavNew.css';
 
 
@@ -60,7 +61,7 @@ class NavNew extends Component {
                         <Link to="/calendar" className="nav-links">Calendar</Link>
                     </li>
                     <li>
-                        <Link to="/logout" className="nav-links">Log Out</Link>
+                        <Link onClick={() => this.props.dispatch({ type: 'LOGOUT' })} className="nav-links">Log Out</Link>
                     </li>
                 </ul>
             </nav>
@@ -68,4 +69,4 @@ class NavNew extends Component {
     }
 }
 
-export default NavNew;
+export default connect()(NavNew);
