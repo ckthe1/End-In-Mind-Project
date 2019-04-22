@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Snackbar from '@material-ui/core/Snackbar';
+// import Snackbar from '@material-ui/core/Snackbar';
 import DateFnsUtils from '@date-io/date-fns';
 import Button from '@material-ui/core/Button';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -11,23 +11,23 @@ import { MuiPickersUtilsProvider, DatePicker, TimePicker } from 'material-ui-pic
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
 import FormLabel from '@material-ui/core/FormLabel';
+import EventIcon from '@material-ui/icons/Event';
 import { Typography } from '@material-ui/core';
 
 
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        marginLeft: 5,
-        marginRight: 5,
+        marginLeft: 8,
+        marginRight: 8,
         marginTop: 40,
     },
     textField: {
-        marginTop: 2,
-        marginBottom: 2,
+        marginTop: 4,
+        marginBottom: 10,
     },
     menu: {
         width: 200,
@@ -38,7 +38,8 @@ const styles = theme => ({
         float: 'right',
     },
     icon: {
-        fontSize: 20,
+        fontSize: 40,
+        verticalAlign: -8,
         opacity: 0.9,
         marginRight: theme.spacing.unit,
     },
@@ -50,6 +51,7 @@ const styles = theme => ({
         marginLeft: 'auto',
         marginRight: 'auto',
     },
+
 });
 
 
@@ -58,27 +60,32 @@ class EventCreateForm extends Component {
     state = {
         eventTitle: '',
         selectedDate: new Date(),
-        selectedTag: '',
-        gitHubUrl: '',
-        websiteUrl: '',
-        description: '',
-        dropdown: ['Estate Planning'],
-        popUpPodcast: false,
-        endInMindClub: false,
-        deathOverDinner: false,
-        honoringTraining: false,
-        stevieRay: false,
-        deathCafe: false,
-        livingWills: false,
-        tedTalks: false,
-        writingParty: false,
-        healthStory: false,
+        location: '',
+        contactName: '',
+        contactEmail: '',
+        audienceSize: '',
+        eventTypeArray: '',
+        eventTypes: {
+            popUpPodcast: false,
+            endInMindClub: false,
+            deathOverDinner: false,
+            honoringTraining: false,
+            stevieRay: false,
+            deathCafe: false,
+            livingWills: false,
+            tedTalks: false,
+            writingParty: false,
+            healthStory: false,
+        },
+        audienceDropdown: ['0-10', '10-20', '20-30', '50-100', '100-200', '200+'],
     }
 
     // send fetch dispatch to redux which will return all items from 'tags' table on database
     componentDidMount = () => {
         this.props.dispatch({ type: 'FETCH_TAGS' });
     }
+
+
 
     // handles on inputs on form and sets state
     handleChange = (property) => (event) => {
@@ -88,16 +95,43 @@ class EventCreateForm extends Component {
         });
     }
 
+    getEventTypes = () => {
+        let eventTypes = [];
+
+        console.log('event types:', this.state.eventTypes);
+
+        Object.entries(this.state.eventTypes).forEach(entry => {
+            if (entry[1]) eventTypes.push(entry[0]);
+        });
+        this.setState({
+            eventTypeArray: [...this.state.eventTypeArray, eventTypes]
+        })
+    }
+
     // handles form submit button, sends post dispatch to redux with payload of all selected form inputs + clears form 
     handleSubmit = () => {
+        this.getEventTypes();
         this.props.dispatch({ type: 'POST_PROJECT', payload: this.state });
         this.setState({
-            name: '',
+            eventTitle: '',
             selectedDate: new Date(),
-            selectedTag: '',
-            gitHubUrl: '',
-            websiteUrl: '',
-            description: '',
+            location: '',
+            contactName: '',
+            contactEmail: '',
+            audienceSize: '',
+            eventTypeArray: '',
+            eventTypes: {
+                popUpPodcast: false,
+                endInMindClub: false,
+                deathOverDinner: false,
+                honoringTraining: false,
+                stevieRay: false,
+                deathCafe: false,
+                livingWills: false,
+                tedTalks: false,
+                writingParty: false,
+                healthStory: false,
+            },
         });
     }
 
@@ -109,7 +143,12 @@ class EventCreateForm extends Component {
     };
 
     handleEventTypeChange = name => event => {
-        this.setState({ [name]: event.target.checked });
+        this.setState({
+            eventTypes: {
+                ...this.state.eventTypes,
+                [name]: event.target.checked
+            }
+        });
     };
 
 
@@ -134,37 +173,38 @@ class EventCreateForm extends Component {
 
     render() {
         const { classes } = this.props;
+        console.log(this.state.eventTypeArray);
 
         return (
             <div className={classes.root}>
-            <div className={classes.container}>
-                <Typography><h2 style={{marginBottom: '15px', fontSize: '30px'}}>Create New Event</h2></Typography>
-                <ValidatorForm
-                    ref="form"
-                    onSubmit={this.handleSubmit}
-                    onError={errors => console.log(errors)}
-                >
-                    <Grid container spacing={8}>
-                        <Grid item xs={12} sm={4}>
-                            <TextValidator
-                                id="eventTitle"
-                                label="* Event Title"
-                                fullWidth
-                                className={classNames(classes.textField)}
-                                onChange={this.handleChange('eventTitle')}
-                                 name="eventTitle"
-                                type="text"
-                                margin="normal"
-                                value={this.state.name}
-                                validators={['required']}
-                                errorMessages={['this field is required']}
-                                variant="outlined"
-                            />
-                        </Grid>
+                <div className={classes.container}>
+                    <Typography><h2 style={{ marginBottom: '10px', fontSize: '30px', color: '#4534e5' }}><EventIcon className={classes.icon} />Create New Event</h2></Typography>
+                    <ValidatorForm
+                        ref="form"
+                        onSubmit={this.handleSubmit}
+                        onError={errors => console.log(errors)}
+                    >
+                        <Grid container spacing={8}>
+                            <Grid item xs={12} sm={4}>
+                                <TextValidator
+                                    id="eventTitle"
+                                    label="* Event Title"
+                                    fullWidth
+                                    className={classNames(classes.textField)}
+                                    onChange={this.handleChange('eventTitle')}
+                                    name="eventTitle"
+                                    type="text"
+                                    margin="normal"
+                                    value={this.state.name}
+                                    validators={['required']}
+                                    errorMessages={['this field is required']}
+                                    variant="outlined"
+                                />
+                            </Grid>
                             <Grid item xs={12} sm={8}>
                                 <TextValidator
                                     id="description"
-                                    label="Description"
+                                    label="*Description"
                                     multiline
                                     fullWidth
                                     rowsMax="4"
@@ -172,56 +212,20 @@ class EventCreateForm extends Component {
                                     value={this.state.description}
                                     onChange={this.handleChange('description')}
                                     className={classes.textField}
+                                    validators={['required']}
+                                    errorMessages={['this field is required']}
                                     margin="normal"
                                     variant="outlined"
                                 />
                             </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <DatePicker
-                                    margin="normal"
-                                    label="* Date"
-                                    fullWidth
-                                    value={this.state.selectedDate}
-                                    onChange={this.handleDateChange}
-                                    className={classNames(classes.textField)}
-                                    variant="outlined"
-                                />
-                            </MuiPickersUtilsProvider>
-                        </Grid>
-                        <Grid item xs={6} sm={4}>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <TimePicker
-                                    margin="normal"
-                                    label="* Start Time"
-                                    fullWidth
-                                    value={this.state.selectedDate}
-                                    onChange={this.handleDateChange}
-                                    className={classNames(classes.textField)}
-                                    variant="outlined"
-                                />
-                            </MuiPickersUtilsProvider>
-                        </Grid>
-                            <Grid item xs={6} sm={4}>
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <TimePicker
-                                        margin="normal"
-                                        label="* End Time"
-                                        fullWidth
-                                        value={this.state.selectedDate}
-                                        onChange={this.handleDateChange}
-                                        className={classNames(classes.textField)}
-                                        variant="outlined"
-                                    />
-                                </MuiPickersUtilsProvider>
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <FormLabel component="legend">Event Type</FormLabel>
+
+                            <Grid item xs={12} sm={12} style={{ marginBottom: '8px' }}>
+                                <FormLabel component="legend" style={{ color: '#000', marginTop: '8px' }}>* Event Type</FormLabel>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
                                             checked={this.state.checkedA}
-                                            onChange={this.handleChange('popUpPodcasts')}
+                                            onChange={this.handleEventTypeChange('popUpPodcasts')}
                                             color="primary"
                                             value="Pop-up Podcasts"
                                         />
@@ -327,96 +331,157 @@ class EventCreateForm extends Component {
                                     }
                                     label="Host a Health Story Collaborative"
                                 />
-                               
+
                             </Grid>
-                        {/* <Grid item xs={6} sm={4}>
-                            <TextValidator
-                                id="tag"
-                                select
-                                fullWidth
-                                label="* Select a tag"
-                                className={classes.textField}
-                                value={this.state.selectedTag}
-                                onChange={this.handleChange('selectedTag')}
-                                SelectProps={{
-                                    MenuProps: {
-                                        className: classes.menu,
-                                    },
-                                }}
-                                validators={['required']}
-                                errorMessages={['this field is required']}
-                                margin="normal"
-                                variant="outlined"
-                            >
-                                {this.state.dropdown.map(option => (
-                                    <MenuItem key={option.id} value={option.id}>
-                                        {option.name}
-                                    </MenuItem>
-                                ))}
-                            </TextValidator>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextValidator
-                                id="github"
-                                label="* GitHub URL"
-                                fullWidth
-                                className={classNames(classes.textField)}
-                                onChange={this.handleChange('gitHubUrl')}
-                                name="gitHubUrl"
-                                type="url"
-                                margin="normal"
-                                // helperText="*required"
-                                value={this.state.gitHubUrl}
-                                validators={['required']}
-                                errorMessages={['this field is required']}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextValidator
-                                id="website"
-                                label="Website URL"
-                                fullWidth
-                                className={classNames(classes.textField)}
-                                onChange={this.handleChange('websiteUrl')}
-                                name="websiteUrl"
-                                type="url"
-                                margin="normal"
-                                value={this.state.websiteUrl}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <TextValidator
-                                id="description"
-                                label="Description"
-                                multiline
-                                fullWidth
-                                rowsMax="4"
-                                type="text"
-                                value={this.state.description}
-                                onChange={this.handleChange('description')}
-                                className={classes.textField}
-                                margin="normal"
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid item xs={4} sm={2} >
-                            <h5 style={{ margin: '0', fontWeight: 'lighter', fontStyle: 'italic' }}>* required</h5>
-                        </Grid> */}
-                        <Grid item xs={8} sm={10}>
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                size="large"
-                                className={classes.button}>
-                                Submit
+                            <Grid item xs={12} sm={4}>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <DatePicker
+                                        margin="normal"
+                                        label="* Date"
+                                        fullWidth
+                                        value={this.state.selectedDate}
+                                        onChange={this.handleDateChange}
+                                        className={classNames(classes.textField)}
+                                        variant="outlined"
+                                    />
+                                </MuiPickersUtilsProvider>
+                            </Grid>
+                            <Grid item xs={6} sm={4}>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <TimePicker
+                                        margin="normal"
+                                        label="* Start Time"
+                                        fullWidth
+                                        value={this.state.selectedDate}
+                                        onChange={this.handleDateChange}
+                                        className={classNames(classes.textField)}
+                                        variant="outlined"
+                                    />
+                                </MuiPickersUtilsProvider>
+                            </Grid>
+                            <Grid item xs={6} sm={4}>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <TimePicker
+                                        margin="normal"
+                                        label="* End Time"
+                                        fullWidth
+                                        value={this.state.selectedDate}
+                                        onChange={this.handleDateChange}
+                                        className={classNames(classes.textField)}
+                                        variant="outlined"
+                                    />
+                                </MuiPickersUtilsProvider>
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                                <TextValidator
+                                    id="location"
+                                    label="*Location"
+                                    fullWidth
+                                    className={classNames(classes.textField)}
+                                    onChange={this.handleChange('location')}
+                                    name="location"
+                                    type="text"
+                                    margin="normal"
+                                    value={this.state.location}
+                                    validators={['required']}
+                                    errorMessages={['this field is required']}
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextValidator
+                                    id="audienceSize"
+                                    select
+                                    fullWidth
+                                    label="Audience Size"
+                                    className={classes.textField}
+                                    value={this.state.audienceSize}
+                                    onChange={this.handleChange('audienceSize')}
+                                    SelectProps={{
+                                        MenuProps: {
+                                            className: classes.menu,
+                                        },
+                                    }}
+                                    // validators={['required']}
+                                    // errorMessages={['this field is required']}
+                                    margin="normal"
+                                    variant="outlined"
+                                >
+                                    {this.state.audienceDropdown.map((option, i) => (
+                                        <MenuItem key={i} value={option}>
+                                            {option}
+                                        </MenuItem>
+                                    ))}
+                                </TextValidator>
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <TextValidator
+                                    id="contactName"
+                                    label="*Contact Full Name"
+                                    multiline
+                                    fullWidth
+                                    rowsMax="4"
+                                    type="text"
+                                    value={this.state.contactName}
+                                    onChange={this.handleChange('contactName')}
+                                    className={classes.textField}
+                                    validators={['required']}
+                                    errorMessages={['this field is required']}
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <TextValidator
+                                    id="contactEmail"
+                                    label="*Email"
+                                    multiline
+                                    fullWidth
+                                    rowsMax="4"
+                                    type="email"
+                                    value={this.state.contactEmail}
+                                    onChange={this.handleChange('contactEmail')}
+                                    className={classes.textField}
+                                    validators={['required']}
+                                    errorMessages={['this field is required']}
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <TextValidator
+                                    id="contactPhoner"
+                                    label="*Phone Number"
+                                    multiline
+                                    fullWidth
+                                    rowsMax="4"
+                                    type="text"
+                                    value={this.state.contactNumber}
+                                    onChange={this.handleChange('contactNumber')}
+                                    className={classes.textField}
+                                    validators={['required']}
+                                    errorMessages={['this field is required']}
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid item xs={4} sm={2} >
+                                <h5 style={{ margin: '0', fontWeight: 'lighter', fontStyle: 'italic' }}>* required</h5>
+                            </Grid>
+                            <Grid item xs={8} sm={10}>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                    size="large"
+                                    className={classes.button}>
+                                    Submit
                                  </Button>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </ValidatorForm>
-                {/* <Snackbar
+                    </ValidatorForm>
+                    {/* <Snackbar
                     anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'left',
@@ -429,9 +494,9 @@ class EventCreateForm extends Component {
                     }}
                     message={this.alertMessage()}
                 />  */}
+                </div>
             </div>
-            </div>
-           
+
         );
     }
 }
