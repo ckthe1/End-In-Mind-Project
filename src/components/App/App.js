@@ -18,6 +18,7 @@ import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import CalendarLanding from '../CalendarLanding/CalendarLanding';
+import Dashboard from '../Dashboard/Dashboard';
 
 import './App.css';
 import Calendar from '../Calendar/Calendar';
@@ -59,7 +60,11 @@ class App extends Component {
               path="/info"
               component={InfoPage}
             />
-
+            <ProtectedRoute
+              exact
+              path="/dashboard"
+              component={Dashboard}
+            />
             <ProtectedRoute
               exact
               path="/calendar"
