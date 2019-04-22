@@ -19,7 +19,10 @@ import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import Upload from '../Upload/Upload';
 import CalendarLanding from '../CalendarLanding/CalendarLanding';
+
+import Dashboard from '../Dashboard/Dashboard';
 import EventView from '../EventView/EventView';
+
 import './App.css';
 import Calendar from '../Calendar/Calendar';
 import EventCreateForm from '../EventCreateForm/EventCreateForm';
@@ -90,7 +93,11 @@ class App extends Component {
               path="/event/create"
               component={EventCreateForm}
             />
-
+            <ProtectedRoute
+              exact
+              path="/dashboard"
+              component={Dashboard}
+            />
             <ProtectedRoute
               exact
               path="/calendar"
