@@ -12,7 +12,7 @@ module.exports = event => {
         to: event.contact_email,
         subject: 'Event followup, ' + event.event_name,
         text: `Hello! We hope your event ${event.event_name} with End In Mind went well.
-        Please help us out by filling out a short follow-up form.`,
+        Please help us out by filling out a short follow-up form. [URL FOR FOLLOWUP FORM GOES HERE]`,
       });
 
       // Now we need to mark the follow up as complete so it doesn't send
