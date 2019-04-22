@@ -25,6 +25,21 @@ function* fetchEvents() {
   }
 }
 
+function* fetchAttendees() {
+  try {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+
+    const response = yield axios.get('api/attendees', config);
+
+    yield put({ type: 'SET_ATTENDEES', payload: response.data });
+  } catch (error) {
+    console.log('Events get request failed', error);
+  }
+}
+
 function* addEvent(action) {
   try {
     const config = {
@@ -32,17 +47,16 @@ function* addEvent(action) {
       withCredentials: true,
     };
 
-    console.log('add event?????', action);
+    console.log('add event', action);
 
     // the config includes credentials which
     // allow the server session to recognize the user
     yield axios.post('api/events', action.payload, config);
-
     yield put({ type: 'FETCH_EVENTS' });
 
   }
   catch(error) {
-    console.log(`you dun f'd up, hoe`, error);
+    console.log(`rut roh`, error);
   }
 }
 
@@ -61,6 +75,7 @@ function* eventSaga() {
   yield takeLatest('FETCH_EVENTS', fetchEvents);
   yield takeEvery('ADD_EVENT', addEvent);
   yield takeEvery('FETCH_CONTACTS', fetchContacts);
+  yield takeEvery('FETCH_ATTENDEES', fetchAttendees);
 
 }
 

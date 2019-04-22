@@ -7,6 +7,7 @@ const bluebird = require("bluebird");
 const multiparty = require("multiparty");
 require("dotenv").config();
 const cleanFilename = require('./cleanFilename')
+const pool = require("../modules/pool");
 
 
 
@@ -43,9 +44,30 @@ const uploadFile = (buffer, name, type) => {
    MaxKeys: 10
  };
 
+ router.get("/signed-url", async (req, resp) => {
+
+  console.log(req.query);
+
+   let params = { Bucket: process.env.S3_BUCKET, Key: req.query.key };
+
+   s3.getObject(params, (error, data) =>{
+
+    if (error) {
+      console.log(error);
+      resp.sendStatus(500);
+    }else {
+      console.log(data);
+    }
+   })
+
+
+   let signedUrl = await s3.getSignedUrl(`getObject`, params);
+
+   resp.send({signedUrl});
+ })
 
  router.get("/", (request, response) => {
-   console.log('hi were in the get route kthx');
+   console.log('hi were in the get route');
 
   const objectsArray = s3.listObjects(params, function(err, data) {
       if (err) {
@@ -76,10 +98,8 @@ const uploadFile = (buffer, name, type) => {
  
 // Define POST route
 router.post("/", (request, response) => {
-    console.log('is this working?');
-  
-    
   const form = new multiparty.Form();
+
   form.parse(request, async (error, fields, files) => {
     // console.log(files);
     
@@ -92,6 +112,17 @@ router.post("/", (request, response) => {
       const newFilename = cleanFilename(files.file[0].originalFilename);
       const fileName = `Public/${newFilename}_${timestamp}`;
       const data = await uploadFile(buffer, fileName, type);
+      console.log("hi we got the data", data.Location);
+
+      // await axios.post('/api/files');
+      // now that we have the file in the bucket, we need to add
+    //   // to our database 
+    //  const queryText = `INSERT INTO "files" ("title", "description", "author_user_id", "url") 
+    //     VALUES ($1, $2, $3, $4)`;
+
+    //   await pool.query(queryText, [req.body.title, req.body.description, req.body.data.Location]);
+
+
       return response.status(200).send(data);
     } catch (error) {
         console.log(error);

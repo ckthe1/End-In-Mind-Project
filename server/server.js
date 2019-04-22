@@ -12,9 +12,10 @@ const sessionMiddleware = require('./modules/session-middleware');
 const passport = require('./strategies/user.strategy');
 
 // Route includes
+const filesRouter = require("./routes/files.router");
 const userRouter = require('./routes/user.router');
 const eventsRouter = require('./routes/events.router');
-const awsRouter = require('./routes/aws.router')
+const awsRouter = require('./routes/aws.router');
 
 const getCompletedEvents = require('./GetCompleteEvents');
 const doEventFollowup = require('./DoEventFollowup');
@@ -34,6 +35,7 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/api/events', eventsRouter);
 app.use('/api/aws', awsRouter)
+app.use("/api/files", filesRouter);
 
 
 // Serve static files
