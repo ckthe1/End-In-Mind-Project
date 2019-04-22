@@ -20,9 +20,6 @@ function* fetchFiles() {
 function* addFile(action) {
   try {
 
-
-    console.log(action.payload);
-
     const config = {
       headers: { "Content-Type": "application/json" },
       withCredentials: true
@@ -31,7 +28,7 @@ function* addFile(action) {
     // posting to AWS
     const formData = new FormData();
     formData.append("file", action.payload.file[0]);
-    yield axios.post(`/api/aws`, formData, {
+    const bucketResponse = yield axios.post(`/api/aws`, formData, {
       headers: {
         "Content-Type": "multipart/form-data"
       }
@@ -39,8 +36,10 @@ function* addFile(action) {
 
     // using the URL from aws, post to our database
     yield axios.post('/api/files', {
-      
-    })
+      title: action.payload.title,
+      description: action.payload.description,
+      url: bucketResponse.data.Location,
+    });
 
     yield put({ type: "FETCH_FILES" });
   } catch (error) {

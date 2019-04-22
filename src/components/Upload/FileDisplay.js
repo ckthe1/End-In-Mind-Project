@@ -14,14 +14,6 @@ class FileDisplay extends Component {
     });
 
     return;
-
-     axios({
-       method: "DELETE",
-       url: "/api/aws",
-       params: {
-         awsKey: this.props.myFile.key
-       }
-     })
   }
 
 

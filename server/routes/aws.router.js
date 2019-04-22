@@ -96,11 +96,11 @@ router.post("/", (request, response) => {
 
       // await axios.post('/api/files');
       // now that we have the file in the bucket, we need to add
-      // to our database 
-     const queryText = `INSERT INTO "files" ("title", "description", "author_user_id", "url") 
-        VALUES ($1, $2, $3, $4)`;
+    //   // to our database 
+    //  const queryText = `INSERT INTO "files" ("title", "description", "author_user_id", "url") 
+    //     VALUES ($1, $2, $3, $4)`;
 
-      await pool.query(queryText, [req.body.title, req.body.description, req.body.data.Location]);
+    //   await pool.query(queryText, [req.body.title, req.body.description, req.body.data.Location]);
 
 
       return response.status(200).send(data);

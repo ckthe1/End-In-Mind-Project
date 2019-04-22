@@ -15,9 +15,11 @@ class FileUpload extends Component {
     this.props.dispatch({
       type: "ADD_FILE",
       payload: this.state
-    });
-    console.log('this.state', this.state);
-    
+    }); 
+    this.setState({
+      title: '',
+      description: '',
+    });   
   };
 
   handleFileUpload = event => {
@@ -31,16 +33,14 @@ class FileUpload extends Component {
       ...this.state,
       [property]: event.target.value
     })
-    console.log(event.target.value);
-
   };
 
   render() {
     return (
       <div>
         <form onSubmit={this.submitFile}>
-          <input label="title" placeholder="Title" type="text" onChange={this.handleChangeFor('title')}/>
-          <input label="description" placeholder="Description" type="text" onChange={this.handleChangeFor('descrption')} />
+          <input value={this.state.title} label="title" placeholder="Title" type="text" onChange={this.handleChangeFor('title')}/>
+          <input value={this.state.description} label="description" placeholder="Description" type="text" onChange={this.handleChangeFor('description')} />
           <input
             label="upload file"
             type="file"
