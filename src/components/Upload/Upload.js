@@ -22,14 +22,15 @@ class FileUpload extends Component {
 
   handleFileUpload = event => {
     this.setState({ 
-      title: event.target.value,
-      description: event.target.value,
       file: event.target.files 
     });
   };
 
-  handleChangeFor = event => () => {
-
+  handleChangeFor = (property) => (event) => {
+    this.setState ({
+      ...this.state,
+      [property]: event.target.value
+    })
     console.log(event.target.value);
 
   };
@@ -38,8 +39,8 @@ class FileUpload extends Component {
     return (
       <div>
         <form onSubmit={this.submitFile}>
-          <input label="title" placeholder="Title" type="text" onChange={this.handleChangeFor}/>
-          <input label="description" placeholder="Description" type="text" onChange={this.handleChangeFor} />
+          <input label="title" placeholder="Title" type="text" onChange={this.handleChangeFor('title')}/>
+          <input label="description" placeholder="Description" type="text" onChange={this.handleChangeFor('descrption')} />
           <input
             label="upload file"
             type="file"

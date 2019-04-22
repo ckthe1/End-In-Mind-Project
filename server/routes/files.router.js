@@ -14,8 +14,19 @@ router.get('/', (req, res) => {
  */
 router.post('/', (req, res) => {
 
-    // console.log('files post', req.body);
-    res.sendStatus(200);
+    // now that we have the file in the bucket, we need to add
+    // to our database 
+    const queryText = `INSERT INTO "files" ("title", "description", "author_user_id", "url") 
+        VALUES ($1, $2, $3, $4)`;
+
+    pool.query(queryText, [req.body.title, req.body.description, req.body.data.Location])
+    .then(response => {
+        res.sendStatus(200);
+    })
+    .catch( error => {
+        console.log(error);
+        res.sendStatus(500);
+    });
 });
 
 module.exports = router;

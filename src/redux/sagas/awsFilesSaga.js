@@ -19,18 +19,29 @@ function* fetchFiles() {
 
 function* addFile(action) {
   try {
+
+
+    console.log(action.payload);
+
     const config = {
       headers: { "Content-Type": "application/json" },
       withCredentials: true
     };
 
+    // posting to AWS
     const formData = new FormData();
-    formData.append("file", action.payload[0]);
+    formData.append("file", action.payload.file[0]);
     yield axios.post(`/api/aws`, formData, {
       headers: {
         "Content-Type": "multipart/form-data"
       }
     });
+
+    // using the URL from aws, post to our database
+    yield axios.post('/api/files', {
+      
+    })
+
     yield put({ type: "FETCH_FILES" });
   } catch (error) {
     console.log("its an error with adding file", error);
