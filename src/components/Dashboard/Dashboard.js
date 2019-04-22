@@ -17,12 +17,6 @@ class Dashboard extends Component {
     }
 
     render() {
-            const rows = [{
-                calories: 1,
-                fat: 20,
-                carbs: 300,
-                protein: 25,
-            }];
 
             const { classes } = this.props;
 
