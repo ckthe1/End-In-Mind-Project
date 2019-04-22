@@ -17,7 +17,7 @@ const eventsRouter = require('./routes/events.router');
 const awsRouter = require('./routes/aws.router')
 
 const getCompletedEvents = require('./GetCompleteEvents');
-
+const doEventFollowup = require('./DoEventFollowup');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -47,17 +47,24 @@ app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
 
-new CronJob('*/10 * * * * *', checkEventEmails, null, true, 'America/Los_Angeles');
+// This cronJob will execute checkEventEmails every hour on the hour.
+new CronJob('0 * * * *', checkEventEmails, null, true, 'America/Los_Angeles');
 
+/**
+ * Finds the events that need a followup email, and sends them an email.
+ */
 async function checkEventEmails() {
 
   try {
     const response = await getCompletedEvents();
-    console.log('events:', response);
+
+    // For each of these events, we need to send the follow up email, and then
+    // mark them as 'follow up sent'
+    for (let event of response) {
+      doEventFollowup(event);
+    }
   }
   catch (error) {
     console.log('error getting completed events', error);
   }
-
-  console.log('Hi im checking emails and its', Date.now() );
 }
