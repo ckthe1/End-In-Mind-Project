@@ -19,6 +19,7 @@ import UserPage from '../UserPage/UserPage';
 import LoginPage from '../LoginPage/LoginPage';
 import Upload from '../Upload/Upload';
 import CalendarLanding from '../CalendarLanding/CalendarLanding';
+import AdminSelect from '../AdminSelect/AdminSelect'
 
 import Dashboard from '../Dashboard/Dashboard';
 import EventView from '../EventView/EventView';
@@ -26,6 +27,7 @@ import EventView from '../EventView/EventView';
 import './App.css';
 import Calendar from '../Calendar/Calendar';
 import EventCreateForm from '../EventCreateForm/EventCreateForm';
+import EventSignUpForm from '../EventSignUpForm/EventSignUpForm';
 
 const theme = createMuiTheme({
   palette: {
@@ -93,6 +95,11 @@ class App extends Component {
               path="/event/create"
               component={EventCreateForm}
             />
+              <ProtectedRoute
+                exact
+                path="/event/signup"
+                component={EventSignUpForm}
+              />
             <ProtectedRoute
               exact
               path="/dashboard"
@@ -107,6 +114,11 @@ class App extends Component {
               exact
               path="/files"
               component={Upload}
+            />
+              <ProtectedRoute
+              exact
+              path="/adminselect"
+              component={AdminSelect}
             />
             <ProtectedRoute
               exact
