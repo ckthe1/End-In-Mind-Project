@@ -6,15 +6,12 @@ import { connect } from 'react-redux';
 
 class AdminSelect extends Component {
 
-  deleteButton = resultsId => {
-    console.log("delete was clicked");
+  deleteButton = userId => {
+        this.props.dispatch({
+          type: "DELETE_USER",
+          payload: userId
+        });
 
-    axios({
-      method: "DELETE",
-      url: "/" + resultsId
-    }).then(() => {
-      this.getResults();
-    });
   };
 
  

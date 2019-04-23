@@ -37,9 +37,22 @@ function* editUser(action ) {
   }
 }
 
+
+function* deleteUser(action) {
+  console.log("delete user saga", action);
+    try {
+        yield axios.delete(`/api/user/${action.payload}`);
+        yield put({ type: 'FETCH_USERS' });
+    } catch (error) {
+        console.log('error with delete ');
+    };
+};
+
+
 function* userSaga() {
   yield takeLatest('FETCH_USERS', fetchUsers);
   yield takeLatest('EDIT_USER', editUser);
+  yield takeLatest('DELETE_USER', deleteUser);
 
 }
 
