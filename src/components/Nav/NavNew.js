@@ -42,7 +42,8 @@ class NavNew extends Component {
                         <i className="fa fa-caret-down"></i>
                         </button>
                         <div style={{ display: this.state.communityDropdownDisplay }} className="dropdown-content">
-                            <Link to="/dashboard" >Add Admin</Link>
+                            <Link to="/AdminSelect" > Administrator</Link>
+
                         </div>
                     </li>
                     <li className="dropdown">

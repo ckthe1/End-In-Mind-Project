@@ -6,10 +6,72 @@ const userStrategy = require('../strategies/user.strategy');
 
 const router = express.Router();
 
+const allowedProperties = ["is_super_admin", "is_community_admin", "approved"];
+
 // Handles Ajax request for user information if user is authenticated
 router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from the session (previously queried from the database)
   res.send(req.user);
+});
+
+// Sending back array of ALL users
+router.get('/all', rejectUnauthenticated, (req, res) => {
+
+  pool
+    .query(
+      `SELECT "users"."id", "full_name", "username", "email", "is_super_admin", "is_community_admin", "approved",
+      "name" AS "community_name" 
+      FROM "users" 
+      JOIN "communities" 
+      ON "users"."community_id" = "communities"."id";
+`
+    )
+    .then(result => res.send(result.rows))
+
+    .catch(error => {
+      console.log("error getting all users", error);
+      res.sendStatus(500);
+    });
+})
+
+router.put('/', rejectUnauthenticated, (req, res) => {
+
+  console.log("putting user", req.body);
+
+  // If the property string doesnt match exactly, reject the request
+  if (!allowedProperties.includes(req.body.property)) {
+    res.sendStatus(500);
+    console.log("Invalid property name ", req.body.property);
+    return;
+  }
+
+  pool
+    .query(
+      `UPDATE "users" SET ${req.body.property} = $1 WHERE "id" = $2;`,
+
+      [req.body.value, req.body.user.id]
+    )
+    .then(result => res.sendStatus(200))
+
+    .catch(error => {
+      console.log("error modifying user", error);
+      res.sendStatus(500);
+    });
+
+})
+
+router.delete("/:id", (req, res) => {
+  console.log("/ DELETE request was hit");
+  console.log("req.params", req.params);
+  pool
+    .query(`DELETE FROM "users" WHERE "id"=$1;`, [req.params.id])
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch(error => {
+      console.log("there was an error on the delete query", error);
+      res.sendStatus(500);
+    });
 });
 
 // Handles POST request with new user data
@@ -20,7 +82,7 @@ router.post('/register', (req, res, next) => {
   const password = encryptLib.encryptPassword(req.body.password);
 
   const queryText = 'INSERT INTO "users" (username, password, email) VALUES ($1, $2, $3) RETURNING id';
-  pool.query(queryText, [username, password, "butt@fart.net"])
+  pool.query(queryText, [username, password, "name@domain.net"])
     .then(() => res.sendStatus(201))
     .catch((error) => {
       res.sendStatus(500)

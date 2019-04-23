@@ -19,6 +19,7 @@ import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import Upload from '../Upload/Upload';
 import CalendarLanding from '../CalendarLanding/CalendarLanding';
+import AdminSelect from '../AdminSelect/AdminSelect'
 
 import Dashboard from '../Dashboard/Dashboard';
 import EventView from '../EventView/EventView';
@@ -114,6 +115,11 @@ class App extends Component {
               exact
               path="/files"
               component={Upload}
+            />
+              <ProtectedRoute
+              exact
+              path="/adminselect"
+              component={AdminSelect}
             />
             <ProtectedRoute
               exact
