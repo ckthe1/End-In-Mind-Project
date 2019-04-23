@@ -15,7 +15,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
 import FormLabel from '@material-ui/core/FormLabel';
 import EventIcon from '@material-ui/icons/Event';
+import TimeIcon from '@material-ui/icons/AccessTime';
 import Paper from '@material-ui/core/Paper';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
 import { Typography } from '@material-ui/core';
 
 
@@ -189,7 +192,7 @@ class EventCreateForm extends Component {
                 <div className={classes.root}>
                     <div className={classes.container}>
                         <Paper className={classes.root} elevation={1} style={{ marginTop: '40px' }}>
-                            <Typography><h2 style={{ marginBottom: '10px', fontSize: '30px', color: '#4534e5' }}><EventIcon className={classes.icon} />Create New Event</h2></Typography>
+                            <Typography><h2 style={{ marginBottom: '10px', fontSize: '35px', color: '#4534e5' }}><EventIcon className={classes.icon} />Create New Event</h2></Typography>
                             <ValidatorForm
                                 ref="form"
                                 onSubmit={this.handleSubmit}
@@ -215,7 +218,7 @@ class EventCreateForm extends Component {
                                     <Grid item xs={12} sm={8}>
                                         <TextValidator
                                             id="description"
-                                            label="*Description"
+                                            label="* Description"
                                             multiline
                                             fullWidth
                                             rowsMax="4"
@@ -354,6 +357,16 @@ class EventCreateForm extends Component {
                                                 onChange={this.handleDateChange}
                                                 className={classNames(classes.textField)}
                                                 variant="outlined"
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                            >
+                                                                <EventIcon />
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
                                             />
                                         </MuiPickersUtilsProvider>
                                     </Grid>
@@ -367,6 +380,16 @@ class EventCreateForm extends Component {
                                                 onChange={this.handleDateChange}
                                                 className={classNames(classes.textField)}
                                                 variant="outlined"
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                            >
+                                                                <TimeIcon />
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
                                             />
                                         </MuiPickersUtilsProvider>
                                     </Grid>
@@ -380,6 +403,16 @@ class EventCreateForm extends Component {
                                                 onChange={this.handleDateChange}
                                                 className={classNames(classes.textField)}
                                                 variant="outlined"
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                            >
+                                                                <TimeIcon />
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
                                             />
                                         </MuiPickersUtilsProvider>
                                     </Grid>
@@ -387,7 +420,7 @@ class EventCreateForm extends Component {
                                     <Grid item xs={12} sm={6}>
                                         <TextValidator
                                             id="location"
-                                            label="*Location"
+                                            label="* Location"
                                             fullWidth
                                             className={classNames(classes.textField)}
                                             onChange={this.handleChange('location')}
@@ -429,7 +462,7 @@ class EventCreateForm extends Component {
                                     <Grid item xs={12} sm={4}>
                                         <TextValidator
                                             id="contactName"
-                                            label="*Contact Full Name"
+                                            label="* Contact Full Name"
                                             multiline
                                             fullWidth
                                             rowsMax="4"
@@ -446,7 +479,7 @@ class EventCreateForm extends Component {
                                     <Grid item xs={12} sm={4}>
                                         <TextValidator
                                             id="contactEmail"
-                                            label="*Email"
+                                            label="* Email"
                                             multiline
                                             fullWidth
                                             rowsMax="4"
@@ -463,7 +496,7 @@ class EventCreateForm extends Component {
                                     <Grid item xs={12} sm={4}>
                                         <TextValidator
                                             id="contactPhoner"
-                                            label="*Phone Number"
+                                            label="* Phone Number"
                                             multiline
                                             fullWidth
                                             rowsMax="4"

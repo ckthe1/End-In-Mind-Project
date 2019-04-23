@@ -11,6 +11,7 @@ import { MuiPickersUtilsProvider, DatePicker, TimePicker } from 'material-ui-pic
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
@@ -18,7 +19,6 @@ import FormLabel from '@material-ui/core/FormLabel';
 import EventIcon from '@material-ui/icons/Event';
 import { Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
 import './EventSignUpForm.css';
 
 
@@ -124,7 +124,7 @@ class EventSignUpForm extends Component {
     // handles date select from date-picker
     handleDateChange = date => {
         this.setState({
-            selectedDate: date
+            birthDate: date
         });
     };
 
