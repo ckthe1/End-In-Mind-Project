@@ -6,6 +6,8 @@ const userStrategy = require('../strategies/user.strategy');
 
 const router = express.Router();
 
+const allowedProperties = ["is_super_admin", "is_community_admin", "approved"];
+
 // Handles Ajax request for user information if user is authenticated
 router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from the session (previously queried from the database)
@@ -36,15 +38,18 @@ router.put('/', rejectUnauthenticated, (req, res) => {
 
   console.log("putting user", req.body);
 
-  const propertyName = req.body.property.replace(/'/g, '"');
-
-  console.log('our nice new propoerty is ', propertyName);
+  // If the property string doesnt match exactly, reject the request
+  if (!allowedProperties.includes(req.body.property)) {
+    res.sendStatus(500);
+    console.log("Invalid property name ", req.body.property);
+    return;
+  }
 
   pool
     .query(
-      `UPDATE "users" SET $1 = $2 WHERE "id" = $3;`,
+      `UPDATE "users" SET ${req.body.property} = $1 WHERE "id" = $2;`,
 
-      [req.body.property, req.body.value, req.body.user.id]
+      [req.body.value, req.body.user.id]
     )
     .then(result => res.sendStatus(200))
 

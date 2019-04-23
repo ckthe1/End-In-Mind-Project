@@ -24,8 +24,23 @@ function* fetchUsers() {
   }
 }
 
+function* editUser(action ) {
+
+  console.log('edit user saga', action);
+
+  try {
+       yield axios.put("/api/user", action.payload);
+       yield put({type:'FETCH_USERS'});
+  }
+  catch (error) {
+        console.log("Failed to edit user", error);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USERS', fetchUsers);
+  yield takeLatest('EDIT_USER', editUser);
+
 }
 
 export default userSaga;
