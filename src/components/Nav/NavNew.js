@@ -20,54 +20,68 @@ class NavNew extends Component {
         buttonName === 'event' && this.state.eventDropdownDisplay === 'none' ?
             this.setState({ eventDropdownDisplay: 'block' }) : this.setState({ eventDropdownDisplay: 'none' });
 
-        buttonName === 'community' && this.state.communityDropdownDisplay === 'none' ?
-            this.setState({ communityDropdownDisplay: 'block' }) : this.setState({ communityDropdownDisplay: 'none' });
     }
 
     render() {
-
-
+        console.log('this.props.user:', this.props.user);
+        
         return (
-            <nav className="navbar">
+            <nav className="navbar">             
                 <span className="navbar-toggle" id="js-navbar-toggle">
                     <i className="fas fa-bars" onClick={this.toggleMenu}></i>
                 </span>
-                <a href="/" className="logo"><img src="images/eim_logo_horizontal.png" alt="End In Mind logo" /></a>
+                <a href="/" className="logo"><img src="images/eim_logo_horizontal.png" alt="End In Mind logo" /></a>                
                 <ul className="main-nav" id="js-menu">
-                    <li>
-                        <Link to="/dashboard" className="nav-links">Dashboard</Link>
-                    </li>
-                    <li className="dropdown">
-                        <button onClick={this.handleButtonDropdown('community')} className="dropbtn">Community
-                        <i className="fa fa-caret-down"></i>
-                        </button>
-                        <div style={{ display: this.state.communityDropdownDisplay }} className="dropdown-content">
-                            <Link to="/AdminSelect" > Administrator</Link>
 
-                        </div>
-                    </li>
-                    <li className="dropdown">
-                        <button onClick={this.handleButtonDropdown('event')} className="dropbtn">Events
-                         <i className="fa fa-caret-down"></i>
-                        </button>
-                        <div style={{ display: this.state.eventDropdownDisplay }} className="dropdown-content">
-                            <Link to="/event/view" >View</Link>
-                            <Link to="/event/create" >Create</Link>
-                        </div>
-                    </li>
-                    <li>
-                        <Link to="/files" className="nav-links">Files</Link>
-                    </li>
+                    {this.props.user.is_super_admin === true && (                     
+                        <li>
+                            <Link to="/dashboard" className="nav-links">Dashboard</Link>
+                        </li>
+                    )}
+                    {(this.props.user.is_super_admin === true || this.props.user.is_community_admin === true )&&(                                        
+                        <li>
+                            <Link to="/users" className="nav-links">Users</Link>
+                        </li>                    
+                    )}
+
+                    {this.props.user.id && (
+                        <li className="dropdown">
+                            <button onClick={this.handleButtonDropdown('event')} className="dropbtn">Events
+                            <i className="fa fa-caret-down"></i>
+                            </button>
+                            <div style={{ display: this.state.eventDropdownDisplay }} className="dropdown-content">
+                                <Link to="/event/view" >View</Link>
+                                {(this.props.user.is_super_admin === true || this.props.user.is_community_admin === true) &&  (
+                                    <Link to="/event/create" >Create</Link>
+                                )}
+                            </div>
+                        </li>
+                    )}
+
+                    {this.props.user.id && (
+                        <li>
+                            <Link to="/files" className="nav-links">Files</Link>
+                        </li>                      
+                    )} 
+                      
                     <li>
                         <Link to="/calendar" className="nav-links">Calendar</Link>
                     </li>
+                    {this.props.user.id ?  
                     <li>
                         <Link onClick={() => this.props.dispatch({ type: 'LOGOUT' })} className="nav-links">Log Out</Link>
+                    </li> :
+                    <li>
+                        <Link to="/login" className="nav-links">Log In</Link>
                     </li>
-                </ul>
+                    }                
+                </ul>              
             </nav>
         );
     }
 }
+const mapStateToProps = state => ({
+    user: state.user,
+});
 
-export default connect()(NavNew);
+export default connect(mapStateToProps)(NavNew);
