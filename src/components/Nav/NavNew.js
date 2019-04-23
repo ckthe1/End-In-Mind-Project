@@ -25,18 +25,29 @@ class NavNew extends Component {
     }
 
     render() {
-
+        console.log('this.props.user:', this.props.user);
+        
 
         return (
             <nav className="navbar">
+                
+                   
                 <span className="navbar-toggle" id="js-navbar-toggle">
                     <i className="fas fa-bars" onClick={this.toggleMenu}></i>
                 </span>
                 <a href="/" className="logo"><img src="images/eim_logo_horizontal.png" alt="End In Mind logo" /></a>
+                
                 <ul className="main-nav" id="js-menu">
+
+                    {this.props.user.is_super_admin === true && (
+                      
                     <li>
                         <Link to="/dashboard" className="nav-links">Dashboard</Link>
                     </li>
+                    )}
+
+                    {this.props.user.is_super_admin === true && (
+                                         
                     <li className="dropdown">
                         <button onClick={this.handleButtonDropdown('community')} className="dropbtn">Community
                         <i className="fa fa-caret-down"></i>
@@ -45,6 +56,9 @@ class NavNew extends Component {
                             <Link to="/dashboard" >Add Admin</Link>
                         </div>
                     </li>
+                       
+                    )}
+
                     <li className="dropdown">
                         <button onClick={this.handleButtonDropdown('event')} className="dropbtn">Events
                          <i className="fa fa-caret-down"></i>
@@ -54,9 +68,17 @@ class NavNew extends Component {
                             <Link to="/event/create" >Create</Link>
                         </div>
                     </li>
+                    {this.props.user.is_super_admin === true  && (
                     <li>
                         <Link to="/files" className="nav-links">Files</Link>
                     </li>
+                    )}
+                    {this.props.user.is_community_admin === true && (
+                        <li>
+                            <Link to="/files" className="nav-links">Files</Link>
+                        </li>
+                    )}
+
                     <li>
                         <Link to="/calendar" className="nav-links">Calendar</Link>
                     </li>
@@ -64,9 +86,15 @@ class NavNew extends Component {
                         <Link onClick={() => this.props.dispatch({ type: 'LOGOUT' })} className="nav-links">Log Out</Link>
                     </li>
                 </ul>
+
+               
+                
             </nav>
         );
     }
 }
+const mapStateToProps = state => ({
+    user: state.user,
+});
 
-export default connect()(NavNew);
+export default connect(mapStateToProps)(NavNew);

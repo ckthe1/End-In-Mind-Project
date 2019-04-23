@@ -64,6 +64,7 @@ class LoginPage extends Component {
               />
             </label>
           </div>
+
           <div>
             <input
               className="log-in"

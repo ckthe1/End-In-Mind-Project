@@ -24,7 +24,7 @@ class ViewEventList extends Component {
                                 <tr>
                                     <td>Event Name: {eventItem.title}</td>
                                     <td>Location: {eventItem.location}</td>
-                                    <td>Date: {eventItem.crrated_at}</td>
+                                    <td>Date: {eventItem.created_at}</td>
                                     <td>Start time: {eventItem.start_time}</td>
                                     <td>End time: {eventItem.end_time}</td>
                                     <td>Event Organizer</td>

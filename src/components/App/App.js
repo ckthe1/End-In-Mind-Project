@@ -103,7 +103,6 @@ class App extends Component {
               path="/calendar"
               component={CalendarLanding}
             />
-
               <ProtectedRoute
               exact
               path="/files"
