@@ -11,8 +11,6 @@ class FollowUp extends Component {
 
     componentDidMount() {
 
-        console.log('hi getting the event');
-
         // get the event info for the selected event
         axios({
             method: 'GET',
@@ -29,12 +27,18 @@ class FollowUp extends Component {
         })
     }
 
+    handleSubmit = (event) => {
+        event.preventDefault();
+        console.log("handling submit");
+        // TODO actually handle the event
+    }
+
     render() {
 
         return (
             <div>
                 <h1>Followup for {this.state.event.event_name}</h1>
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     <input  placeholder='event type'/>
                     <input  type="Number" placeholder='estimated attendees'/>
                     <input placeholder='comments' /> 
