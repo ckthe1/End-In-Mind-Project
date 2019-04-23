@@ -15,13 +15,21 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 // Sending back array of ALL users
 router.get('/all', rejectUnauthenticated, (req, res) => {
 
-  pool.query(`SELECT * FROM "users"`)
-  .then(result => res.send(result.rows))
+  pool
+    .query(
+      `SELECT "users"."id", "full_name", "username", "email", "is_super_admin", "is_community_admin", "approved",
+      "name" AS "community_name" 
+      FROM "users" 
+      JOIN "communities" 
+      ON "users"."community_id" = "communities"."id";
+`
+    )
+    .then(result => res.send(result.rows))
 
-  .catch( error => {
-    console.log("error getting all users", error);
-    res.sendStatus(500);
-  })
+    .catch(error => {
+      console.log("error getting all users", error);
+      res.sendStatus(500);
+    });
 })
 
 // Handles POST request with new user data
@@ -32,7 +40,7 @@ router.post('/register', (req, res, next) => {
   const password = encryptLib.encryptPassword(req.body.password);
 
   const queryText = 'INSERT INTO "users" (username, password, email) VALUES ($1, $2, $3) RETURNING id';
-  pool.query(queryText, [username, password, "butt@fart.net"])
+  pool.query(queryText, [username, password, "name@domain.net"])
     .then(() => res.sendStatus(201))
     .catch((error) => {
       res.sendStatus(500)
