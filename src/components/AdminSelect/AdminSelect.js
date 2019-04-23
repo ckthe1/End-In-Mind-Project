@@ -24,10 +24,17 @@ class AdminSelect extends Component {
     this.props.dispatch({ type: 'FETCH_USERS' })
   }
 
-  onUserConfirmed = user => event => {
-      console.log(user);
-      alert("You've confirmed " + user.username);
-    // TODO things
+  setPropertyOf = (user, property) => (event) => {
+    console.log("adjusting property", property);
+
+    // TODO  value is placeholder, we need to change it llater
+    axios.put("/api/user", {user, property, value: true})
+
+    .then(response => {
+        console.log('yay we did it');
+    })
+
+    .catch(error => { console.log(error)});
   }
 
   adminList = () => {
@@ -39,17 +46,25 @@ class AdminSelect extends Component {
         <td>{users.email}</td>
         <td>{users.fullname}</td>
         <td>
-          <input type="radio" />
+          <input
+            type="radio"
+            value={users.is_super_admin}
+            onChange={this.setPropertyOf(users, "is_super_admin")}
+          />
         </td>
         <td>
-          <input type="radio" />
+          <input
+            type="radio"
+            value={users.is_community_admin}
+            onChange={this.setPropertyOf(users, "is_community_admin")}
+          />
         </td>
         <td>{users.community_name}</td>
         <td>
           {users.approved ? (
             "Approved"
           ) : (
-            <button onClick={this.onUserConfirmed(users)}>Confirm</button>
+            <button onClick={this.setPropertyOf(users, "approved")}>Confirm</button>
           )}
         </td>
         <td>
