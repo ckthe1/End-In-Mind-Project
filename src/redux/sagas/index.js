@@ -4,6 +4,7 @@ import registrationSaga from './registrationSaga';
 import userSaga from './userSaga';
 import eventSaga from './eventSaga';
 import awsFilesSaga from './awsFilesSaga';
+import usersSaga from './usersSaga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -19,5 +20,6 @@ export default function* rootSaga() {
     userSaga(),
     eventSaga(),
     awsFilesSaga(),
+    usersSaga()
   ]);
 }

@@ -36,8 +36,6 @@ class FileList extends Component {
             <tr>
               <th>Title</th>
               <th>Description</th>
-              <th>File</th>
-              <th>Delete</th>
             </tr>
           </thead>
           <tbody>

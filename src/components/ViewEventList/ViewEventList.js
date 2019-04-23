@@ -18,13 +18,13 @@ class ViewEventList extends Component {
             <div className="event-list">
                 <table>
                     <tbody>           
-                    {this.props.events.map((eventItem) =>{
-                        return (
+                    {this.props.events.map((eventItem) => {
+                    
                            <div>
                                 <tr>
-                                    <td>Event Name: {eventItem.title}</td>
+                                    <td>Event Name: {eventItem.event_name}</td>
                                     <td>Location: {eventItem.location}</td>
-                                    <td>Date: {eventItem.crrated_at}</td>
+                                    <td>Date: {eventItem.created_at}</td>
                                     <td>Start time: {eventItem.start_time}</td>
                                     <td>End time: {eventItem.end_time}</td>
                                     <td>Event Organizer</td>
@@ -43,7 +43,7 @@ class ViewEventList extends Component {
                                     </td>
                                 </tr>   
                             </div>                    
-                        );
+                        ;
                     })}                      
                     </tbody>
                 </table>
