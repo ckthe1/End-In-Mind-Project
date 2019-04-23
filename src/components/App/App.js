@@ -26,6 +26,7 @@ import EventView from '../EventView/EventView';
 import './App.css';
 import Calendar from '../Calendar/Calendar';
 import EventCreateForm from '../EventCreateForm/EventCreateForm';
+import EventSignUpForm from '../EventSignUpForm/EventSignUpForm';
 
 const theme = createMuiTheme({
   palette: {
@@ -93,6 +94,11 @@ class App extends Component {
               path="/event/create"
               component={EventCreateForm}
             />
+              <ProtectedRoute
+                exact
+                path="/event/signup"
+                component={EventSignUpForm}
+              />
             <ProtectedRoute
               exact
               path="/dashboard"
