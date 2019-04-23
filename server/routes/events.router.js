@@ -12,13 +12,16 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   pool.query(`SELECT * FROM "events" JOIN "communities" ON "events"."community_id" = "communities"."id" ORDER BY "events"."id"`)
 
   .then (response => {
-
+    console.log('response.row',response.rows);
+    
     // for calendar to read the dates, they need to be converted from strings to Date objects
     const convertedEvents = response.rows.map( event => {
 
       let newEvent = {...event};
       newEvent.start = Date(event.start_time);
       newEvent.end = Date(event.end_time);
+      newEvent.date = Date(event.event_date);
+
       newEvent.title = event.event_name;
       newEvent.eventType = event.event_type;
       newEvent.expectedAttendees = event.expected_attendees;
