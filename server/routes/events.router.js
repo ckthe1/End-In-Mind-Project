@@ -13,20 +13,8 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 
   .then (response => {
 
-    // for calendar to read the dates, they need to be converted from strings to Date objects
-    const convertedEvents = response.rows.map( event => {
-
-      let newEvent = {...event};
-      newEvent.start = Date(event.start_time);
-      newEvent.end = Date(event.end_time);
-      newEvent.title = event.event_name;
-      newEvent.eventType = event.event_type;
-      newEvent.expectedAttendees = event.expected_attendees;
-      newEvent.community = event.name;
-      return newEvent;
-    })
+    const convertedEvents = response.rows.map( event => convertEvent(event))
     res.send(convertedEvents)
-  
   })
 
   .catch(error => {
@@ -35,6 +23,39 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   })
     
 });
+
+router.get('/specific', rejectUnauthenticated, (req, res) => {
+
+  console.log("in get specific event route", req.query);
+
+  pool.query(`SELECT * FROM "events" 
+  JOIN "communities" ON "events"."community_id" = "communities"."id"
+  WHERE "events"."id" = $1;`, [req.query.id])
+
+  .then (response => {
+
+    // for calendar to read the dates, they need to be converted from strings to Date objects
+    const convertedEvents = response.rows.map( event => convertEvent(event))
+    res.send(convertedEvents)
+  })
+
+  .catch(error => {
+    console.log('error getting events!', error);
+    res.sendStatus(500);
+  })
+    
+});
+
+function convertEvent(rawEvent) {
+  let newEvent = {...rawEvent};
+  newEvent.start = rawEvent.start_time;
+  newEvent.end = rawEvent.end_time;
+  newEvent.title = rawEvent.event_name;
+  newEvent.eventType = rawEvent.event_type;
+  newEvent.expectedAttendees = rawEvent.expected_attendees;
+  newEvent.community = rawEvent.name;
+  return newEvent;
+}
 
 
 // Patrick's get request that grabs all users contact info from the selected community 
