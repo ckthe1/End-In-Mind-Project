@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 import './AdminSelect.css'
+import { connect } from 'react-redux';
 
 
 class AdminSelect extends Component {
-  state = {
-    results: []
-  };
 
   deleteButton = resultsId => {
     console.log("delete was clicked");
@@ -23,33 +21,13 @@ class AdminSelect extends Component {
 
   componentDidMount() {
     // console.log('in component did mount');
-    this.getResults();
+    this.props.dispatch({ type: 'FETCH_USERS' })
   }
-
-  getResults = () => {
-    //make call to server using axios
-    axios({
-      method: "GET",
-      url: "/api/user/all"
-    })
-      .then(response => {
-        console.log('data here', response.data);
-        this.setState({
-          results: response.data
-        });
-        return this.adminList();
-      })
-      .catch(error => {
-       //alert("could not get results");
-        console.log("could not get results", error);
-      });
-  };
 
   adminList = () => {
 
-    console.log("results:",this.state.results);
 
-    return this.state.results.map(users => (
+    return this.props.users.map(users => (
   
         <tr key={users.id}>
           <td> {users.username} </td>
@@ -68,7 +46,6 @@ class AdminSelect extends Component {
   }
 
   render() {
-    console.log(this.state.results);
     return (
       <div className="App">
         <table>
@@ -91,4 +68,7 @@ class AdminSelect extends Component {
   }
 }
 
-export default AdminSelect;
+const mapStateToProps = (state) => state;
+
+
+export default connect(mapStateToProps)(AdminSelect);
