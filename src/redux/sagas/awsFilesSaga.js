@@ -60,14 +60,26 @@ function* deleteFile(action) {
     };
 
     console.log("delete event", action);
-
+  
+    console.log("action.payload.key", action.payload.key);
+    
 
    yield axios({
     method: "DELETE",
     url: "/api/aws",
     params: {
-      awsKey: action.payload
+      awsKey: action.payload.key
+    },
+
+    // TODO axios delete on /api/files
+  
+    
+     method: "DELETE",
+    url: "/api/files",
+    params: {
+      id: action.payload.id
     }
+    
   });
 
     yield put({ type: "FETCH_FILES" });

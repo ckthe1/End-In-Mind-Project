@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import DeleteIcon from "@material-ui/icons/Delete";
 import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
 import SingleFile from "./SingleFile";
 
 
@@ -60,7 +57,7 @@ class FileDisplay extends Component {
 
     const file = this.props.myFile;
 
-    console.log("my file url", file);
+    // console.log("my file url", file);
     console.log(this.props.AWS);
     return (
       // <div>

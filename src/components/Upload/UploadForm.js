@@ -1,19 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from 'axios';
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Snackbar from "@material-ui/core/Snackbar";
-import DateFnsUtils from "@date-io/date-fns";
 import Button from "@material-ui/core/Button";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import ErrorIcon from "@material-ui/icons/Error";
-import { MuiPickersUtilsProvider, DatePicker } from "material-ui-pickers";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import MenuItem from "@material-ui/core/MenuItem";
 import classNames from "classnames";
-import { Typography } from "@material-ui/core";
-import Input from "@material-ui/core/Input";
 
 const styles = theme => ({
   textField: {
@@ -102,9 +93,9 @@ class FileDisplay extends Component {
 
   render() {
     const { classes } = this.props;
-    const file = this.props.myFile;
+    // const file = this.props.myFile;
 
-    console.log("my file url", this.state.fileName);
+    // console.log("my file url", this.state.fileName);
 
     return (
       <div>
@@ -120,9 +111,7 @@ class FileDisplay extends Component {
           <button onClick={this.deleteButton}>Delete</button>
         </td>
       </div> */}
-        <Typography>
-          <h2>Upload File</h2>
-        </Typography>
+      
         <ValidatorForm
           ref="form"
           onSubmit={this.handleSubmit}

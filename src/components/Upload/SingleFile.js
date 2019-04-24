@@ -2,13 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 
 const CustomTableCell = withStyles(theme => ({
@@ -59,9 +55,14 @@ class FileDisplay extends Component {
   }
 
   handleDeleteClick = () => {
+    console.log("key", this.props.myFile.key)
+    console.log('id', this.props.AWS[0].id)
     this.props.dispatch({
       type: "DELETE_FILE",
-      payload: this.props.myFile.key
+      payload: {
+          key: this.props.myFile.key, 
+          id: this.props.AWS[0].id
+      }
     });
 
     return;
