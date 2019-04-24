@@ -93,9 +93,14 @@ class EventCreateForm extends Component {
         },
     }
 
-    // componentDidMount = () => {
-    //     this.props.dispatch({ type: 'FETCH_TAGS' });
-    // }
+    componentDidMount = () => {
+        console.log('this.props.editEvent ID:', this.props.editEvent);
+        
+       if(this.props.editEvent){
+           console.log('editEvent ID exist in IF Statement:', this.props.editEvent);
+        //    this.props.dispatch({ type: 'GET_EDIT_INFO', payload: this.props.row.id });
+       }
+    }
 
 
 

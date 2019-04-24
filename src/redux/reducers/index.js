@@ -7,8 +7,11 @@ import selectedEvent from "./SelectedEvent.reducer";
 import contacts from "./Contacts.reducer";
 import eventDialog from "./EventDialog.reducer";
 import AWS from './awsFilesReducer';
+
+import users from './usersReducer';
+import editEvent from './editEventReducer';
 import attendees from './attendeeReducer';
-import users from './usersReducer'
+
 
 
 // rootReducer is the primary reducer for our entire project
@@ -26,8 +29,10 @@ const rootReducer = combineReducers({
   contacts,     // Main contacts of a selected community
   eventDialog,    // Is there an event dialog open?
   AWS,
+
+  users,       //gets all users from db
+  editEvent,        // to edit info from dashboard
   attendees, // List of all attendees who signed-up at an event
-  users       //gets all users from db
 
 });
 
