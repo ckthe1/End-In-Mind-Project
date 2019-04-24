@@ -31,7 +31,7 @@ class FileList extends Component {
     
     return (
       <div>
-        <table>
+        {/* <table>
           <thead>
             <tr>
               <th>Title</th>
@@ -45,7 +45,7 @@ class FileList extends Component {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table> */}
       </div>
     );
   }
