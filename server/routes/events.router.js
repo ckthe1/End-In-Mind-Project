@@ -9,10 +9,14 @@ router.get('/', (req, res) => {
   const communityId = req.query.communityId;
   console.log('getting events...', communityId);
 
+  const columnsToSelect = `events.id, event_name, event_type, expected_attendees, start_time,
+  end_time, location, events.description, contact_name, contact_email, contact_phone, community_id, 
+  communities.name AS community_name, communities.description AS community_description`
+
   // If no community is specified, just return all the events
   if (!communityId) {
     pool.query(`
-      SELECT * FROM "events" 
+      SELECT ${columnsToSelect} FROM "events" 
       JOIN "communities" ON "events"."community_id" = "communities"."id" 
       ORDER BY "events"."id"`)
 
@@ -30,7 +34,7 @@ router.get('/', (req, res) => {
   // When community is specified, we return only events related to that community.
   else {
     pool.query(`
-    SELECT * FROM "events" 
+    SELECT ${columnsToSelect} FROM "events" 
       JOIN "communities" ON "events"."community_id" = "communities"."id"
       WHERE "community_id" = $1
       ORDER BY "events"."id";`, [communityId])
@@ -86,6 +90,7 @@ function convertEvent(rawEvent) {
   newEvent.eventType = rawEvent.event_type;
   newEvent.expectedAttendees = rawEvent.expected_attendees;
   newEvent.community = rawEvent.name;
+  console.log('new event is:', newEvent);
   return newEvent;
 }
 
