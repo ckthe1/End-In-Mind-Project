@@ -27,6 +27,7 @@ import EventView from '../EventView/EventView';
 import './App.css';
 import Calendar from '../Calendar/Calendar';
 import EventCreateForm from '../EventCreateForm/EventCreateForm';
+import FollowUp from '../FollowUp/FollowUp';
 import EventSignUpForm from '../EventSignUpForm/EventSignUpForm';
 
 const theme = createMuiTheme({
@@ -124,6 +125,12 @@ class App extends Component {
               exact
               path="/event/view"
               component={EventView}
+            />
+
+            <ProtectedRoute
+              exact
+              path="/event/followup"
+              component={FollowUp}
             />
 
             {/* If none of the other routes matched, we will show a 404. */}
