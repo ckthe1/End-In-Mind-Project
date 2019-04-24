@@ -6,6 +6,7 @@ import eventSaga from './eventSaga';
 import awsFilesSaga from './awsFilesSaga';
 import attendeeSaga from './attendeeSaga';
 import usersSaga from './usersSaga';
+import communitiesSaga from './communitiesSaga';
 
 
 // rootSaga is the primary saga.
@@ -23,7 +24,8 @@ export default function* rootSaga() {
     eventSaga(),
     awsFilesSaga(),
     attendeeSaga(),
-    usersSaga()
+    usersSaga(),
+    communitiesSaga(),
 
   ]);
 }
