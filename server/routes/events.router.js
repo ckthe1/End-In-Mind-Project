@@ -12,24 +12,39 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   pool.query(`SELECT * FROM "events" JOIN "communities" ON "events"."community_id" = "communities"."id" ORDER BY "events"."id"`)
 
   .then (response => {
-    console.log('response.row',response.rows);
-    
-    // for calendar to read the dates, they need to be converted from strings to Date objects
-    const convertedEvents = response.rows.map( event => {
-
-      let newEvent = {...event};
-      newEvent.start = Date(event.start_time);
-      newEvent.end = Date(event.end_time);
-      newEvent.date = Date(event.event_date);
-
-      newEvent.title = event.event_name;
-      newEvent.eventType = event.event_type;
-      newEvent.expectedAttendees = event.expected_attendees;
-      newEvent.community = event.name;
-      return newEvent;
-    })
+    const convertedEvents = response.rows.map( event => convertEvent(event))
     res.send(convertedEvents)
-  
+  })
+
+  .catch(error => {
+    console.log('error getting events!', error);
+    res.sendStatus(500);
+  })
+});
+
+router.get('/specific', rejectUnauthenticated, (req, res) => {
+
+  console.log("in get specific event route", req.query);
+
+  pool.query(`
+  SELECT "events"."id", "event_name", "event_type", "location", 
+"events"."description", "contact_name", "contact_phone", "events"."created_at", 
+"author_user_id", "follow_up_complete",
+"follow_up_comments", "start_time", "end_time", 
+"communities"."id" as "community_id", 
+"communities"."name" as "community_name"
+ FROM "events" 
+  JOIN "communities" ON "events"."community_id" = "communities"."id" 
+  WHERE "events"."id" = $1;`, [req.query.id])
+
+  .then (response => {
+
+    console.log(response);
+
+    // for calendar to read the dates, they need to be converted from strings to Date objects
+    const convertedEvents = response.rows.map( event => convertEvent(event))
+
+    res.send(convertedEvents)
   })
 
   .catch(error => {
@@ -38,6 +53,38 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   })
     
 });
+
+function convertEvent(rawEvent) {
+  let newEvent = {...rawEvent};
+  newEvent.start = rawEvent.start_time;
+  newEvent.end = rawEvent.end_time;
+  newEvent.title = rawEvent.event_name;
+  newEvent.eventType = rawEvent.event_type;
+  newEvent.expectedAttendees = rawEvent.expected_attendees;
+  newEvent.community = rawEvent.name;
+  return newEvent;
+}
+
+router.put('/followup', (req, res) => {
+
+  console.log('in followup route', req.query);
+  
+  pool.query(`
+    UPDATE "events"
+    SET "follow_up_comments" = $1
+    WHERE "id" = $2;`, 
+    [req.query.comments, req.query.eventId])
+
+  .then(result => {
+    console.log("everything is just dandy");
+    res.sendStatus(200);
+  })
+
+  .catch(error => {
+    console.log("error in followup route", error);
+    res.sendStatus(500);
+  });
+})
 
 
 // Patrick's get request that grabs all users contact info from the selected community 
