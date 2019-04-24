@@ -10,8 +10,8 @@ app.listen(PORT, () => {
 })
 
 // var mailgun = require("mailgun-js");
-var api_key = process.env.MAIL_GUN_API_KEY;
-var DOMAIN = 'ck.chengkou.dev';
+var api_key = process.env.MAIL_GUN_API_KEY;// update with "End in Mind" account
+var DOMAIN = 'ck.chengkou.dev';//update with "End in Mind" account
 var mailgun = require('mailgun-js')({ apiKey: api_key, domain: DOMAIN });
 
 const data = {

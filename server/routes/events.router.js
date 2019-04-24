@@ -12,7 +12,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   pool.query(`SELECT * FROM "events" JOIN "communities" ON "events"."community_id" = "communities"."id" ORDER BY "events"."id"`)
 
   .then (response => {
-
     const convertedEvents = response.rows.map( event => convertEvent(event))
     res.send(convertedEvents)
   })
@@ -21,7 +20,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('error getting events!', error);
     res.sendStatus(500);
   })
-    
 });
 
 router.get('/specific', rejectUnauthenticated, (req, res) => {
@@ -45,6 +43,7 @@ router.get('/specific', rejectUnauthenticated, (req, res) => {
 
     // for calendar to read the dates, they need to be converted from strings to Date objects
     const convertedEvents = response.rows.map( event => convertEvent(event))
+
     res.send(convertedEvents)
   })
 
@@ -111,6 +110,8 @@ router.post('/', (req, res) => {
     event_type, 
     expected_attendees, 
     event_date, 
+    start_time,
+    end_time,
     location, 
     description, 
     contact_name, 
@@ -118,12 +119,14 @@ router.post('/', (req, res) => {
     contact_phone, 
     community_id, 
     author_user_id)
-    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);`
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13);`
     pool.query(queryText,[
     event.eventTitle,
     event.eventTypeArray,
     event.audienceSize,
     event.selectedDate,
+    event.start_time,
+    event.end_time,
     event.location,
     event.description,
     event.contactName,
