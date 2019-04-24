@@ -1,21 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import SingleContact from "./SingleContact";
-
+import './Contacts.css';
 
 
 class Contacts extends Component {
-  componentDidMount() {
-    this.props.dispatch({
-      type: "FETCH_CONTACTS",
-      payload: { communityID: 1 }
-    });
-  }
 
   render() {
     return (
-      <div>
-        Contact Info
+      <div className="contact-space">
+        <h3>Contact Info</h3>
         {
           this.props.contacts.map(contact => 
           <SingleContact contact={contact} />)

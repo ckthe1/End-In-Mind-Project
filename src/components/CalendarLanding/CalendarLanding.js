@@ -29,6 +29,9 @@ class CalendarLanding extends Component {
 
 		// fetch events for the community
 		this.props.dispatch({type:'FETCH_EVENTS', payload: selection});
+
+		// Fetch the contacts for the community
+		this.props.dispatch({ type: "FETCH_CONTACTS", payload: { communityID: selection }});
 	}
 
 	communityName = () => {
@@ -43,16 +46,16 @@ class CalendarLanding extends Component {
 
   render() {
     return (
-			<div>
-				<SelectCommunity onSelect={this.handleCommunitySelected}/>
-				<h1>{this.communityName()}</h1>
+			<div className="calendar-parent">
+				<div className="calendar-header">
+					<SelectCommunity onSelect={this.handleCommunitySelected}/>
+					<h1>{this.communityName()}</h1>
+				</div>
 				<div className="calendar-landing">
 					<div className="calendar-space">
 						<Calendar />
 					</div>
-					<div className="contact-space">
-						<Contacts />
-					</div>
+					<Contacts communityId={this.state.communityId}/>
 					
 					
 				</div>
