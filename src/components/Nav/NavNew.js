@@ -40,7 +40,7 @@ class NavNew extends Component {
                     )}
                     {(this.props.user.is_super_admin === true || this.props.user.is_community_admin === true )&&(                                        
                         <li>
-                            <Link to="/users" className="nav-links">Users</Link>
+                            <Link to="/adminselect" className="nav-links">Users</Link>
                         </li>                    
                     )}
 

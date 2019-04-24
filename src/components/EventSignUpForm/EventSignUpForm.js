@@ -61,7 +61,7 @@ const styles = theme => ({
 
 const genderDropdown = ['Female', 'Male'];
 const ethnicityDropdown = ['Asian', 'Black/African American', 'Hispanic/Latino', 'Middle Eastern/North African', 'Native American/Alaskan Native', 'Native Hawaiian/Other Pacific Islander', 'White/Caucasian']
-
+const incomeDropdown= ['Less than 20,000', '20,000 - 35,000', '35,000 - 50,000', '50,000 - 75,000', '75,000 - 100,000', '100,000 - 150,000', '150,000 - 200,000', '200,000 or more']
 
 class EventSignUpForm extends Component {
 
@@ -76,6 +76,7 @@ class EventSignUpForm extends Component {
         income: '',
         gender: '',
         ethnicity: '',
+        eventId: 1,
     }
 
     // componentDidMount = () => {
@@ -92,23 +93,9 @@ class EventSignUpForm extends Component {
         });
     }
 
-    getEventTypes = () => {
-        let eventTypes = [];
-
-        console.log('event types:', this.state.eventTypes);
-
-        Object.entries(this.state.eventTypes).forEach(entry => {
-            if (entry[1]) eventTypes.push(entry[0]);
-        });
-        this.setState({
-            eventTypeArray: [...this.state.eventTypeArray, eventTypes]
-        })
-    }
-
     // handles form submit button, sends post dispatch to redux with payload of all selected form inputs + clears form 
     handleSubmit = () => {
-        this.getEventTypes();
-        this.props.dispatch({ type: 'ADD_EVENT', payload: this.state });
+        this.props.dispatch({ type: 'ADD_ATTENDEE', payload: this.state });
         this.setState({
             firstName: '',
             lastName: '',
@@ -118,6 +105,7 @@ class EventSignUpForm extends Component {
             income: '',
             gender: '',
             ethnicity: '',
+            eventId: 1,
         });
     }
 
@@ -255,7 +243,7 @@ class EventSignUpForm extends Component {
                                             />
                                         </MuiPickersUtilsProvider>
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    {/* <Grid item xs={12} sm={6}>
                                         <TextValidator
                                             id="income"
                                             InputProps={{
@@ -271,6 +259,33 @@ class EventSignUpForm extends Component {
                                             value={this.state.income}
                                             variant="outlined"
                                         />
+                                    </Grid> */}
+                                    <Grid item xs={12} sm={6}>
+                                        <TextValidator
+                                            id="income"
+                                            InputProps={{
+                                                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                                            }}
+                                            select
+                                            fullWidth
+                                            label="Income"
+                                            className={classes.textField}
+                                            value={this.state.income}
+                                            onChange={this.handleChange('income')}
+                                            SelectProps={{
+                                                MenuProps: {
+                                                    className: classes.menu,
+                                                },
+                                            }}
+                                            margin="normal"
+                                            variant="outlined"
+                                        >
+                                            {incomeDropdown.map((option, i) => (
+                                                <MenuItem key={i} value={option}>
+                                                    {option}
+                                                </MenuItem>
+                                            ))}
+                                        </TextValidator>
                                     </Grid>
 
                                     <Grid item xs={12} sm={6}>
