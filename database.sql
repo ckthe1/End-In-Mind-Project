@@ -4,6 +4,8 @@ CREATE TABLE "events" (
   "event_type" VARCHAR,
   "expected_attendees" varchar,
   "event_date" varchar,
+  "start_time" varchar,
+  "end_time" varchar,
   "location" varchar,
   "description" varchar,
   "contact_name" varchar,
@@ -61,14 +63,17 @@ CREATE TABLE "users" (
 
 CREATE TABLE "attendees" (
   "id" SERIAL PRIMARY KEY,
-  "name" varchar,
+  "first_name" varchar,
+  "last_name" varchar,
   "dob" date,
   "sex" varchar,
   "race" varchar,
   "household_income" int,
   "email" varchar,
+  "phone" varchar,
   "archived" boolean
 );
+
 
 ALTER TABLE "files" ADD FOREIGN KEY ("author_user_id") REFERENCES "users" ("id");
 

@@ -76,6 +76,7 @@ class EventSignUpForm extends Component {
         income: '',
         gender: '',
         ethnicity: '',
+        eventId: 1,
     }
 
     // componentDidMount = () => {
@@ -92,23 +93,9 @@ class EventSignUpForm extends Component {
         });
     }
 
-    getEventTypes = () => {
-        let eventTypes = [];
-
-        console.log('event types:', this.state.eventTypes);
-
-        Object.entries(this.state.eventTypes).forEach(entry => {
-            if (entry[1]) eventTypes.push(entry[0]);
-        });
-        this.setState({
-            eventTypeArray: [...this.state.eventTypeArray, eventTypes]
-        })
-    }
-
     // handles form submit button, sends post dispatch to redux with payload of all selected form inputs + clears form 
     handleSubmit = () => {
-        this.getEventTypes();
-        this.props.dispatch({ type: 'ADD_EVENT', payload: this.state });
+        this.props.dispatch({ type: 'ADD_ATTENDEE', payload: this.state });
         this.setState({
             firstName: '',
             lastName: '',
@@ -118,6 +105,7 @@ class EventSignUpForm extends Component {
             income: '',
             gender: '',
             ethnicity: '',
+            eventId: 1,
         });
     }
 
