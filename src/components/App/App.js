@@ -16,9 +16,10 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
-import InfoPage from '../InfoPage/InfoPage';
+import LoginPage from '../LoginPage/LoginPage';
 import Upload from '../Upload/Upload';
 import CalendarLanding from '../CalendarLanding/CalendarLanding';
+import AdminSelect from '../AdminSelect/AdminSelect'
 
 import Dashboard from '../Dashboard/Dashboard';
 import EventView from '../EventView/EventView';
@@ -75,8 +76,8 @@ class App extends Component {
             This is a route anyone can see, no login necessary */}
             <Route
               exact
-              path="/about"
-              component={AboutPage}
+              path="/login"
+              component={LoginPage}
             />
             {/* For protected routes, the view could show one of several things on the same route.
             Visiting localhost:3000/home will show the UserPage if the user is logged in.
@@ -104,16 +105,20 @@ class App extends Component {
               path="/dashboard"
               component={Dashboard}
             />
-            <ProtectedRoute
+            <Route
               exact
               path="/calendar"
               component={CalendarLanding}
             />
-
               <ProtectedRoute
               exact
               path="/files"
               component={Upload}
+            />
+              <ProtectedRoute
+              exact
+              path="/adminselect"
+              component={AdminSelect}
             />
             <ProtectedRoute
               exact

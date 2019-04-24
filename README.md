@@ -8,6 +8,9 @@ Before you get started, make sure you have the following software installed on y
 - [PostrgeSQL](https://www.postgresql.org/)
 - [Nodemon](https://nodemon.io/)
 
+
+## Update  
+
 ## Create database and table
 
 database is called `end_in_mind`. Look in database.sql file to create initial database

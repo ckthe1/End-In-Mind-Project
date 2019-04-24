@@ -1,0 +1,17 @@
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: white;
+  color: black;
+  height: 25px;
+}
+
+
+table {
+  width: 90%;
+  margin: 20px;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}

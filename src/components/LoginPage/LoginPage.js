@@ -11,6 +11,7 @@ class LoginPage extends Component {
     event.preventDefault();
 
     if (this.state.username && this.state.password) {
+      this.props.history.push('/home')
       this.props.dispatch({
         type: 'LOGIN',
         payload: {
@@ -64,6 +65,7 @@ class LoginPage extends Component {
               />
             </label>
           </div>
+
           <div>
             <input
               className="log-in"

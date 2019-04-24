@@ -40,6 +40,7 @@ app.use("/api/files", filesRouter);
 app.use("/api/attendee", attendeeRouter);
 
 
+
 // Serve static files
 app.use(express.static('build'));
 
