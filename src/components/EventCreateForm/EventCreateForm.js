@@ -95,7 +95,7 @@ class EventCreateForm extends Component {
         
        if(this.props.editEvent){
            console.log('editEvent ID exist in IF Statement:', this.props.editEvent);
-           
+        //    this.props.dispatch({ type: 'GET_EDIT_INFO', payload: this.props.row.id });
        }
     }
 

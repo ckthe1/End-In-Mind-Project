@@ -39,19 +39,22 @@ class EventRow extends Component {
   };
 
   render() {
-
+    console.log('this.props.row:', this.props.row);
+    
     return (
       <MuiThemeProvider theme={theme}>
         <TableRow key={this.props.row.id}>
         <TableCell component="th" scope="row">
-          {this.props.row.date}
+          {this.props.row.event_date}
         </TableCell>
         <TableCell align="right">{this.props.row.community}</TableCell>
-        <TableCell align="right">{this.props.row.eventType}</TableCell>
-        <TableCell align="right">{this.props.row.attendees}</TableCell>
-        <TableCell align="right">{this.props.row.expectedAttendees}</TableCell>
-        <TableCell align="right">{this.props.row.demographics}</TableCell>
-        <TableCell align="right">{this.props.row.income}</TableCell>
+        <TableCell align="right">{this.props.row.event_name}</TableCell>
+        <TableCell align="right">{this.props.row.total_attendees}</TableCell>
+        {/* <TableCell align="right">{this.props.row.expectedAttendees}</TableCell> */}
+        {/* <TableCell align="right">{this.props.row.demographics}</TableCell> */}
+        {/* <TableCell align="right">{this.props.row.income}</TableCell> */}
+        <TableCell ><Button align="right" type="submit" variant="contained" color="primary"
+          onClick={this.handleClick}>View Details</Button></TableCell>
         <TableCell ><Button align="right" type="submit" variant="contained" color="primary" 
         onClick={this.handleClick}>Edit</Button></TableCell>
       </TableRow>
