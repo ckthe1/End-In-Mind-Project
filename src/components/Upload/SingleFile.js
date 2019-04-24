@@ -10,8 +10,6 @@ import TableRow from "@material-ui/core/TableRow";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
-import SingleFile from "./SingleFile";
-
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -43,7 +41,21 @@ class FileDisplay extends Component {
   };
 
   componentDidMount() {
-    this.props.dispatch({ type: "FETCH_FILES" });
+    // for each file, get the signed URL
+    axios({
+      method: "GET",
+      url: "/api/aws/signed-url",
+      params: { key: this.props.myFile.key }
+    })
+      .then(response => {
+        console.log("got signed url", response);
+        this.setState({
+          signedUrl: response.data.signedUrl
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   handleDeleteClick = () => {
@@ -59,40 +71,28 @@ class FileDisplay extends Component {
     const { classes } = this.props;
 
     const file = this.props.myFile;
-
-    console.log("my file url", file);
-    console.log(this.props.AWS);
     return (
-      // <div>
-      //   <td> {this.props.myFile.title} </td>
-      //   <td>{this.props.myFile.description}</td>
-      //   <td>
-      //     <a href={this.state.signedUrl} download={this.state.signedUrl}>
-      //       {this.state.signedUrl}
-      //     </a>
-      //   </td>
-      //   <td>
-      //     <button onClick={this.deleteButton}>Delete</button>
-      //   </td>
-      // </div>
+      <TableRow key={file.id}>
+        <CustomTableCell component="th" scope="row">
+          {file.title}
+        </CustomTableCell>
+        <CustomTableCell component="th" scope="row">
+          {file.description}
+        </CustomTableCell>
+        <CustomTableCell component="th" scope="row">
+          <a href={this.state.signedUrl}>file</a>
+        </CustomTableCell>
 
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <CustomTableCell>Title</CustomTableCell>
-              <CustomTableCell>Description</CustomTableCell>
-              <CustomTableCell>File</CustomTableCell>
-              <CustomTableCell align="right" />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {
-              this.props.AWS.map((file, index) => (<SingleFile myFile={file}/>))
-            }
-          </TableBody>
-        </Table>
-      </Paper>
+        <CustomTableCell style={{ width: "10%" }} align="right">
+          <IconButton
+            className={classes.iconHover}
+            onClick={this.handleDeleteClick}
+            aria-label="Delete"
+          >
+            <DeleteIcon />
+          </IconButton>
+        </CustomTableCell>
+      </TableRow>
     );
   }
 }

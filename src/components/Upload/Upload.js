@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import FileList from "./FileList";
 import { connect } from "react-redux";
 import UploadForm from "./UploadForm";
 import { withStyles } from "@material-ui/core/styles";
