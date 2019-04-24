@@ -37,7 +37,6 @@ class EventRow extends Component {
     alert('DO YOU REALLY WANT TO EDIT');
 
   };
-
   render() {
     console.log('this.props.row:', this.props.row);
     

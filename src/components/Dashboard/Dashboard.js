@@ -11,7 +11,6 @@ import Paper from '@material-ui/core/Paper';
 import EventRow from '../EventRow/EventRow';
 
 class Dashboard extends Component {
-
     componentDidMount() {
         this.props.dispatch({type:'FETCH_EVENTS' });
     }
