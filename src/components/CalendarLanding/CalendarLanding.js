@@ -11,12 +11,11 @@ import SelectCommunity from "../SelectCommunity/SelectCommunity";
 class CalendarLanding extends Component {
 
 	state = {
-		community: {},
+		communityId: null,
 	}
 
 	componentDidMount() {
-		// TODO get the community info
-
+		this.props.dispatch({type: "FETCH_COMMUNITIES"});
 	}
 
 
@@ -26,13 +25,27 @@ class CalendarLanding extends Component {
 
 	handleCommunitySelected = selection => {
 		console.log('you selected community ', selection);
+		this.setState({communityId: selection});
+
+		// fetch events for the community
+		this.props.dispatch({type:'FETCH_EVENTS', payload: selection});
+	}
+
+	communityName = () => {
+
+		// If we have a community ID, just return the name of the community of that ID.
+		for (const community of this.props.communities) {
+			if (community.id === this.state.communityId) return community.name;
+		}
+
+		return "All Events";
 	}
 
   render() {
     return (
 			<div>
 				<SelectCommunity onSelect={this.handleCommunitySelected}/>
-				<h1>Community Name</h1>
+				<h1>{this.communityName()}</h1>
 				<div className="calendar-landing">
 					<div className="calendar-space">
 						<Calendar />

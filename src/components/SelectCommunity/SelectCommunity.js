@@ -45,7 +45,11 @@ class SelectCommunity extends Component {
 
 				{/* Map each community to its own menu option */}
 				{ this.props.communities.map(community => 
-					<MenuItem onClick={this.handleSelection(community.id)}>{community.name}</MenuItem>)}
+          <MenuItem 
+            key={community.id} 
+            onClick={this.handleSelection(community.id)}>
+            {community.name}
+          </MenuItem>)}
         </Menu>
       </div>
     );

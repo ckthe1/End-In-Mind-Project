@@ -4,24 +4,46 @@ const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
 
-/**
- * GET route template
- */
 router.get('/', (req, res) => {
 
-  console.log('getting events...');
+  const communityId = req.query.communityId;
+  console.log('getting events...', communityId);
 
-  pool.query(`SELECT * FROM "events" JOIN "communities" ON "events"."community_id" = "communities"."id" ORDER BY "events"."id"`)
+  // If no community is specified, just return all the events
+  if (!communityId) {
+    pool.query(`
+      SELECT * FROM "events" 
+      JOIN "communities" ON "events"."community_id" = "communities"."id" 
+      ORDER BY "events"."id"`)
+
+    .then (response => {
+      const convertedEvents = response.rows.map( event => convertEvent(event))
+      res.send(convertedEvents)
+    })
+
+    .catch(error => {
+      console.log('error getting events!', error);
+      res.sendStatus(500);
+    })
+  }
+
+  // When community is specified, we return only events related to that community.
+  else {
+    pool.query(`
+    SELECT * FROM "events" 
+      JOIN "communities" ON "events"."community_id" = "communities"."id"
+      WHERE "community_id" = $1
+      ORDER BY "events"."id";`, [communityId])
 
   .then (response => {
     const convertedEvents = response.rows.map( event => convertEvent(event))
     res.send(convertedEvents)
   })
-
   .catch(error => {
     console.log('error getting events!', error);
     res.sendStatus(500);
   })
+  }
 });
 
 router.get('/specific', rejectUnauthenticated, (req, res) => {
