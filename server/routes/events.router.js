@@ -60,6 +60,8 @@ router.post('/', (req, res) => {
     event_type, 
     expected_attendees, 
     event_date, 
+    start_time,
+    end_time,
     location, 
     description, 
     contact_name, 
@@ -67,12 +69,14 @@ router.post('/', (req, res) => {
     contact_phone, 
     community_id, 
     author_user_id)
-    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);`
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13);`
     pool.query(queryText,[
     event.eventTitle,
     event.eventTypeArray,
     event.audienceSize,
     event.selectedDate,
+    event.start_time,
+    event.end_time,
     event.location,
     event.description,
     event.contactName,
