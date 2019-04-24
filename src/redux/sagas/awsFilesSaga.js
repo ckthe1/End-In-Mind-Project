@@ -72,8 +72,8 @@ function* deleteFile(action) {
     },
 
     // TODO axios delete on /api/files
-  
-    
+    })  
+    yield axios ({
      method: "DELETE",
     url: "/api/files",
     params: {
