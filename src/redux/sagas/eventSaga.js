@@ -25,20 +25,20 @@ function* fetchEvents() {
   }
 }
 
-function* fetchAttendees() {
-  try {
-    const config = {
-      headers: { 'Content-Type': 'application/json' },
-      withCredentials: true,
-    };
+// function* fetchAttendees() {
+//   try {
+//     const config = {
+//       headers: { 'Content-Type': 'application/json' },
+//       withCredentials: true,
+//     };
 
-    const response = yield axios.get('api/attendees', config);
+//     const response = yield axios.get('api/attendees', config);
 
-    yield put({ type: 'SET_ATTENDEES', payload: response.data });
-  } catch (error) {
-    console.log('Events get request failed', error);
-  }
-}
+//     yield put({ type: 'SET_ATTENDEES', payload: response.data });
+//   } catch (error) {
+//     console.log('Events get request failed', error);
+//   }
+// }
 
 function* addEvent(action) {
   try {
@@ -75,8 +75,6 @@ function* eventSaga() {
   yield takeLatest('FETCH_EVENTS', fetchEvents);
   yield takeEvery('ADD_EVENT', addEvent);
   yield takeEvery('FETCH_CONTACTS', fetchContacts);
-  yield takeEvery('FETCH_ATTENDEES', fetchAttendees);
-
 }
 
 export default eventSaga;

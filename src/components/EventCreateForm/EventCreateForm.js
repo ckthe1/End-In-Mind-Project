@@ -20,6 +20,7 @@ import Paper from '@material-ui/core/Paper';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import { Typography } from '@material-ui/core';
+import { getTime } from 'date-fns/esm';
 
 
 const styles = theme => ({
@@ -70,6 +71,8 @@ class EventCreateForm extends Component {
         eventTitle: '',
         description: '',
         selectedDate: new Date(),
+        start_time: new Date(),
+        end_time: new Date(),
         location: '',
         contactName: '',
         contactEmail: '',
@@ -130,6 +133,8 @@ class EventCreateForm extends Component {
             eventTitle: '',
             description: '',
             selectedDate: new Date(),
+            start_time: new Date(),
+            end_time: new Date(),
             location: '',
             contactName: '',
             contactEmail: '',
@@ -152,9 +157,12 @@ class EventCreateForm extends Component {
     }
 
     // handles date select from date-picker
-    handleDateChange = date => {
+    handleDateChange = property => date => {
+        console.log('date time picker',date);
+        
         this.setState({
-            selectedDate: date
+            ...this.state,
+            [property]: date,
         });
     };
 
@@ -381,8 +389,8 @@ class EventCreateForm extends Component {
                                                 margin="normal"
                                                 label="* Start Time"
                                                 fullWidth
-                                                value={this.state.selectedDate}
-                                                onChange={this.handleDateChange}
+                                                value={this.state.start_time}
+                                                onChange={this.handleDateChange('start_time')}
                                                 className={classNames(classes.textField)}
                                                 variant="outlined"
                                                 InputProps={{
@@ -404,8 +412,8 @@ class EventCreateForm extends Component {
                                                 margin="normal"
                                                 label="* End Time"
                                                 fullWidth
-                                                value={this.state.selectedDate}
-                                                onChange={this.handleDateChange}
+                                                value={this.state.end_time}
+                                                onChange={this.handleDateChange('end_time')}
                                                 className={classNames(classes.textField)}
                                                 variant="outlined"
                                                 InputProps={{
