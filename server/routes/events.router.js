@@ -48,9 +48,7 @@ router.get('/calendar', (req, res) => {
     .then (response => {
       const convertedEvents = response.rows.map( event => convertEvent(event))
       res.send(convertedEvents)
-    })
-
-    .catch(error => {
+    }).catch(error => {
       console.log('error getting events!', error);
       res.sendStatus(500);
     })
