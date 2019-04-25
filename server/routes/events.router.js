@@ -113,7 +113,7 @@ function convertEvent(rawEvent) {
   newEvent.eventType = rawEvent.event_type;
   newEvent.expectedAttendees = rawEvent.expected_attendees;
   newEvent.community = rawEvent.name;
-  console.log('new event is:', newEvent);
+  // console.log('new event is:', newEvent);
   return newEvent;
 }
 

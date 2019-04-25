@@ -9,6 +9,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import EventRow from "../EventRow/EventRow";
+import Dialog from "@material-ui/core/Dialog";
+import EventCard from "../EventCard/EventCard";
 
 const styles = theme => ({
   root: {
@@ -26,10 +28,20 @@ const styles = theme => ({
 class Dashboard extends Component {
 
   state = {
-
     // When viewing details of an event, its info will be here
     fullEvent: null,
   }
+
+
+  handleClose = () => {
+
+    // Clear the event after the panel has time to fade out
+    setTimeout(() => {
+      this.props.dispatch({type: 'CLEAR_EVENT'});
+    }, 500);
+    
+    this.setState({ fullEvent: null});
+  };
 
   componentDidMount() {
     this.props.dispatch({ type: "FETCH_TABLE_EVENTS" });
@@ -38,6 +50,8 @@ class Dashboard extends Component {
   // Called when the 'view details' button is clicked for an event.
   onViewDetails = event => {
 
+    this.props.dispatch({type: 'SET_EVENT', payload: event});
+
     console.log('viewing details for event ', event);
     this.setState({
       fullEvent: event
@@ -45,10 +59,13 @@ class Dashboard extends Component {
 
   }
 
+  // TODO dialog with event details
+
   render() {
     const { classes } = this.props;
 
     return (
+      <div>
       <Paper className={classes.root}>
         <Table className={classes.table}>
 
@@ -72,6 +89,17 @@ class Dashboard extends Component {
           
         </Table>
       </Paper>
+      <Dialog
+        fullWidth={true}
+        maxWidth='lg'
+        open={this.state.fullEvent != null}
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <EventCard showAll={true}/>
+      </Dialog>
+      </div>
     );
   }
 }
