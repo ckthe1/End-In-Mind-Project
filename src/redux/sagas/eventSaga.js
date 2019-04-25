@@ -6,35 +6,12 @@ function* fetchCalendarEvents(action) {
 
   yield generalizedFetchEvents('SET_CALENDAR_EVENTS', '/calendar', {communityId: action.payload})
 
-  // try {
-  //   const response = yield axios({
-  //     method: 'get',
-  //     url: 'api/events/calendar',
-  //     params: {
-  //       communityId: action.payload
-  //     },
-  //   });
-
-  //   yield put({ type: 'SET_CALENDAR_EVENTS', payload: response.data });
-  // } catch (error) {
-  //   console.log('Events get request failed', error);
-  // }
 }
 
 // fetches events formatted for table
 function* fetchTableEvents(action) {
 
   yield generalizedFetchEvents('SET_TABLE_EVENTS', '/table' );
-  // try {
-  //   const response = yield axios({
-  //     method: 'get',
-  //     url: 'api/events/table',
-  //   });
-
-  //   yield put({ type: 'SET_TABLE_EVENTS', payload: response.data });
-  // } catch (error) {
-  //   console.log('Events get request failed', error);
-  // }
 }
 
 function* generalizedFetchEvents(onCompleteActionName, route, params) {
