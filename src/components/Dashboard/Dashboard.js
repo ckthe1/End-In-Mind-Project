@@ -11,9 +11,8 @@ import Paper from '@material-ui/core/Paper';
 import EventRow from '../EventRow/EventRow';
 
 class Dashboard extends Component {
-
     componentDidMount() {
-        this.props.dispatch({type:'FETCH_EVENTS' });
+        this.props.dispatch({type:'FETCH_TABLE_EVENTS' });
     }
 
     render() {
@@ -39,16 +38,16 @@ class Dashboard extends Component {
                 <TableRow>
                   <TableCell>Date</TableCell>
                   <TableCell align="right">Community</TableCell>
-                  <TableCell align="right">Event</TableCell>
+                  <TableCell align="right">Event Name</TableCell>
                   <TableCell align="right">Attendees</TableCell>
-                  <TableCell align="right">Expected Attendees</TableCell>
-                  <TableCell align="right">Demographics</TableCell>
-                  <TableCell align="right">Household Income</TableCell>
+                  {/* <TableCell align="right">Expected Attendees</TableCell>
+                  <TableCell align="right">Demographics</TableCell> */}
+                  <TableCell align="right">View details</TableCell>
                   <TableCell align="right">Edit</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.props.events.map(row => (
+                {this.props.tableEvents.map(row => (
                   <EventRow row={row} />
                 ))}
               </TableBody>
