@@ -22,7 +22,7 @@ class CalendarView extends Component {
   }
 
   calendarStyle = {
-    height: "80vmax",
+    height: "80vmin",
   }
 
   render() {
