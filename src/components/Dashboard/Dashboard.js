@@ -24,8 +24,25 @@ const styles = theme => ({
 
 
 class Dashboard extends Component {
+
+  state = {
+
+    // When viewing details of an event, its info will be here
+    fullEvent: null,
+  }
+
   componentDidMount() {
     this.props.dispatch({ type: "FETCH_TABLE_EVENTS" });
+  }
+
+  // Called when the 'view details' button is clicked for an event.
+  onViewDetails = event => {
+
+    console.log('viewing details for event ', event);
+    this.setState({
+      fullEvent: event
+    });
+
   }
 
   render() {
@@ -40,7 +57,6 @@ class Dashboard extends Component {
               <TableCell>Name</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Community</TableCell>
-              <TableCell>Event Name</TableCell>
               <TableCell>Attendees</TableCell>
               <TableCell>View details</TableCell>
             </TableRow>
@@ -49,7 +65,7 @@ class Dashboard extends Component {
           <TableBody>
             {
               this.props.tableEvents.map(row => 
-                <EventRow row={row} key={row.event_id}/>
+                <EventRow row={row} key={row.event_id} eventSelected={this.onViewDetails}/>
               )
             }
           </TableBody>
