@@ -85,7 +85,7 @@ class FileDisplay extends Component {
           </TableHead>
           <TableBody>
             {
-              this.props.AWS.map((file, index) => (<SingleFile myFile={file}/>))
+              this.props.AWS.map((file, index) => (<SingleFile key={file.id} myFile={file}/>))
             }
           </TableBody>
         </Table>
