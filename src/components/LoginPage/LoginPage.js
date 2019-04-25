@@ -179,7 +179,7 @@ class LoginPage extends Component {
                                             color="primary"
                                             size="large"
                                             className={classes.button}
-                                            style={{marginTop:'10px', marginLeft:'195px'}}
+                                            style={{marginTop:'10px', float:'right'}}
                                             onClick={() => { this.props.dispatch({ type: 'SET_TO_REGISTER_MODE' }) }}>
                                       Register
                                     </Button>
