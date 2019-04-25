@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import SelectCommunity from "../SelectCommunity/SelectCommunity";
+
 
 const styles = theme => ({
   root: {
@@ -82,20 +84,35 @@ class RegisterPage extends Component {
     const { classes } = this.props;
 
     return (
-      <div style={{ backgroundImage: `linear-gradient(rgba(212, 212, 212, 0.1), rgba(138, 138, 138, 0.1)), url(images/bloom-blooming-caffeine-768943.jpg)` }}
-        className="bckgrnd-container">
+      <div
+        style={{
+          backgroundImage: `linear-gradient(rgba(212, 212, 212, 0.1), rgba(138, 138, 138, 0.1)), url(images/bloom-blooming-caffeine-768943.jpg)`
+        }}
+        className="bckgrnd-container"
+      >
         {this.props.errors.registrationMessage && (
-          <h2
-            className="alert"
-            role="alert"
-          >
+          <h2 className="alert" role="alert">
             {this.props.errors.registrationMessage}
           </h2>
         )}
         <div className={classes.root}>
           <div className={classes.container}>
-            <Paper className={classes.root} elevation={1} style={{ marginTop: '40px' }}>
-              <Typography><h2 style={{ marginBottom: '10px', fontSize: '35px', color: '#4534e5' }}>Register</h2></Typography>
+            <Paper
+              className={classes.root}
+              elevation={1}
+              style={{ marginTop: "40px" }}
+            >
+              <Typography>
+                <h2
+                  style={{
+                    marginBottom: "10px",
+                    fontSize: "35px",
+                    color: "#4534e5"
+                  }}
+                >
+                  Register
+                </h2>
+              </Typography>
               <ValidatorForm
                 ref="form"
                 onSubmit={this.registerUser}
@@ -108,14 +125,14 @@ class RegisterPage extends Component {
                       label="Username"
                       fullWidth
                       className={classNames(classes.textField)}
-                      onChange={this.handleInputChangeFor('username')}
+                      onChange={this.handleInputChangeFor("username")}
                       name="eventTitle"
                       type="text"
                       margin="normal"
                       autoComplete="off"
                       value={this.state.username}
-                      validators={['required']}
-                      errorMessages={['this field is required']}
+                      validators={["required"]}
+                      errorMessages={["this field is required"]}
                       variant="outlined"
                     />
                   </Grid>
@@ -129,7 +146,7 @@ class RegisterPage extends Component {
                       variant="outlined"
                       autoComplete="off"
                       value={this.state.password}
-                      onChange={this.handleInputChangeFor('password')}
+                      onChange={this.handleInputChangeFor("password")}
                       fullWidth
                     />
                     <TextField
@@ -141,27 +158,35 @@ class RegisterPage extends Component {
                       variant="outlined"
                       autoComplete="off"
                       value={this.state.email}
-                      onChange={this.handleInputChangeFor('email')}
+                      onChange={this.handleInputChangeFor("email")}
                       fullWidth
                     />
                   </Grid>
+                  <SelectCommunity style={{width: '800px' }}
+                    onSelect={this.handleCommunitySelected}
+                  />
                 </Grid>
-                <Button type="submit"
+                <Button
+                  type="submit"
                   variant="contained"
                   color="primary"
                   size="large"
                   className={classes.button}
-                  style={{ marginTop: '10px' }}
+                  style={{ marginTop: "10px" }}
                 >
                   Register
                 </Button>
-                <Button type="button"
-                  variant="contained"
+                <Button
+                  type="button"
+                  // variant="contained"
                   color="primary"
                   size="large"
                   className={classes.button}
-                  style={{ marginTop: '10px', float: 'right' }}
-                  onClick={() => { this.props.dispatch({ type: 'SET_TO_LOGIN_MODE' }) }}>
+                  style={{ marginTop: "10px", float: "right" }}
+                  onClick={() => {
+                    this.props.dispatch({ type: "SET_TO_LOGIN_MODE" });
+                  }}
+                >
                   Back
                 </Button>
               </ValidatorForm>

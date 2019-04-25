@@ -17,8 +17,12 @@ body {
 }
 
 .alert {
-    background-color: #ff4545;
-    margin: 50px;
+    background-color: #ff45453d;
+   text-align: center;
+   margin: auto;
+    float: center;
+    width: 50%;
+    padding: 10px;
 }
 
 .login-form {
