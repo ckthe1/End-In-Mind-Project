@@ -41,6 +41,7 @@ const styles = theme => ({
     },
     button: {
         margin: 0,
+        marginTop: 10,
         width: 120,
         float: 'right',
     },
@@ -95,11 +96,14 @@ class EventCreateForm extends Component {
 
     componentDidMount = () => {
         console.log('this.props.editEvent ID:', this.props.editEvent);
-        
        if(this.props.editEvent){
            console.log('editEvent ID exist in IF Statement:', this.props.editEvent);
         //    this.props.dispatch({ type: 'GET_EDIT_INFO', payload: this.props.row.id });
        }
+    }
+
+    componentWillUnmount = () => {
+        this.props.dispatch({ type: 'CLEAR_EVENT' })
     }
 
 
@@ -128,7 +132,7 @@ class EventCreateForm extends Component {
     // handles form submit button, sends post dispatch to redux with payload of all selected form inputs + clears form 
     handleSubmit = () => {
         this.getEventTypes();
-        this.props.dispatch({ type: 'ADD_EVENT', payload: this.state });
+        !this.props.selectedEvent.id ? this.props.dispatch({ type: 'ADD_EVENT', payload: this.state }) : this.props.dispatch({ type: 'EDIT_EVENT', payload: this.state });
         this.setState({
             eventTitle: '',
             description: '',
@@ -175,6 +179,28 @@ class EventCreateForm extends Component {
         });
     };
 
+    displayCancelButton = () => {
+
+    }
+
+    // handleCancelEdit = () => {
+    //     if(this.props.selectedEvent.id) {
+    //         return <Grid item xs={8} sm={10}>
+    //             <Button
+    //                 type="submit"
+    //                 onClick={this.handleCancelEdit}
+    //                 variant="contained"
+    //                 color="primary"
+    //                 size="large"
+    //                 float="left"
+    //                 className={classes.button}>
+    //                 Cancel
+    //                 </Button>
+    //         </Grid>
+
+    //     }
+    // }
+
 
     // determines which message will display on snackbar depending if post to database was successful  
     // alertMessage = () => {
@@ -198,6 +224,8 @@ class EventCreateForm extends Component {
     render() {
         const { classes } = this.props;
         console.log(this.state.eventTypeArray);
+        console.log('user id', this.props.user.community_id);
+        
 
         return (
             <div style={{ backgroundImage: `linear-gradient(rgba(212, 212, 212, 0.1), rgba(138, 138, 138, 0.1)), url(images/bloom-blooming-caffeine-768943.jpg)` }}
@@ -205,7 +233,9 @@ class EventCreateForm extends Component {
                 <div className={classes.root}>
                     <div className={classes.container}>
                         <Paper className={classes.root} elevation={1} style={{ marginTop: '40px' }}>
-                            <Typography><h2 style={{ marginBottom: '10px', fontSize: '35px', color: '#4534e5' }}><EventIcon className={classes.icon} />Create New Event</h2></Typography>
+                            <Typography><h2 style={{ marginBottom: '10px', fontSize: '35px', color: '#4534e5' }}><EventIcon className={classes.icon} />
+                            {!this.props.selectedEvent.id ? 'Create New Event' : this.props.selectedEvent.event_name}</h2>
+                            </Typography>
                             <ValidatorForm
                                 ref="form"
                                 onSubmit={this.handleSubmit}
@@ -222,7 +252,7 @@ class EventCreateForm extends Component {
                                             name="eventTitle"
                                             type="text"
                                             margin="normal"
-                                            value={this.state.eventTitle}
+                                            value={!this.props.selectedEvent.id ? this.state.eventTitle : this.props.selectedEvent.event_name}
                                             validators={['required']}
                                             errorMessages={['this field is required']}
                                             variant="outlined"
@@ -236,7 +266,7 @@ class EventCreateForm extends Component {
                                             fullWidth
                                             rowsMax="4"
                                             type="text"
-                                            value={this.state.description}
+                                            value={!this.props.selectedEvent.id ? this.state.description : this.props.selectedEvent.description}
                                             onChange={this.handleChange('description')}
                                             className={classes.textField}
                                             validators={['required']}
@@ -366,7 +396,7 @@ class EventCreateForm extends Component {
                                                 margin="normal"
                                                 label="* Date"
                                                 fullWidth
-                                                value={this.state.selectedDate}
+                                                value={!this.props.selectedEvent.id ? this.state.selectedDate : this.props.selectedEvent.start}
                                                 onChange={this.handleDateChange}
                                                 className={classNames(classes.textField)}
                                                 variant="outlined"
@@ -389,7 +419,7 @@ class EventCreateForm extends Component {
                                                 margin="normal"
                                                 label="* Start Time"
                                                 fullWidth
-                                                value={this.state.start_time}
+                                                value={!this.props.selectedEvent.id ? this.state.start_time : this.props.selectedEvent.start_time}
                                                 onChange={this.handleDateChange('start_time')}
                                                 className={classNames(classes.textField)}
                                                 variant="outlined"
@@ -412,7 +442,7 @@ class EventCreateForm extends Component {
                                                 margin="normal"
                                                 label="* End Time"
                                                 fullWidth
-                                                value={this.state.end_time}
+                                                value={!this.props.selectedEvent.id ? this.state.end_time : this.props.selectedEvent.end_time}
                                                 onChange={this.handleDateChange('end_time')}
                                                 className={classNames(classes.textField)}
                                                 variant="outlined"
@@ -440,7 +470,7 @@ class EventCreateForm extends Component {
                                             name="location"
                                             type="text"
                                             margin="normal"
-                                            value={this.state.location}
+                                            value={!this.props.selectedEvent.id ? this.state.location : this.props.selectedEvent.location}
                                             validators={['required']}
                                             errorMessages={['this field is required']}
                                             variant="outlined"
@@ -453,7 +483,7 @@ class EventCreateForm extends Component {
                                             fullWidth
                                             label="Audience Size"
                                             className={classes.textField}
-                                            value={this.state.audienceSize}
+                                            value={!this.props.selectedEvent.id ? this.state.audienceSize : this.props.selectedEvent.expected_attendees}
                                             onChange={this.handleChange('audienceSize')}
                                             SelectProps={{
                                                 MenuProps: {
@@ -480,7 +510,7 @@ class EventCreateForm extends Component {
                                             fullWidth
                                             rowsMax="4"
                                             type="text"
-                                            value={this.state.contactName}
+                                            value={!this.props.selectedEvent.id ? this.state.contactName : this.props.selectedEvent.contact_name}
                                             onChange={this.handleChange('contactName')}
                                             className={classes.textField}
                                             validators={['required']}
@@ -497,7 +527,7 @@ class EventCreateForm extends Component {
                                             fullWidth
                                             rowsMax="4"
                                             type="email"
-                                            value={this.state.contactEmail}
+                                            value={!this.props.selectedEvent.id ? this.state.contactEmail : this.props.selectedEvent.email}
                                             onChange={this.handleChange('contactEmail')}
                                             className={classes.textField}
                                             validators={['required']}
@@ -514,7 +544,7 @@ class EventCreateForm extends Component {
                                             fullWidth
                                             rowsMax="4"
                                             type="text"
-                                            value={this.state.contactPhone}
+                                            value={!this.props.selectedEvent.id ? this.state.contactPhone : this.props.selectedEvent.phone}
                                             onChange={this.handleChange('contactPhone')}
                                             className={classes.textField}
                                             validators={['required']}
@@ -526,15 +556,34 @@ class EventCreateForm extends Component {
                                     <Grid item xs={4} sm={2} >
                                         <h5 style={{ margin: '0', fontWeight: 'lighter', fontStyle: 'italic' }}>* required</h5>
                                     </Grid>
-                                    <Grid item xs={8} sm={10}>
+                                    <Grid container spacing={8} justify="flex-end">
+                    
+                                    <Grid item xs={5} sm={2}>
+                                        <Button
+                                            // type="submit"
+                                            onClick={this.handleCancelEdit}
+                                            // style={{float: 'left'}}
+                                            variant="contained"
+                                            fullWidth
+                                            // color="secondary"
+                                                // style={{ color: '#33ab9f' }}
+                                            size="large"
+                                            className={classes.button}>
+                                        Cancel
+                                        </Button>
+                                        </Grid>
+                             
+                                    <Grid item xs={5} sm={2}>
                                         <Button
                                             type="submit"
+                                            fullWidth
                                             variant="contained"
                                             color="primary"
                                             size="large"
                                             className={classes.button}>
                                             Submit
-                                 </Button>
+                                        </Button>
+                                    </Grid>
                                     </Grid>
                                 </Grid>
                             </ValidatorForm>
