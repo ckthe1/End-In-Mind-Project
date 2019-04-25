@@ -72,7 +72,8 @@ class NavNew extends Component {
                         <Link onClick={() => this.props.dispatch({ type: 'LOGOUT' })} className="nav-links">Log Out</Link>
                     </li> :
                     <li>
-                        <Link to="/login" className="nav-links">Log In</Link>
+                        <Link to="/login" className="nav-links" onClick={() => {this.props.dispatch({ type: "SET_TO_LOGIN_MODE" });}}
+                        >Log In</Link>
                     </li>
                     }                
                 </ul>              
