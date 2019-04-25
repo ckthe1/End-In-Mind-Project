@@ -81,7 +81,9 @@ class FileDisplay extends Component {
           {file.description}
         </CustomTableCell>
         <CustomTableCell component="th" scope="row">
-          <a href={this.state.signedUrl}>file</a>
+          <a href={this.state.signedUrl}>
+            <i className="fas fa-file-alt fa-lg" />
+          </a>
         </CustomTableCell>
 
         <CustomTableCell style={{ width: "10%" }} align="right">
