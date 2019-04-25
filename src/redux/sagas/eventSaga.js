@@ -52,9 +52,8 @@ function* addEvent(action) {
 
 function* fetchContacts(action) {
   try {
-      console.log('Patricks payload action:', action.payload)
     const response = yield axios.get(`api/events/contacts/${action.payload.communityID}`);
-    console.log('Patricks response:', response)
+    
     yield put({ type: 'SET_CONTACTS', payload: response.data });
   } catch (error) {
     console.log('Contact get request failed', error);
