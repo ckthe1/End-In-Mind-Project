@@ -10,7 +10,7 @@ class AdminSelectRow extends Component {
 	onDelete = () => {
 
 		if (window.confirm("Are you sure you want to remove " + this.props.user.username + "?")) {
-			
+
 			this.props.dispatch({
 				type: "DELETE_USER",
 				payload: this.props.user.id,
@@ -26,6 +26,10 @@ setPropertyOf = (user, property, value) => (event) => {
 	});
 }
 
+componentDidMount() {
+	console.log(this.props);
+}
+
   render() {
 
 		const user = this.props.user;
@@ -36,36 +40,40 @@ setPropertyOf = (user, property, value) => (event) => {
         <TableCell>{user.email}</TableCell>
         <TableCell>{user.first_name} {user.last_name}</TableCell>
 				
-        <TableCell>
-					<Checkbox
-						checked={user.is_super_admin}
-						value={user.is_super_admin}
-						color="primary"
-						onChange={this.setPropertyOf(
-              user,
-              "is_super_admin",
-              !user.is_super_admin
-            )}
-					/>
-        </TableCell>
+				{this.props.isSuperAdmin() &&
+					(<TableCell>
+						<Checkbox
+							checked={user.is_super_admin}
+							value={user.is_super_admin}
+							color="primary"
+							onChange={this.setPropertyOf(
+								user,
+								"is_super_admin",
+								!user.is_super_admin
+							)}
+						/>
+					</TableCell>)
+				}
 
-        <TableCell>
-
-					<Checkbox
-						checked={user.is_community_admin}
-						value={user.is_community_admin}
-						color="primary"
-						onChange={this.setPropertyOf(
-              user,
-              "is_community_admin",
-              !user.is_community_admin
-            )}
-					/>
-        </TableCell>
+				{this.props.isSuperAdmin() && 
+					(<TableCell>
+						<Checkbox
+							checked={user.is_community_admin}
+							value={user.is_community_admin}
+							color="primary"
+							onChange={this.setPropertyOf(
+								user,
+								"is_community_admin",
+								!user.is_community_admin
+							)}
+						/>
+					</TableCell>)
+				}
 
         <TableCell>{user.community_name}</TableCell>
 
-        <TableCell>
+				{this.props.isAdmin() && 
+				(<TableCell>
           {user.approved ? (
             "Approved"
           ) : (
@@ -74,15 +82,18 @@ setPropertyOf = (user, property, value) => (event) => {
             </Button>
           )}
         </TableCell>
+				)}
 
-        <TableCell>
+				{this.props.isAdmin() && 
+        (<TableCell>
           <Button
             onClick={this.onDelete}
             className="deleteButton"
           >
             Delete
           </Button>
-        </TableCell>
+				</TableCell>)
+				}
 
       </TableRow>
     );

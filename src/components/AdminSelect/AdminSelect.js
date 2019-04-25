@@ -28,6 +28,17 @@ class AdminSelect extends Component {
     this.props.dispatch({ type: 'FETCH_USERS' })
   }
 
+  userIsSuperAdmin = () => {
+
+    if (!this.props.user) return false;
+    return this.props.user.is_super_admin;
+  }
+
+  userIsAdmin = () => {
+    if (!this.props.user) return false;
+    return this.props.user.is_super_admin || this.props.user.is_community_admin;
+  }
+
   render() {
 
     const { classes } = this.props;
@@ -40,17 +51,33 @@ class AdminSelect extends Component {
               <TableCell>User</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Full Name</TableCell>
-              <TableCell>Super Admin</TableCell>
-              <TableCell>Community Admin</TableCell>
-              <TableCell>Community</TableCell>
-              <TableCell>Approved</TableCell>
 
-              <TableCell>Delete</TableCell>
+              {this.userIsSuperAdmin() && 
+                <TableCell>Super Admin</TableCell>
+              }
+
+              { this.userIsSuperAdmin() && 
+                <TableCell>Community Admin</TableCell>
+              }
+
+              { this.userIsAdmin() && 
+                <TableCell>Community</TableCell>
+              }
+
+              <TableCell>Approved</TableCell>
+              { this.userIsAdmin() && 
+                <TableCell>Delete</TableCell>
+              }
+
             </TableRow>
           </TableHead>
           <TableBody>
             {this.props.users.map( user => 
-              <AdminSelectRow user={user} />
+              <AdminSelectRow 
+                key={user.id} 
+                user={user} 
+                isAdmin={this.userIsAdmin} 
+                isSuperAdmin={this.userIsSuperAdmin}/>
             )}
           </TableBody>
         </Table>
