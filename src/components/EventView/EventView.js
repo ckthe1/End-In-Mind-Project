@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 // import './ViewEventList.css';
 import { connect } from 'react-redux';
-// import ViewEventList from "../ViewEventList/ViewEventList";
 
 class EventView extends Component {
 

@@ -61,7 +61,7 @@ const styles = theme => ({
 
 const genderDropdown = ['Female', 'Male'];
 const ethnicityDropdown = ['Asian', 'Black/African American', 'Hispanic/Latino', 'Middle Eastern/North African', 'Native American/Alaskan Native', 'Native Hawaiian/Other Pacific Islander', 'White/Caucasian']
-
+const incomeDropdown= ['Less than 20,000', '20,000 - 35,000', '35,000 - 50,000', '50,000 - 75,000', '75,000 - 100,000', '100,000 - 150,000', '150,000 - 200,000', '200,000 or more']
 
 class EventSignUpForm extends Component {
 
@@ -243,7 +243,7 @@ class EventSignUpForm extends Component {
                                             />
                                         </MuiPickersUtilsProvider>
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    {/* <Grid item xs={12} sm={6}>
                                         <TextValidator
                                             id="income"
                                             InputProps={{
@@ -259,6 +259,33 @@ class EventSignUpForm extends Component {
                                             value={this.state.income}
                                             variant="outlined"
                                         />
+                                    </Grid> */}
+                                    <Grid item xs={12} sm={6}>
+                                        <TextValidator
+                                            id="income"
+                                            InputProps={{
+                                                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                                            }}
+                                            select
+                                            fullWidth
+                                            label="Income"
+                                            className={classes.textField}
+                                            value={this.state.income}
+                                            onChange={this.handleChange('income')}
+                                            SelectProps={{
+                                                MenuProps: {
+                                                    className: classes.menu,
+                                                },
+                                            }}
+                                            margin="normal"
+                                            variant="outlined"
+                                        >
+                                            {incomeDropdown.map((option, i) => (
+                                                <MenuItem key={i} value={option}>
+                                                    {option}
+                                                </MenuItem>
+                                            ))}
+                                        </TextValidator>
                                     </Grid>
 
                                     <Grid item xs={12} sm={6}>

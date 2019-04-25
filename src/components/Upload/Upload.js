@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import FileList from "./FileList";
 import { connect } from "react-redux";
 import UploadForm from "./UploadForm";
 import { withStyles } from "@material-ui/core/styles";
+import FileDisplay from "./FileDisplay";
 
 const styles = theme => ({
   root: {
@@ -68,7 +68,7 @@ class FileUpload extends Component {
         <div className={classes.root}>
         <div className={classes.container}>
         <UploadForm />
-        <FileList />
+        <FileDisplay />
         </div>
       </div>
       </div>

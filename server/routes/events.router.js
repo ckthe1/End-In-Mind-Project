@@ -18,14 +18,10 @@ router.get('/', (req, res) => {
     pool.query(`
       SELECT ${columnsToSelect} FROM "events" 
       JOIN "communities" ON "events"."community_id" = "communities"."id" 
-      ORDER BY "events"."id"`)
-
-    .then (response => {
+      ORDER BY "events"."id"`).then (response => {
       const convertedEvents = response.rows.map( event => convertEvent(event))
       res.send(convertedEvents)
-    })
-
-    .catch(error => {
+    }).catch(error => {
       console.log('error getting events!', error);
       res.sendStatus(500);
     })
@@ -39,6 +35,15 @@ router.get('/', (req, res) => {
       WHERE "community_id" = $1
       ORDER BY "events"."id";`, [communityId])
 
+
+  // pool.query(`SELECT * FROM "events" JOIN "communities" ON "events"."community_id" = "communities"."id" ORDER BY "events"."id"`)
+  pool.query(`SELECT COUNT ("attendee_id") AS "total_attendees", "event_id","event_name", "event_type", "location", "event_date", "start_time", "end_time", "events"."description", "contact_name", "contact_email", "contact_phone", "expected_attendees"
+              FROM "events" 
+              JOIN "attendees_events" ON "events"."id" = "attendees_events"."event_id"
+              JOIN "attendees" ON "attendees_events"."attendee_id" = "attendees".id
+              JOIN "communities" ON "events"."community_id" = "communities"."id" 
+              WHERE "event_id" = "events"."id"
+              GROUP BY "event_id","event_name", "event_type", "location", "event_date", "start_time", "end_time", "events"."description", "contact_name", "contact_email", "contact_phone", "expected_attendees" `)
   .then (response => {
     const convertedEvents = response.rows.map( event => convertEvent(event))
     res.send(convertedEvents)
