@@ -1,70 +1,115 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import EventRow from '../EventRow/EventRow';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import EventRow from "../EventRow/EventRow";
+import Dialog from "@material-ui/core/Dialog";
+import EventCard from "../EventCard/EventCard";
+
+const styles = theme => ({
+  root: {
+    width: '96%',
+    marginTop: theme.spacing.unit * 3,
+    margin: '12px auto',
+    overflowX: 'auto',
+  },
+  table: {
+    minWidth: 500,
+  },
+});
+
 
 class Dashboard extends Component {
-    componentDidMount() {
-        this.props.dispatch({type:'FETCH_TABLE_EVENTS' });
-    }
 
-    render() {
+  state = {
+    // When viewing details of an event, its info will be here
+    fullEvent: null,
+  }
 
-            const { classes } = this.props;
 
-        return (
-            
-                // <h2>DashBoard</h2>
-                // <div>
-                //     <p>Filters</p>
-                //     <p>
-                //         <button>Select Community</button><button>Select Event Type</button><button>Select Demographic</button>
-                //         <button>Select Household Income</button><button>Download CSV</button><button>Print PDF</button>
-                //     </p>
-                   
-                // </div>
-           
-            
-            <Paper className={classes.root}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Date</TableCell>
-                  <TableCell align="right">Community</TableCell>
-                  <TableCell align="right">Event Name</TableCell>
-                  <TableCell align="right">Attendees</TableCell>
-                  {/* <TableCell align="right">Expected Attendees</TableCell>
-                  <TableCell align="right">Demographics</TableCell> */}
-                  <TableCell align="right">View details</TableCell>
-                  <TableCell align="right">Edit</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.props.tableEvents.map(row => (
-                  <EventRow row={row} />
-                ))}
-              </TableBody>
-            </Table>
-          </Paper>
-         
-        )
-    }
+  handleClose = () => {
+
+    // Clear the event after the panel has time to fade out
+    setTimeout(() => {
+      this.props.dispatch({type: 'CLEAR_EVENT'});
+    }, 500);
+    
+    this.setState({ fullEvent: null});
+  };
+
+  componentDidMount() {
+    this.props.dispatch({ type: "FETCH_TABLE_EVENTS" });
+  }
+
+  // Called when the 'view details' button is clicked for an event.
+  onViewDetails = event => {
+
+    this.props.dispatch({type: 'SET_EVENT', payload: event});
+
+    console.log('viewing details for event ', event);
+    this.setState({
+      fullEvent: event
+    });
+
+  }
+
+  // TODO dialog with event details
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <div>
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Community</TableCell>
+              <TableCell>Attendees</TableCell>
+              <TableCell>View details</TableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {
+              this.props.tableEvents.map(row => 
+                <EventRow row={row} key={row.event_id} eventSelected={this.onViewDetails}/>
+              )
+            }
+          </TableBody>
+          
+        </Table>
+      </Paper>
+      <Dialog
+        fullWidth={true}
+        maxWidth='lg'
+        open={this.state.fullEvent != null}
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <EventCard showAll={true}/>
+      </Dialog>
+      </div>
+    );
+  }
 }
 
 Dashboard.propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
+  classes: PropTypes.object.isRequired
+};
 
 const reduxMap = reduxState => {
-    return reduxState;
-}
+  return reduxState;
+};
 
-
-export default withStyles(withStyles)(connect(reduxMap)(Dashboard));
+export default withStyles(styles)(connect(reduxMap)(Dashboard));

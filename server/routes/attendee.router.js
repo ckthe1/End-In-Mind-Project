@@ -4,13 +4,32 @@ const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
 
-/**
- * GET route template
- */
 router.get('/', rejectUnauthenticated, (req, res) => {
     pool.query(`SELECT * FROM "attendees" ORDER BY id"`)
         .then(response => {
             res.send(response.data)
+        })
+        .catch(error => {
+            console.log('error getting attendees', error);
+            res.sendStatus(500);
+        })
+
+});
+
+
+// Gets all the attendees info for a particular event
+router.get('/for-event', rejectUnauthenticated, (req, res) => {
+
+    const eventId = req.query.id;
+
+    pool.query(`
+    SELECT first_name, last_name, dob, sex, race, household_income, email, phone, event_id FROM "attendees" 
+    JOIN "attendees_events" ON "attendees"."id" = "attendees_events"."attendee_id"
+    JOIN "events" ON "attendees_events"."event_id" = "events"."id"
+    WHERE "event_id" = $1
+    ORDER BY "attendees_events".id;`, [eventId])
+        .then(response => {
+            res.send(response.rows)
         })
         .catch(error => {
             console.log('error getting attendees', error);
