@@ -2,106 +2,63 @@ import React, { Component } from "react";
 import './AdminSelect.css'
 import { connect } from 'react-redux';
 
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import AdminSelectRow from "./AdminSelectRow";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = theme => ({
+  root: {
+    width: '96%',
+    maxWidth: '1400px',
+    marginTop: theme.spacing.unit * 3,
+    margin: '12px auto',
+    overflowX: 'auto',
+  },
+});
+
 
 class AdminSelect extends Component {
 
-  deleteButton = userId => {
-        this.props.dispatch({
-          type: "DELETE_USER",
-          payload: userId
-        });
-
-  };
-
- 
-
   componentDidMount() {
-    // console.log('in component did mount');
     this.props.dispatch({ type: 'FETCH_USERS' })
   }
 
-
-  setPropertyOf = (user, property, value) => (event) => {
-
-    console.log('setting', property, ' to ', value);
-
-    this.props.dispatch({
-      type: "EDIT_USER",
-      payload: { user, property, value: value }
-    });
-  }
-
-  adminList = () => {
-
-
-    return this.props.users.map(users => (
-      <tr key={users.id}>
-        <td> {users.username} </td>
-        <td>{users.email}</td>
-        <td>{users.fullname}</td>
-        <td>
-          <input
-            type="checkbox"
-            value={users.is_super_admin}
-            checked={users.is_super_admin}
-            onChange={this.setPropertyOf(users, "is_super_admin", !users.is_super_admin)}
-          />
-        </td>
-        <td>
-          <input
-            type="checkbox"
-            value={users.is_community_admin}
-            checked={users.is_community_admin}
-            onChange={this.setPropertyOf(users, "is_community_admin", !users.is_community_admin)}
-          />
-        </td>
-        <td>{users.community_name}</td>
-        <td>
-          {users.approved ? (
-            "Approved"
-          ) : (
-            <button onClick={this.setPropertyOf(users, "approved", true)}>
-              Confirm
-            </button>
-          )}
-        </td>
-        <td>
-          <button
-            onClick={() => this.deleteButton(users.id)}
-            className="deleteButton"
-          >
-            Delete
-          </button>
-        </td>
-      </tr>
-    ));
-  }
-
   render() {
-    return (
-      <div className="App">
-        <table>
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Email</th>
-              <th>Full Name</th>
-              <th>Super Admin</th>
-              <th>Community Admin</th>
-              <th>Community</th>
-              <th>Approved</th>
 
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>{this.adminList()}</tbody>
-        </table>
-      </div>
+    const { classes } = this.props;
+
+    return (
+      <Paper className={classes.root}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>User</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Full Name</TableCell>
+              <TableCell>Super Admin</TableCell>
+              <TableCell>Community Admin</TableCell>
+              <TableCell>Community</TableCell>
+              <TableCell>Approved</TableCell>
+
+              <TableCell>Delete</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {this.props.users.map( user => 
+              <AdminSelectRow user={user} />
+            )}
+          </TableBody>
+        </Table>
+      </Paper>
     );
   }
 }
 
 const mapStateToProps = (state) => state;
 
-
-export default connect(mapStateToProps)(AdminSelect);
+export default withStyles(styles)(connect(mapStateToProps)(AdminSelect));

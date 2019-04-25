@@ -23,7 +23,8 @@ router.get('/all', rejectUnauthenticated, (req, res) => {
       "name" AS "community_name" 
       FROM "users" 
       JOIN "communities" 
-      ON "users"."community_id" = "communities"."id";
+      ON "users"."community_id" = "communities"."id"
+      ORDER BY "users"."id";
 `
     )
     .then(result => res.send(result.rows))

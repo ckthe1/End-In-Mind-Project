@@ -14,8 +14,6 @@ import NavNew from '../Nav/NavNew';
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
-import AboutPage from '../AboutPage/AboutPage';
-import UserPage from '../UserPage/UserPage';
 import LoginPage from '../LoginPage/LoginPage';
 import Upload from '../Upload/Upload';
 import CalendarLanding from '../CalendarLanding/CalendarLanding';
@@ -25,7 +23,6 @@ import Dashboard from '../Dashboard/Dashboard';
 import EventView from '../EventView/EventView';
 
 import './App.css';
-import Calendar from '../Calendar/Calendar';
 import EventCreateForm from '../EventCreateForm/EventCreateForm';
 import FollowUp from '../FollowUp/FollowUp';
 import EventSignUpForm from '../EventSignUpForm/EventSignUpForm';
