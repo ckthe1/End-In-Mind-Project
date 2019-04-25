@@ -1,70 +1,71 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import EventRow from '../EventRow/EventRow';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import EventRow from "../EventRow/EventRow";
+
+const styles = theme => ({
+  root: {
+    width: '96%',
+    marginTop: theme.spacing.unit * 3,
+    margin: '12px auto',
+    overflowX: 'auto',
+  },
+  table: {
+    minWidth: 500,
+  },
+});
+
 
 class Dashboard extends Component {
-    componentDidMount() {
-        this.props.dispatch({type:'FETCH_TABLE_EVENTS' });
-    }
+  componentDidMount() {
+    this.props.dispatch({ type: "FETCH_TABLE_EVENTS" });
+  }
 
-    render() {
+  render() {
+    const { classes } = this.props;
 
-            const { classes } = this.props;
+    return (
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
 
-        return (
-            
-                // <h2>DashBoard</h2>
-                // <div>
-                //     <p>Filters</p>
-                //     <p>
-                //         <button>Select Community</button><button>Select Event Type</button><button>Select Demographic</button>
-                //         <button>Select Household Income</button><button>Download CSV</button><button>Print PDF</button>
-                //     </p>
-                   
-                // </div>
-           
-            
-            <Paper className={classes.root}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Date</TableCell>
-                  <TableCell align="right">Community</TableCell>
-                  <TableCell align="right">Event Name</TableCell>
-                  <TableCell align="right">Attendees</TableCell>
-                  {/* <TableCell align="right">Expected Attendees</TableCell>
-                  <TableCell align="right">Demographics</TableCell> */}
-                  <TableCell align="right">View details</TableCell>
-                  <TableCell align="right">Edit</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.props.tableEvents.map(row => (
-                  <EventRow row={row} />
-                ))}
-              </TableBody>
-            </Table>
-          </Paper>
-         
-        )
-    }
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Community</TableCell>
+              <TableCell>Event Name</TableCell>
+              <TableCell>Attendees</TableCell>
+              <TableCell>View details</TableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {
+              this.props.tableEvents.map(row => 
+                <EventRow row={row} key={row.event_id}/>
+              )
+            }
+          </TableBody>
+          
+        </Table>
+      </Paper>
+    );
+  }
 }
 
 Dashboard.propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
+  classes: PropTypes.object.isRequired
+};
 
 const reduxMap = reduxState => {
-    return reduxState;
-}
+  return reduxState;
+};
 
-
-export default withStyles(withStyles)(connect(reduxMap)(Dashboard));
+export default withStyles(styles)(connect(reduxMap)(Dashboard));
