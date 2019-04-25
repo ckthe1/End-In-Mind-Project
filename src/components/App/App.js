@@ -10,7 +10,7 @@ import {connect} from 'react-redux';
 
 // import Nav from '../Nav/Nav';
 import NavNew from '../Nav/NavNew';
-import Footer from '../Footer/Footer';
+// import Footer from '../Footer/Footer';
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
@@ -87,7 +87,7 @@ class App extends Component {
             <ProtectedRoute
               exact
               path="/home"
-              component={UserPage}
+              component={CalendarLanding}
             />
             {/* This works the same as the other protected route, except that if the user is logged in,
             they will see the info page instead. */}
@@ -136,7 +136,7 @@ class App extends Component {
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />
           </Switch>
-          <Footer />
+          
         </div>
         </MuiThemeProvider>
       </Router>
