@@ -8,11 +8,11 @@ module.exports = event => {
 
       // send the email with mailgun
       mailGun({
-        from: 'Excited User <me@samples.mailgun.org>',
+        from: 'End In Mind <me@samples.mailgun.org>',
         to: event.contact_email,
         subject: 'Event followup, ' + event.event_name,
         text: `Hello! We hope your event ${event.event_name} with End In Mind went well.
-        Please help us out by filling out a short follow-up form. [URL FOR FOLLOWUP FORM GOES HERE]`,
+        Please help us out by filling out a short follow-up form. http://localhost:3000/#/event/followup?event=${event.id}`,
       });
 
       // Now we need to mark the follow up as complete so it doesn't send

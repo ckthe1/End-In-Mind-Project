@@ -17,6 +17,7 @@ const userRouter = require('./routes/user.router');
 const eventsRouter = require('./routes/events.router');
 const awsRouter = require('./routes/aws.router');
 const attendeeRouter = require('./routes/attendee.router');
+const communityRouter = require('./routes/community.router');
 
 const getCompletedEvents = require('./GetCompleteEvents');
 const doEventFollowup = require('./DoEventFollowup');
@@ -38,7 +39,7 @@ app.use('/api/events', eventsRouter);
 app.use('/api/aws', awsRouter)
 app.use("/api/files", filesRouter);
 app.use("/api/attendee", attendeeRouter);
-
+app.use('/api/community', communityRouter);
 
 
 // Serve static files

@@ -39,4 +39,18 @@ router.post('/', (req, res) => {
     });
 });
 
+router.delete('/', (req, res) => {
+
+    console.log('got request to delete a file', req.query.id)
+     pool
+       .query(`DELETE FROM "files" WHERE "id"=$1;`, [req.query.id])
+       .then(() => {
+         res.sendStatus(204);
+       })
+       .catch(error => {
+         console.log("there was an error on the delete query", error);
+         res.sendStatus(500);
+       });
+})
+
 module.exports = router;

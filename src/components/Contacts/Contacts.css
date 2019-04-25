@@ -1,0 +1,16 @@
+.contact-space {
+    grid-column: 3 / 4;
+}
+
+.contact-space h3 {
+    text-align: center;
+}
+
+.single-contact {
+    margin: 12px;
+    padding: 8px 14px;
+}
+
+.single-contact div {
+    margin: 5px auto;
+}

@@ -1,6 +1,5 @@
-import events from '../../events';
 
-const Events = (state = events, action) => {
+const Events = (state = [], action) => {
   switch (action.type) {
 
     case 'SET_EVENTS': return action.payload;

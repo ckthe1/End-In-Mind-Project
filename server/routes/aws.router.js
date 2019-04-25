@@ -46,24 +46,23 @@ const uploadFile = (buffer, name, type) => {
 
  router.get("/signed-url", async (req, resp) => {
 
-  console.log(req.query);
+  console.log('getting signed url', req.query);
 
    let params = { Bucket: process.env.S3_BUCKET, Key: req.query.key };
 
-   s3.getObject(params, (error, data) =>{
+   s3.getObject(params, async (error, data) =>{
 
     if (error) {
-      console.log(error);
+      console.log("error getting bucket object", error);
+      getObjectError = true;
       resp.sendStatus(500);
     }else {
-      console.log(data);
+
+      console.log("got bucket object OK!", data);
+      let signedUrl = await s3.getSignedUrl(`getObject`, params);
+      resp.send({ signedUrl });
     }
    })
-
-
-   let signedUrl = await s3.getSignedUrl(`getObject`, params);
-
-   resp.send({signedUrl});
  })
 
  router.get("/", (request, response) => {
@@ -152,7 +151,7 @@ router.delete("/", (req, res) => {
 
      // an error occurred
      else {
-      console.log(data); // successful response
+      console.log("Successful delete aws",data); // successful response
       res.sendStatus(200);
      }
    });

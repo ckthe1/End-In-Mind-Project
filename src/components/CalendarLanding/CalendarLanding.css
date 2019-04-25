@@ -1,16 +1,25 @@
+.calendar-parent {
+    margin: 24px;
+}
+
+.calendar-parent h1 {
+    width: 80%;
+    margin: 2px auto;
+    margin-bottom: 14px;
+    text-align: center;
+}
+
 .calendar-landing {
     display: grid;
-    grid-template-columns: 24px 70% auto 24px;
+    grid-template-columns: 75% 12px auto;
     width: 100%;
 }
 
-.calendar-space {
-
-    grid-column: 2 /3;
+.calendar-header {
+    display: flex;
+    flex-direction: row;
 }
 
-.contact-space {
-
-    grid-column: 3 / 4;
-    background-color: blue;
+.calendar-space {
+    grid-column: 1 / 2;
 }
