@@ -9,6 +9,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import dateConvert from '../../niceDay';
+import timeConvert from '../../niceTime';
 
 
 
@@ -33,22 +35,29 @@ const styles = theme => ({
 class EventView extends Component {
 
     componentDidMount() {
-        this.props.dispatch({ type: 'FETCH_EVENTS' })
+        this.props.dispatch({ type: 'FETCH_CALENDAR_EVENTS' })
     };
 
-    handleRunEvent = eventId => () => {
-        console.log('runevent clicked', eventId);
-        this.props.dispatch({ type: 'EVENT_TO_RUN', payload: eventId})
+    handleRunEvent = event => () => {
+        console.log('runevent clicked', event);
+        this.props.dispatch({ type: 'SET_EVENT', payload: event})
+        this.props.history.push('/event/signup');
+    }
+
+    handleEditEvent = event => () => {
+        console.log('editevent clicked', event);
+        this.props.dispatch({ type: 'SET_EVENT', payload: event })
+        this.props.history.push('/event/create');
     }
 
 
     render() {
-        console.log('this.props.eventReducer:', this.props.events);
+        console.log('this.props.eventReducer:', this.props.calendarEvents);
         const { classes } = this.props;
         return (
             <div className={classes.root}>
-                <Grid container spacing={8}>
-                    {this.props.events.map((eventItem) => {
+                <Grid container spacing={16}>
+                    {this.props.calendarEvents.map((eventItem) => {
                         return (
                             <Grid item xs={12} md={3} sm={4}>
                                 <Card className={classes.card}>
@@ -59,17 +68,20 @@ class EventView extends Component {
                                         style={{ boxShadow: '0 2px 2px #efefef'}}
                                 />
                                     <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2">
+                                        <Typography gutterBottom variant="h5" component="h2" style={{ marginBottom: '0px' }}>
                                             {eventItem.event_name}
                                         </Typography>
-                                        <Typography component="p">
+                                        <Typography component="p" style={{ marginBottom:'10px'}}>
                                             {eventItem.description}
                                         </Typography>
-                                        <Typography gutterBottom component="p" style={{ fontSize: '13px', marginBottom: '0' }}>
-                                            {eventItem.event_date}
-                                        </Typography>
+                                        <Typography gutterBottom variant="h6" component="h6" style={{ fontSize: '15px', marginBottom: '0', marginTop: '8px' }}>
+                                            Location and Time
+                                                </Typography>
                                         <Typography gutterBottom component="p" style={{ fontSize: '13px', marginBottom: '0' }}>
                                             {eventItem.location}
+                                        </Typography>
+                                        <Typography gutterBottom component="p" style={{ fontSize: '13px', marginBottom: '0' }}>
+                                            {dateConvert(eventItem.start)} {timeConvert(eventItem.start)}-{timeConvert(eventItem.end)} 
                                         </Typography>
                                         <Typography gutterBottom variant="h6" component="h6" style={{ fontSize: '15px', marginBottom: '0', marginTop: '8px' }}>
                                             Event Organizer
@@ -83,10 +95,10 @@ class EventView extends Component {
 
                                     </CardContent>
                                     <CardActions>
-                                        <Button size="small" color="primary">
+                                        <Button size="small" color="primary" onClick={this.handleEditEvent(eventItem)}>
                                             Edit Event
                                         </Button>
-                                        <Button size="small" color="primary" onClick={this.handleRunEvent(eventItem.id)}>
+                                        <Button size="small" color="primary" onClick={this.handleRunEvent(eventItem)}>
                                             Run Event
                                         </Button>
                                     </CardActions>

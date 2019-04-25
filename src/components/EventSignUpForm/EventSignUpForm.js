@@ -79,9 +79,9 @@ class EventSignUpForm extends Component {
         eventId: 1,
     }
 
-    // componentDidMount = () => {
-    //     this.props.dispatch({ type: 'FETCH_TAGS' });
-    // }
+    componentDidMount = () => {
+        // this.props.dispatch({ type: 'FETCH_TAGS' });
+    }
 
 
 
@@ -137,14 +137,15 @@ class EventSignUpForm extends Component {
 
     render() {
         const { classes } = this.props;
+        console.log('selected event', this.props.selectedEvent)
         return (
             <div style={{ backgroundImage: `linear-gradient(rgba(212, 212, 212, 0.1), rgba(138, 138, 138, 0.1)), url(images/bloom-blooming-caffeine-768943.jpg)` }}
                 className="bckgrnd-container">
                 <div className={classes.root} >
                     <div className={classes.container}>
                         <Paper className={classes.root} elevation={1} style={{ marginTop: '50px' }}>
-                            <Typography><h2 style={{ fontSize: '40px', color: '#4534e5', textAlign: 'center' }}>
-                            <img src="images/eim_icon.png" alt="End In Mind logo" style={{ height: '45px', verticalAlign: '-4px', marginRight: '10px' }}/>Event Name</h2></Typography>
+                            <Typography><h2 style={{ fontSize: '32px', color: '#4534e5', textAlign: 'center' }}>
+                            <img src="images/eim_icon.png" alt="End In Mind logo" style={{ height: '45px', verticalAlign: '-4px', marginRight: '10px' }}/>{this.props.selectedEvent.event_name}</h2></Typography>
                             <Typography><h3 style={{ marginBottom: '28px', fontSize: '25px', textAlign: 'center', fontFamily: 'Lato' }}>Welcome!</h3></Typography>
                             <ValidatorForm
                                 ref="form"
