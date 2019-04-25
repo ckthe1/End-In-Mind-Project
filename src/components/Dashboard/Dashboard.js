@@ -12,7 +12,7 @@ import EventRow from '../EventRow/EventRow';
 
 class Dashboard extends Component {
     componentDidMount() {
-        this.props.dispatch({type:'FETCH_EVENTS' });
+        this.props.dispatch({type:'FETCH_TABLE_EVENTS' });
     }
 
     render() {
@@ -47,7 +47,7 @@ class Dashboard extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.props.events.map(row => (
+                {this.props.tableEvents.map(row => (
                   <EventRow row={row} />
                 ))}
               </TableBody>

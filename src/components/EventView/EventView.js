@@ -2,7 +2,6 @@ import React, { Component } from "react";
 // import './ViewEventList.css';
 import { connect } from 'react-redux';
 
-
 class EventView extends Component {
 
     componentDidMount() {

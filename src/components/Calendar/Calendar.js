@@ -5,7 +5,6 @@ import moment from "moment";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { connect } from 'react-redux';
-import Event from "../../classes/Event";
 
 Calendar.setLocalizer(Calendar.momentLocalizer(moment));
 
@@ -13,7 +12,7 @@ class CalendarView extends Component {
 
   componentDidMount() {
     // Dispatch a saga to get all the events from the server
-    this.props.dispatch({type:'FETCH_EVENTS'});
+    this.props.dispatch({type:'FETCH_CALENDAR_EVENTS'});
   }
 
 
@@ -23,8 +22,7 @@ class CalendarView extends Component {
   }
 
   calendarStyle = {
-    height: "100vh",
-    width: "90%",
+    height: "80vmax",
   }
 
   render() {
@@ -38,7 +36,7 @@ class CalendarView extends Component {
           defaultDate={new Date()}
           defaultView="month"
           views={['month']}
-          events={this.props.events}
+          events={this.props.calendarEvents}
           onSelectEvent={this.eventSelected}
           onEventDrop={this.onEventDrop}
           style={this.calendarStyle}
