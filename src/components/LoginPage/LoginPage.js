@@ -145,7 +145,7 @@ class LoginPage extends Component {
                   Login
                                     </Button>
                 <Button type="button"
-                  variant="contained"
+                  // variant="contained"
                   color="primary"
                   size="large"
                   className={classes.button}
