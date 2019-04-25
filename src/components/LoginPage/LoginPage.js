@@ -2,25 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-// import Snackbar from '@material-ui/core/Snackbar';
-import DateFnsUtils from '@date-io/date-fns';
 import Button from '@material-ui/core/Button';
-// import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-// import ErrorIcon from '@material-ui/icons/Error';
-import { MuiPickersUtilsProvider, DatePicker, TimePicker } from 'material-ui-pickers';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import { ValidatorForm } from 'react-material-ui-form-validator';
 import classNames from 'classnames';
-import FormLabel from '@material-ui/core/FormLabel';
-import EventIcon from '@material-ui/icons/Event';
-import TimeIcon from '@material-ui/icons/AccessTime';
 import Paper from '@material-ui/core/Paper';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
 import { Typography } from '@material-ui/core';
-import { getTime } from 'date-fns/esm';
 import TextField from '@material-ui/core/TextField';
 
 
@@ -112,81 +98,67 @@ class LoginPage extends Component {
           <div className={classes.container}>
             <Paper className={classes.root} elevation={1} style={{ marginTop: '40px' }}>
               <Typography><h2 style={{ marginBottom: '10px', fontSize: '35px', color: '#4534e5' }}>Login</h2></Typography>
-                <ValidatorForm
-                                ref="form"
-                                onSubmit={this.login}
-                                onError={errors => console.log(errors)}
-                >
-                    <Grid container spacing={8}>
-                                    <Grid item xs={12} sm={12}>
-                                        <TextField
-                                            id="username"
-                                            label="Username"
-                                            fullWidth
-                                            className={classNames(classes.textField)}
-                                            onChange={this.handleInputChangeFor('username')}
-                                            name="eventTitle"
-                                            type="text"
-                                            margin="normal"
-                                            autoComplete="off"
-                                            value={this.state.username}
-                                            validators={['required']}
-                                            errorMessages={['this field is required']}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={12}>
-                                    <TextField
-                                          id="standard-password-input"
-                                          label="Password"
-                                          className={classes.textField}
-                                          type="password"
-                                          margin="normal"
-                                          variant="outlined"
-                                          autoComplete="off"
-                                          onChange={this.handleInputChangeFor('password')}
-                                          fullWidth
-                                        />
-                                        {/* <TextValidator
-                                            id="standard-password-input"
-                                            label="Password"
-                                            multiline
-                                            fullWidth
-                                            rowsMax="4"
-                                            type="password"
-                                            autoComplete="current-password"
-                                            value={this.state.password}
-                                            onChange={this.handleInputChangeFor('password')}
-                                            className={classes.textField}
-                                            validators={['required']}
-                                            errorMessages={['this field is required']}
-                                            margin="normal"
-                                            variant="outlined"
-                                        /> */}
-                                    </Grid>
-                                    </Grid>
-                                    <Button type="submit"
-                                            variant="contained"
-                                            color="primary"
-                                            size="large"
-                                            className={classes.button}
-                                            style={{marginTop:'10px'}}>
-                                            
-                                        Login
+              <ValidatorForm
+                ref="form"
+                onSubmit={this.login}
+                onError={errors => console.log(errors)}
+              >
+                <Grid container spacing={8}>
+                  <Grid item xs={12} sm={12}>
+                    <TextField
+                      id="username"
+                      label="Username"
+                      fullWidth
+                      className={classNames(classes.textField)}
+                      onChange={this.handleInputChangeFor('username')}
+                      name="eventTitle"
+                      type="text"
+                      margin="normal"
+                      autoComplete="off"
+                      value={this.state.username}
+                      validators={['required']}
+                      errorMessages={['this field is required']}
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12}>
+                    <TextField
+                      id="standard-password-input"
+                      label="Password"
+                      className={classes.textField}
+                      type="password"
+                      margin="normal"
+                      variant="outlined"
+                      autoComplete="off"
+                      onChange={this.handleInputChangeFor('password')}
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+                <Button type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  className={classes.button}
+                  style={{ marginTop: '10px' }}>
+
+                  Login
                                     </Button>
-                                    <Button type="button"
-                                            variant="contained"
-                                            color="primary"
-                                            size="large"
-                                            className={classes.button}
-                                            style={{marginTop:'10px', float:'right'}}
-                                            onClick={() => { this.props.dispatch({ type: 'SET_TO_REGISTER_MODE' }) }}>
-                                      Register
+                <Button type="button"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  className={classes.button}
+                  style={{ marginTop: '10px', float: 'right' }}
+                  onClick={() => { this.props.dispatch({ type: 'SET_TO_REGISTER_MODE' }) }}>
+                  Register
                                     </Button>
-                </ValidatorForm>
+              </ValidatorForm>
             </Paper>
           </div>
         </div>
+
+        {/* Old Form */}
         {/* <form className="login-form" onSubmit={this.login}>
           <h1>Login</h1>
           <div>
