@@ -162,9 +162,9 @@ class RegisterPage extends Component {
                       fullWidth
                     />
                   </Grid>
-                  <SelectCommunity style={{width: '800px' }}
-                    onSelect={this.handleCommunitySelected}
-                  />
+                
+
+                  
                 </Grid>
                 <Button
                   type="submit"
