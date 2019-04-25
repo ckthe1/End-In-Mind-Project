@@ -96,7 +96,6 @@ class EventCreateForm extends Component {
 
     componentDidMount = () => {
         console.log('this.props.editEvent ID:', this.props.editEvent);
-        
        if(this.props.editEvent){
            console.log('editEvent ID exist in IF Statement:', this.props.editEvent);
         //    this.props.dispatch({ type: 'GET_EDIT_INFO', payload: this.props.row.id });
@@ -225,6 +224,8 @@ class EventCreateForm extends Component {
     render() {
         const { classes } = this.props;
         console.log(this.state.eventTypeArray);
+        console.log('user id', this.props.user.community_id);
+        
 
         return (
             <div style={{ backgroundImage: `linear-gradient(rgba(212, 212, 212, 0.1), rgba(138, 138, 138, 0.1)), url(images/bloom-blooming-caffeine-768943.jpg)` }}
