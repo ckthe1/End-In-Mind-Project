@@ -35,7 +35,7 @@ class SelectCommunity extends Component {
 
     return (
       <div>
-        <Button onClick={this.handleClick}>Select Community</Button>
+        <Button onClick={this.handleClick} variant="outlined" color="primary" >Select Community</Button>
         <Menu
           id="simple-menu"
           anchorEl={anchorEl}

@@ -39,7 +39,8 @@ CREATE TABLE "files" (
   "community_id" int,
   "event_id" int,
   "is_global" boolean default false,
-  "url" varchar
+  "url" varchar,
+  "key" varchar
  
 );
 
