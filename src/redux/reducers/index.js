@@ -36,8 +36,8 @@ const rootReducer = combineReducers({
   attendees, // List of all attendees who signed-up at an event
   users,       //gets all users from db
   communities,  
-  tableEvents,    // event data formatted for the dashboard table
-  calendarEvents, // event data formatted for the calendar
+  // tableEvents,    // event data formatted for the dashboard table
+  // calendarEvents, // event data formatted for the calendar
 
 });
 

@@ -12,7 +12,7 @@ class CalendarView extends Component {
 
   componentDidMount() {
     // Dispatch a saga to get all the events from the server
-    this.props.dispatch({type:'FETCH_CALENDAR_EVENTS'});
+    this.props.dispatch({type:'FETCH_EVENTS'});
   }
 
 
@@ -36,7 +36,7 @@ class CalendarView extends Component {
           defaultDate={new Date()}
           defaultView="month"
           views={['month']}
-          events={this.props.calendarEvents}
+          events={this.props.events}
           onSelectEvent={this.eventSelected}
           onEventDrop={this.onEventDrop}
           style={this.calendarStyle}

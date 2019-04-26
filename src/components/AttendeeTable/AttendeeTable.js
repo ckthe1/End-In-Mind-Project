@@ -20,24 +20,6 @@ const styles = theme => ({
 
 class AttendeeTable extends Component {
 
-  state = {
-    attendees: [],
-  }
-
-  componentDidMount() {
-    // fetch attendees for this event
-    axios({
-      method: 'get',
-      url:'/api/attendee/for-event',
-      params: {id: this.props.event.event_id},
-    })
-
-    .then (response => {
-        this.setState({attendees: response.data});
-    })
-  }
-
-
   render() {
     const { classes } = this.props;
 
@@ -58,7 +40,7 @@ class AttendeeTable extends Component {
 
           <TableBody>
             {
-              this.state.attendees.map(guy => (
+              this.props.attendees.map(guy => (
                 <TableRow>
                   <TableCell>{guy.first_name} {guy.last_name}</TableCell>
                   <TableCell>{guy.email}</TableCell>

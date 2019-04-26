@@ -44,7 +44,7 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
-    this.props.dispatch({ type: "FETCH_TABLE_EVENTS" });
+    this.props.dispatch({ type: "FETCH_EVENTS" });
   }
 
   // Called when the 'view details' button is clicked for an event.
@@ -81,7 +81,7 @@ class Dashboard extends Component {
 
           <TableBody>
             {
-              this.props.tableEvents.map(row => 
+              this.props.events.map(row => 
                 <EventRow row={row} key={row.event_id} eventSelected={this.onViewDetails}/>
               )
             }

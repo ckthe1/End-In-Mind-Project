@@ -5,12 +5,26 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import niceDay from '../../niceDay';
+import axios from 'axios';
 
 class EventRow extends Component {
 
   handleViewDetails = () => {
     this.props.eventSelected(this.props.row);
   };
+
+  componentDidMount() {
+    // fetch attendees for this event
+    axios({
+      method: 'get',
+      url:'/api/attendee/for-event',
+      params: {id: this.props.event.id},
+    })
+
+    .then (response => {
+        this.setState({attendees: response.data});
+    })
+  }
 
   render() {
 
