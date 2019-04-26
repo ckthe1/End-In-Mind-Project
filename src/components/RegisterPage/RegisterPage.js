@@ -134,7 +134,7 @@ class RegisterPage extends Component {
                 onSubmit={this.registerUser}
                 onError={errors => console.log(errors)}
               >
-                <SelectCommunity onSelect={this.onCommunitySelection}/>
+                <SelectCommunity  onSelect={this.onCommunitySelection}/>
                 <Grid container spacing={8}>
                   <Grid item xs={12} sm={12}>
                     <TextField
@@ -151,6 +151,7 @@ class RegisterPage extends Component {
                       validators={["required"]}
                       errorMessages={["this field is required"]}
                       variant="outlined"
+                      style={{marginTop: "15px"}}
                     />
                   </Grid>
                   <Grid item xs={12} sm={12}>
