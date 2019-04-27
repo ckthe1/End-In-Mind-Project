@@ -9,21 +9,40 @@ import axios from 'axios';
 
 class EventRow extends Component {
 
+  state = {
+    attendees: [],
+  }
+
   handleViewDetails = () => {
     this.props.eventSelected(this.props.row);
   };
 
   componentDidMount() {
+
+    // Fetch the communities so we can show the correct community
+    // name for each event.
+    this.props.dispatch({type: 'FETCH_COMMUNITIES'});
+
     // fetch attendees for this event
     axios({
       method: 'get',
       url:'/api/attendee/for-event',
-      params: {id: this.props.event.id},
+      params: {id: this.props.row.id},
     })
 
     .then (response => {
         this.setState({attendees: response.data});
     })
+  }
+
+  communityName = () => {
+    for (let community of this.props.communities) {
+      if (community.id == this.props.row.community_id) {
+        return community.name;
+      }
+    }
+
+    return 'N/A'
   }
 
   render() {
@@ -41,9 +60,9 @@ class EventRow extends Component {
           {niceDay(event.end_time)}
         </TableCell>
 
-        <TableCell >{event.community_id}</TableCell>
+        <TableCell >{this.communityName()}</TableCell>
 
-        <TableCell >{event.total_attendees}</TableCell>
+        <TableCell >{this.state.attendees.length}</TableCell>
 
         <TableCell>
           <Button
