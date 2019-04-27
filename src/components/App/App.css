@@ -17,10 +17,8 @@ body {
 }
 
 .alert {
-    background-color: #ff45453d;
    text-align: center;
    margin: auto;
-    float: center;
     width: 50%;
     padding: 10px;
 }
