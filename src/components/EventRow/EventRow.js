@@ -14,6 +14,13 @@ class EventRow extends Component {
   }
 
   handleViewDetails = () => {
+
+    // dispatch to set this event's attendees to the redux state,
+    // so they can be displayed in more detail for another component.
+    this.props.dispatch({type: 'SET_ATTENDEES', payload: this.state.attendees});
+
+    // delegate event selection to a function from the props, so a 
+    // parent component can run functionality using this row's props.
     this.props.eventSelected(this.props.row);
   };
 
