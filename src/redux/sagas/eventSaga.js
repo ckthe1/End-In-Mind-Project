@@ -16,32 +16,6 @@ function* fetchEvents(action) {
   }
 }
 
-// // fetches events formatted for calendar
-// function* fetchCalendarEvents(action) {
-
-//   yield generalizedFetchEvents('SET_CALENDAR_EVENTS', '/calendar', {communityId: action.payload})
-
-// }
-
-// // fetches events formatted for table
-// function* fetchTableEvents(action) {
-
-//   yield generalizedFetchEvents('SET_TABLE_EVENTS', '/table' );
-// }
-
-// function* generalizedFetchEvents(onCompleteActionName, route, params) {
-//   try {
-//     const response = yield axios({
-//       method: 'get',
-//       url: 'api/events' + route,
-//       params,
-//     });
-
-//     yield put({ type: onCompleteActionName, payload: response.data });
-//   } catch (error) {
-//     console.log('Events', route, 'get request failed', error);
-//   }
-// }
 
 function* addEvent(action) {
   try {
@@ -56,10 +30,8 @@ function* addEvent(action) {
 
     // Refresh both the calendar and table event lists
     yield put({ type: 'FETCH_EVENTS' });
-    // yield put({ type: 'FETCH_TABLE_EVENTS' });
-
-
   }
+  
   catch(error) {
     console.log(`rut roh`, error);
   }

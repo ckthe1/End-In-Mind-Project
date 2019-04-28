@@ -160,15 +160,15 @@ class EventCreateForm extends Component {
         });
     }
 
-    // handles date select from date-picker
-    handleDateChange = property => date => {
-        console.log('date time picker',date);
+    // handles date/time selection for date, starttime, endtime
+    handleDateChange = propName => event => {
         
         this.setState({
             ...this.state,
-            [property]: date,
+            [propName]: event,
         });
     };
+    
 
     handleEventTypeChange = name => event => {
         this.setState({
@@ -223,8 +223,8 @@ class EventCreateForm extends Component {
 
     render() {
         const { classes } = this.props;
-        console.log(this.state.eventTypeArray);
-        console.log('user id', this.props.user.community_id);
+        // console.log(this.state.eventTypeArray);
+        // console.log('user id', this.props.user.community_id);
         
 
         return (
@@ -397,7 +397,7 @@ class EventCreateForm extends Component {
                                                 label="* Date"
                                                 fullWidth
                                                 value={!this.props.selectedEvent.id ? this.state.selectedDate : this.props.selectedEvent.start}
-                                                onChange={this.handleDateChange}
+                                                onChange={this.handleDateChange('selectedDate')}
                                                 className={classNames(classes.textField)}
                                                 variant="outlined"
                                                 InputProps={{
