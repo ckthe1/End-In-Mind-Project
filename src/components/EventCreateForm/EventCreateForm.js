@@ -158,6 +158,8 @@ class EventCreateForm extends Component {
                 healthStory: false,
             },
         });
+
+        alert('Your event has been created!');
     }
 
     // handles date/time selection for date, starttime, endtime
