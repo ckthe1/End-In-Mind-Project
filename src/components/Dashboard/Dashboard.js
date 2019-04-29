@@ -11,6 +11,9 @@ import Paper from "@material-ui/core/Paper";
 import EventRow from "../EventRow/EventRow";
 import Dialog from "@material-ui/core/Dialog";
 import EventCard from "../EventCard/EventCard";
+import PrintIcon from '@material-ui/icons/Print';
+import Button from '@material-ui/core/Button';
+import './Dashboard.css';
 
 const styles = theme => ({
   root: {
@@ -32,6 +35,10 @@ class Dashboard extends Component {
     fullEvent: null,
   }
 
+  handlePrint = () => {
+    console.log('print this');
+    window.print();
+  }//end print, print this page
 
   handleClose = () => {
 
@@ -66,6 +73,8 @@ class Dashboard extends Component {
 
     return (
       <div>
+        <p className="dashboardPrintClass"><Button variant="contained" color="primary" onClick={this.handlePrint} >
+          Print <PrintIcon /></Button></p>
       <Paper className={classes.root}>
         <Table className={classes.table}>
 
@@ -99,6 +108,7 @@ class Dashboard extends Component {
       >
         <EventCard showAll={true}/>
       </Dialog>
+
       </div>
     );
   }
