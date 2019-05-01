@@ -50,6 +50,23 @@ function* addEvent(action) {
   }
 }
 
+function* editEvent(action) {
+  try {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+    console.log('add event', action);
+    yield axios.put('api/events', action.payload, config);
+    // Refresh both the calendar and table event lists
+    yield put({ type: 'FETCH_CALENDAR_EVENTS' });
+    yield put({ type: 'FETCH_TABLE_EVENTS' });
+  }
+  catch (error) {
+    console.log(`rut roh`, error);
+  }
+}
+
 function* fetchContacts(action) {
   try {
     const response = yield axios.get(`api/events/contacts/${action.payload.communityID}`);
@@ -65,6 +82,7 @@ function* eventSaga() {
   yield takeLatest('FETCH_CALENDAR_EVENTS', fetchCalendarEvents);
   yield takeLatest('FETCH_TABLE_EVENTS', fetchTableEvents);
   yield takeEvery('ADD_EVENT', addEvent);
+  yield takeEvery('EDIT_EVENT', editEvent);
   yield takeEvery('FETCH_CONTACTS', fetchContacts);
 }
 
