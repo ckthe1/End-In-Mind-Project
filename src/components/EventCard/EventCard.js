@@ -39,7 +39,9 @@ class EventCard extends Component {
 						{this.props.showAll && (
 							<div>
 								<h3>Attendees</h3>
-								<AttendeeTable event={myEvent}/>
+								<AttendeeTable 
+									event={myEvent} 
+									attendees={this.props.reduxState.attendees}/>
 							</div>
 						)}
 

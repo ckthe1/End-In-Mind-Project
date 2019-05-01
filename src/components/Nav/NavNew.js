@@ -51,9 +51,7 @@ class NavNew extends Component {
                             </button>
                             <div style={{ display: this.state.eventDropdownDisplay }} className="dropdown-content">
                                 <Link to="/event/view" >View</Link>
-                                {(this.props.user.is_super_admin === true || this.props.user.is_community_admin === true) &&  (
-                                    <Link to="/event/create" >Create</Link>
-                                )}
+                                <Link to="/event/create" >Create</Link>
                             </div>
                         </li>
                     )}

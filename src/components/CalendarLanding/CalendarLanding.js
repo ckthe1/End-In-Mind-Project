@@ -28,7 +28,7 @@ class CalendarLanding extends Component {
 		this.setState({communityId: selection});
 
 		// fetch events for the community
-		this.props.dispatch({type:'FETCH_CALENDAR_EVENTS', payload: selection});
+		this.props.dispatch({type:'FETCH_EVENTS', payload: selection});
 
 		// Fetch the contacts for the community
 		this.props.dispatch({ type: "FETCH_CONTACTS", payload: { communityID: selection }});
