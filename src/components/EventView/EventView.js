@@ -35,7 +35,7 @@ const styles = theme => ({
 class EventView extends Component {
 
     componentDidMount() {
-        this.props.dispatch({ type: 'FETCH_CALENDAR_EVENTS' })
+        this.props.dispatch({ type: 'FETCH_EVENTS' })
     };
 
     handleRunEvent = event => () => {
@@ -57,7 +57,7 @@ class EventView extends Component {
         return (
             <div className={classes.root}>
                 <Grid container spacing={16}>
-                    {this.props.calendarEvents.map((eventItem) => {
+                    {this.props.events.map((eventItem) => {
                         return (
                             <Grid item xs={12} md={3} sm={4}>
                                 <Card className={classes.card}>

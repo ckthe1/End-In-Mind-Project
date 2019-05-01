@@ -23,7 +23,8 @@ router.get('/all', rejectUnauthenticated, (req, res) => {
       "name" AS "community_name" 
       FROM "users" 
       JOIN "communities" 
-      ON "users"."community_id" = "communities"."id";
+      ON "users"."community_id" = "communities"."id"
+      ORDER BY "users"."id";
 `
     )
     .then(result => res.send(result.rows))
@@ -81,10 +82,11 @@ router.post('/register', (req, res, next) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
   const email = req.body.email;
+  const community_id = req.body.community;
 
-  const queryText = 'INSERT INTO "users" (username, password, email) VALUES ($1, $2, $3) RETURNING id';
+  const queryText = 'INSERT INTO "users" (username, password, email, community_id) VALUES ($1, $2, $3, $4) RETURNING id';
 
-  pool.query(queryText, [username, password, email])
+  pool.query(queryText, [username, password, email, community_id])
 
     .then(() => res.sendStatus(201))
     .catch((error) => {

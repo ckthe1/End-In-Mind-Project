@@ -54,10 +54,12 @@ class RegisterPage extends Component {
     username: '',
     password: '',
     email: '',
+    community:'',
   };
 
   registerUser = (event) => {
     event.preventDefault();
+
 
     if (this.state.username && this.state.password) {
       this.props.dispatch({
@@ -66,16 +68,30 @@ class RegisterPage extends Component {
           username: this.state.username,
           password: this.state.password,
           email: this.state.email,
+          community: this.state.community,
         },
       });
+      console.log('register payload:',this.payload);
+      
     } else {
       this.props.dispatch({ type: 'REGISTRATION_INPUT_ERROR' });
     }
   } // end registerUser
 
   handleInputChangeFor = propertyName => (event) => {
+    
     this.setState({
       [propertyName]: event.target.value,
+    });
+  }
+
+  
+
+
+  onCommunitySelection = selection => {
+    console.log('selected community ', selection)
+    this.setState({
+      community: selection,
     });
   }
 
@@ -118,6 +134,9 @@ class RegisterPage extends Component {
                 onSubmit={this.registerUser}
                 onError={errors => console.log(errors)}
               >
+
+                <SelectCommunity  onSelect={this.onCommunitySelection}/>
+
                 <Grid container spacing={8}>
                   <Grid item xs={12} sm={12}>
                     <TextField
@@ -134,6 +153,7 @@ class RegisterPage extends Component {
                       validators={["required"]}
                       errorMessages={["this field is required"]}
                       variant="outlined"
+                      style={{marginTop: "15px"}}
                     />
                   </Grid>
                   <Grid item xs={12} sm={12}>

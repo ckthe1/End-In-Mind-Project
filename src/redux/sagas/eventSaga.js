@@ -1,32 +1,21 @@
 import axios from 'axios';
 import { put, takeLatest, takeEvery } from 'redux-saga/effects';
 
-// fetches events formatted for calendar
-function* fetchCalendarEvents(action) {
+function* fetchEvents(action) {
 
-  yield generalizedFetchEvents('SET_CALENDAR_EVENTS', '/calendar', {communityId: action.payload})
-
-}
-
-// fetches events formatted for table
-function* fetchTableEvents(action) {
-
-  yield generalizedFetchEvents('SET_TABLE_EVENTS', '/table' );
-}
-
-function* generalizedFetchEvents(onCompleteActionName, route, params) {
   try {
     const response = yield axios({
       method: 'get',
-      url: 'api/events' + route,
-      params,
+      url: 'api/events',
+      params: {communityId: action.payload},
     });
 
-    yield put({ type: onCompleteActionName, payload: response.data });
+    yield put({ type: 'SET_EVENTS', payload: response.data });
   } catch (error) {
-    console.log('Events', route, 'get request failed', error);
+    console.log('Events get request failed', error);
   }
 }
+
 
 function* addEvent(action) {
   try {
@@ -40,11 +29,9 @@ function* addEvent(action) {
     yield axios.post('api/events', action.payload, config);
 
     // Refresh both the calendar and table event lists
-    yield put({ type: 'FETCH_CALENDAR_EVENTS' });
-    yield put({ type: 'FETCH_TABLE_EVENTS' });
-
-
+    yield put({ type: 'FETCH_EVENTS' });
   }
+  
   catch(error) {
     console.log(`rut roh`, error);
   }
@@ -79,8 +66,8 @@ function* fetchContacts(action) {
 
 function* eventSaga() {
 
-  yield takeLatest('FETCH_CALENDAR_EVENTS', fetchCalendarEvents);
-  yield takeLatest('FETCH_TABLE_EVENTS', fetchTableEvents);
+  yield takeLatest('FETCH_EVENTS', fetchEvents);
+  // yield takeLatest('FETCH_TABLE_EVENTS', fetchTableEvents);
   yield takeEvery('ADD_EVENT', addEvent);
   yield takeEvery('EDIT_EVENT', editEvent);
   yield takeEvery('FETCH_CONTACTS', fetchContacts);
