@@ -95,6 +95,7 @@ class EventCreateForm extends Component {
     }
 
     componentDidMount = () => {
+        this.props.dispatch({ type: 'CLEAR_EVENT' });
         console.log('this.props.editEvent ID:', this.props.editEvent);
        if(this.props.editEvent){
            console.log('editEvent ID exist in IF Statement:', this.props.editEvent);
@@ -263,7 +264,7 @@ class EventCreateForm extends Component {
                                     <Grid item xs={12} sm={8}>
                                         <TextValidator
                                             id="description"
-                                            label="* Description"
+                                            label="Description"
                                             multiline
                                             fullWidth
                                             rowsMax="4"
@@ -271,8 +272,8 @@ class EventCreateForm extends Component {
                                             value={!this.props.selectedEvent.id ? this.state.description : this.props.selectedEvent.description}
                                             onChange={this.handleChange('description')}
                                             className={classes.textField}
-                                            validators={['required']}
-                                            errorMessages={['this field is required']}
+                                            // validators={['required']}
+                                            // errorMessages={['this field is required']}
                                             margin="normal"
                                             variant="outlined"
                                         />

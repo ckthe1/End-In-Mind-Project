@@ -59,7 +59,7 @@ const styles = theme => ({
     },
 });
 
-const genderDropdown = ['Female', 'Male'];
+const genderDropdown = ['Female', 'Male', 'Prefer Not To Say'];
 const ethnicityDropdown = ['Asian', 'Black/African American', 'Hispanic/Latino', 'Middle Eastern/North African', 'Native American/Alaskan Native', 'Native Hawaiian/Other Pacific Islander', 'White/Caucasian']
 const incomeDropdown= ['Less than 20,000', '20,000 - 35,000', '35,000 - 50,000', '50,000 - 75,000', '75,000 - 100,000', '100,000 - 150,000', '150,000 - 200,000', '200,000 or more']
 
@@ -156,7 +156,7 @@ class EventSignUpForm extends Component {
                                     <Grid item xs={12} sm={6}>
                                         <TextValidator
                                             id="firstName"
-                                            label="* First Name"
+                                            label="First Name"
                                             multiline
                                             fullWidth
                                             rowsMax="4"
@@ -164,8 +164,8 @@ class EventSignUpForm extends Component {
                                             value={this.state.firstName}
                                             onChange={this.handleChange('firstName')}
                                             className={classes.textField}
-                                            validators={['required']}
-                                            errorMessages={['this field is required']}
+                                            // validators={['required']}
+                                            // errorMessages={['this field is required']}
                                             margin="normal"
                                             variant="outlined"
                                         />
@@ -173,7 +173,7 @@ class EventSignUpForm extends Component {
                                     <Grid item xs={12} sm={6}>
                                         <TextValidator
                                             id="lastName"
-                                            label="* Last Name"
+                                            label="Last Name"
                                             multiline
                                             fullWidth
                                             rowsMax="4"
@@ -181,8 +181,8 @@ class EventSignUpForm extends Component {
                                             value={this.state.lastName}
                                             onChange={this.handleChange('lastName')}
                                             className={classes.textField}
-                                            validators={['required']}
-                                            errorMessages={['this field is required']}
+                                            // validators={['required']}
+                                            // errorMessages={['this field is required']}
                                             margin="normal"
                                             variant="outlined"
                                         />
@@ -338,9 +338,9 @@ class EventSignUpForm extends Component {
                                         </TextValidator>
                                     </Grid>
 
-                                    <Grid item xs={4} sm={2} >
+                                    {/* <Grid item xs={4} sm={2} >
                                 <h5 style={{ margin: '-20px', marginLeft: '8px', fontWeight: 'lighter', fontStyle: 'italic' }}>* required</h5>
-                            </Grid> 
+                            </Grid>  */}
                                     <Grid item xs={12} sm={12}>
                                         <Button
                                             type="submit"

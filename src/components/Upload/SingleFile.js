@@ -55,13 +55,15 @@ class FileDisplay extends Component {
   }
 
   handleDeleteClick = () => {
-    console.log("key", this.props.myFile.key)
-    console.log('id', this.props.AWS[0].id)
+    
+    console.log('my file ', this.props.myFile);
+    // console.log("key", this.props.myFile.key)
+    // console.log('id', this.props.AWS[0].id)
     this.props.dispatch({
       type: "DELETE_FILE",
       payload: {
           key: this.props.myFile.key, 
-          id: this.props.AWS[0].id
+          id: this.props.myFile.id, //this.props.AWS[0].id
       }
     });
 
