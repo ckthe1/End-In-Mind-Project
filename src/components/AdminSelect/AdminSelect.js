@@ -56,7 +56,7 @@ class AdminSelect extends Component {
                 <TableCell>Super Admin</TableCell>
               }
 
-              { this.userIsSuperAdmin() && 
+              {(this.userIsSuperAdmin() || this.userIsAdmin())&& 
                 <TableCell>Community Admin</TableCell>
               }
 
