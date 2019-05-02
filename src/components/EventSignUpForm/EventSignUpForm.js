@@ -133,7 +133,9 @@ class EventSignUpForm extends Component {
     // handleClose = () => {
     //     this.props.dispatch({ type: 'RESET_POST' })
     // };
-
+    handleCancel = () => {
+        this.props.history.push('/event/view')
+    }
 
     render() {
         const { classes } = this.props;
@@ -349,6 +351,18 @@ class EventSignUpForm extends Component {
                                             fullWidth
                                             className={classes.button}>
                                             Check In!
+                                 </Button>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12}>
+                                        <Button
+                                            type="button"
+                                            // variant="contained"
+                                            // color="secondary"
+                                            fullWidth
+                                            className={classes.button}
+                                            onClick={this.handleCancel}
+                                            >Cancel
+                                            
                                  </Button>
                                     </Grid>
 
