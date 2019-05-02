@@ -7,7 +7,7 @@ const bluebird = require("bluebird");
 const multiparty = require("multiparty");
 require("dotenv").config();
 const cleanFilename = require('./cleanFilename')
-const pool = require("../modules/pool");
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
 
 
@@ -32,22 +32,20 @@ const uploadFile = (buffer, name, type) => {
     ContentType: type.mime,
     Key: `${name}.${type.ext}`
   };
-//  console.log(params);
-  
+
   return s3.upload(params).promise();
 };
-
-// console.log('my bucket is', process.env.S3_BUCKET);
 
  var params = {
    Bucket: process.env.S3_BUCKET,
    MaxKeys: 10
  };
 
- router.get("/signed-url", async (req, resp) => {
 
-  console.log('getting signed url', req.query);
 
+ router.get("/signed-url", rejectUnauthenticated, async (req, resp) => {
+
+  // console.log('getting signed url', req.query);
    let params = { Bucket: process.env.S3_BUCKET, Key: req.query.key };
 
    s3.getObject(params, async (error, data) =>{
@@ -58,24 +56,26 @@ const uploadFile = (buffer, name, type) => {
       resp.sendStatus(500);
     }else {
 
-      console.log("got bucket object OK!", data);
+      // console.log("got bucket object OK!", data);
       let signedUrl = await s3.getSignedUrl(`getObject`, params);
       resp.send({ signedUrl });
     }
    })
  })
 
- router.get("/", (request, response) => {
+
+ router.get("/", rejectUnauthenticated, (request, response) => {
    console.log('hi were in the get route');
 
-  const objectsArray = s3.listObjects(params, function(err, data) {
+  s3.listObjects(params, function(err, data) {
+
       if (err) {
+        // an error occurred
         console.log(err, err.stack);
         response.sendStatus(500);
       }
-      // an error occurred
+      
       else {
-        // console.log('raw data', data.Contents); // successful response
 
         const siftedArray = data.Contents.map(obj => {
           let params = {Bucket: process.env.S3_BUCKET, Key: obj.Key};
@@ -96,11 +96,10 @@ const uploadFile = (buffer, name, type) => {
 
  
 // Define POST route
-router.post("/", (request, response) => {
+router.post("/", rejectUnauthenticated, (request, response) => {
   const form = new multiparty.Form();
 
   form.parse(request, async (error, fields, files) => {
-    // console.log(files);
     
     if (error) throw new Error(error);
     try {
@@ -111,16 +110,6 @@ router.post("/", (request, response) => {
       const newFilename = cleanFilename(files.file[0].originalFilename);
       const fileName = `Public/${newFilename}_${timestamp}`;
       const data = await uploadFile(buffer, fileName, type);
-      console.log("hi we got the data", data.Location);
-
-      // await axios.post('/api/files');
-      // now that we have the file in the bucket, we need to add
-    //   // to our database 
-    //  const queryText = `INSERT INTO "files" ("title", "description", "author_user_id", "url") 
-    //     VALUES ($1, $2, $3, $4)`;
-
-    //   await pool.query(queryText, [req.body.title, req.body.description, req.body.data.Location]);
-
 
       return response.status(200).send(data);
     } catch (error) {
@@ -132,34 +121,37 @@ router.post("/", (request, response) => {
 
 
 
-router.delete("/", (req, res) => {
-  console.log("/ DELETE request was hit taco");
-  console.log("req.query:", req.query);
+router.delete("/", rejectUnauthenticated, (req, res) => {
+
+  console.log('attemptig to delete from aws bucket', req.query);
+
+  if (!req.user.is_super_admin) {
+    console.log('Attempt to delete file from AWS bucket from a non-super-admin', req.user);
+    res.sendStatus(500);
+    return;
+  }
+
    var params = {
      Bucket: process.env.S3_BUCKET,
      Key: req.query.awsKey
    };
 
-   console.log("params:", params);
 
    s3.deleteObject(params, function(err, data) {
 
      if (err) {
+       // an error occurred
        console.log(err, err.stack);
        res.sendStatus(500);
      }
 
-     // an error occurred
      else {
-      console.log("Successful delete aws",data); // successful response
+      // successful response
+      console.log("Successful delete aws",data); 
       res.sendStatus(200);
      }
    });
 });
-
-
-
-
 
 
 module.exports = router;
