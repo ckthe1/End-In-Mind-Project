@@ -40,18 +40,13 @@ class FileDisplay extends Component {
     this.props.dispatch({ type: "FETCH_FILES" });
   }
 
-  // handleDeleteClick = () => {
-  //   this.props.dispatch({
-  //     type: "DELETE_FILE",
-  //     payload: this.props.myFile.key
-  //   });
-
-  //   return;
-  // };
 
   render() {
 
     const { classes } = this.props;
+    const hasDeleteAccess = this.props.user.is_super_admin;
+
+    console.log('user is super admin:', hasDeleteAccess)
 
     return (
 
@@ -62,12 +57,18 @@ class FileDisplay extends Component {
               <CustomTableCell>Title</CustomTableCell>
               <CustomTableCell>Description</CustomTableCell>
               <CustomTableCell>Download</CustomTableCell>
-              <CustomTableCell align="right" />
+              {hasDeleteAccess && 
+                <CustomTableCell align="right" /> // this is the 'delete' column
+              }
             </TableRow>
           </TableHead>
           <TableBody>
             {
-              this.props.AWS.map((file, index) => (<SingleFile key={file.id} myFile={file}/>))
+              this.props.AWS.map((file, index) => (
+              <SingleFile 
+                key={file.id} 
+                myFile={file}
+                deleteAccess={hasDeleteAccess}/>))
             }
           </TableBody>
         </Table>

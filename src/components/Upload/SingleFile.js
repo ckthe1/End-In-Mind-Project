@@ -68,6 +68,7 @@ class FileDisplay extends Component {
   };
 
   render() {
+
     const { classes } = this.props;
 
     const file = this.props.myFile;
@@ -85,15 +86,17 @@ class FileDisplay extends Component {
           </a>
         </CustomTableCell>
 
-        <CustomTableCell style={{ width: "10%" }} align="right">
-          <IconButton
-            className={classes.iconHover}
-            onClick={this.handleDeleteClick}
-            aria-label="Delete"
-          >
-            <DeleteIcon />
-          </IconButton>
-        </CustomTableCell>
+        {this.props.deleteAccess &&
+          <CustomTableCell style={{ width: "10%" }} align="right">
+            <IconButton
+              className={classes.iconHover}
+              onClick={this.handleDeleteClick}
+              aria-label="Delete"
+            >
+              <DeleteIcon />
+            </IconButton>
+          </CustomTableCell>
+        }
       </TableRow>
     );
   }
