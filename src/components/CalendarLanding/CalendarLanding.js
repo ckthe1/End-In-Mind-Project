@@ -21,6 +21,7 @@ class CalendarLanding extends Component {
 
 	handleClose = () => {
 		this.props.dispatch({type: "EVENT_DIALOG", payload: false})
+		this.props.dispatch({ type: 'CLEAR_EVENT' });
 	}
 
 	handleCommunitySelected = selection => {

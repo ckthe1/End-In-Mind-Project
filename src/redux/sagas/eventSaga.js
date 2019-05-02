@@ -43,7 +43,7 @@ function* editEvent(action) {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
     };
-    console.log('add event', action);
+    console.log('edit event', action);
     yield axios.put('api/events', action.payload, config);
     // Refresh both the calendar and table event lists
     yield put({ type: 'FETCH_CALENDAR_EVENTS' });

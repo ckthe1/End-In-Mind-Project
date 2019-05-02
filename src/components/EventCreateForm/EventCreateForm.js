@@ -67,8 +67,10 @@ const audienceDropdown = ['0-10', '10-20', '20-30', '50-100', '100-200', '200+']
 class EventCreateForm extends Component {
 
     state = {
-        authorUserId: this.props.user.id,
-        communityId: this.props.user.community_id,
+        eventId: !this.props.selectedEvent.id ? '' : this.props.selectedEvent.id,
+        eventHeading: !this.props.selectedEvent.id ? 'Create New Event' : 'Edit Event',
+        // authorUserId: this.props.user.id,
+        // communityId: this.props.user.community_id,
         eventTitle: !this.props.selectedEvent.id ? '' : this.props.selectedEvent.event_name,
         description: !this.props.selectedEvent.id ? '' : this.props.selectedEvent.description,
         selectedDate: !this.props.selectedEvent.id ? new Date() : this.props.selectedEvent.start_time,
@@ -95,7 +97,7 @@ class EventCreateForm extends Component {
     }
 
     componentDidMount = () => {
-        this.props.dispatch({ type: 'CLEAR_EVENT' });
+        // this.props.dispatch({ type: 'CLEAR_EVENT' });
         console.log('this.props.editEvent ID:', this.props.editEvent);
        if(this.props.editEvent){
            console.log('editEvent ID exist in IF Statement:', this.props.editEvent);
@@ -135,6 +137,7 @@ class EventCreateForm extends Component {
         this.getEventTypes();
         !this.props.selectedEvent.id ? this.props.dispatch({ type: 'ADD_EVENT', payload: this.state }) : this.props.dispatch({ type: 'EDIT_EVENT', payload: this.state });
         this.setState({
+            eventId: '',
             eventTitle: '',
             description: '',
             selectedDate: new Date(),
@@ -160,7 +163,8 @@ class EventCreateForm extends Component {
             },
         });
 
-        alert('Your event has been created!');
+        !this.props.selectedEvent.id ? alert('Your event has been created!') : alert('Your event has been edited!');
+        this.props.history.push('/event/view');
     }
 
     // handles date/time selection for date, starttime, endtime
@@ -182,8 +186,34 @@ class EventCreateForm extends Component {
         });
     };
 
-    displayCancelButton = () => {
-
+    handleCancelEdit = () => {
+        this.props.dispatch({ type: 'CLEAR_EVENT' });
+        this.setState({
+            eventTitle: '',
+            description: '',
+            selectedDate: new Date(),
+            start_time: new Date(),
+            end_time: new Date(),
+            location: '',
+            contactName: '',
+            contactEmail: '',
+            contactPhone: '',
+            audienceSize: '',
+            eventTypeArray: '',
+            eventTypes: {
+                popUpPodcast: false,
+                endInMindClub: false,
+                deathOverDinner: false,
+                honoringTraining: false,
+                stevieRay: false,
+                deathCafe: false,
+                livingWills: false,
+                tedTalks: false,
+                writingParty: false,
+                healthStory: false,
+            },
+        });
+        this.props.history.push('/event/view');
     }
 
     // handleCancelEdit = () => {
@@ -228,6 +258,7 @@ class EventCreateForm extends Component {
         const { classes } = this.props;
         // console.log(this.state.eventTypeArray);
         // console.log('user id', this.props.user.community_id);
+        console.log('selected event id', this.props.selectedEvent)
         
 
         return (
@@ -237,7 +268,7 @@ class EventCreateForm extends Component {
                     <div className={classes.container}>
                         <Paper className={classes.root} elevation={1} style={{ marginTop: '40px' }}>
                             <Typography><h2 style={{ marginBottom: '10px', fontSize: '35px', color: '#4534e5' }}><EventIcon className={classes.icon} />
-                            {!this.props.selectedEvent.id ? 'Create New Event' : this.props.selectedEvent.event_name}</h2>
+                            {this.state.eventHeading}</h2>
                             </Typography>
                             <ValidatorForm
                                 ref="form"

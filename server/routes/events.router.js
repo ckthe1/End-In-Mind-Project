@@ -178,23 +178,19 @@ router.post('/', (req, res) => {
 router.put('/', (req, res) => {
   console.log(req.body);
   let event = req.body;
-  const queryText = `INSERT INTO "events"
-    (event_name, 
-    event_type, 
-    expected_attendees, 
-    start_time,
-    end_time,
-    location, 
-    description, 
-    contact_name, 
-    contact_email, 
-    contact_phone, 
-    community_id, 
-    author_user_id)
-    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);`
+  const queryText = `UPDATE "events" SET
+    event_name=$1, 
+    expected_attendees=$2, 
+    start_time=$3,
+    end_time=$4,
+    location=$5, 
+    description=$6, 
+    contact_name=$7, 
+    contact_email=$8, 
+    contact_phone=$9 
+    WHERE id=$10;`
   pool.query(queryText, [
     event.eventTitle,
-    event.eventTypeArray,
     event.audienceSize,
     event.start_time,
     event.end_time,
@@ -203,8 +199,7 @@ router.put('/', (req, res) => {
     event.contactName,
     event.contactEmail,
     event.contactPhone,
-    event.communityId,
-    event.authorUserId,
+    event.eventId,
   ])
     .then(() => { res.sendStatus(201) })
     .catch((err) => {
