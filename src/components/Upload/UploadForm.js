@@ -38,14 +38,22 @@ class FileDisplay extends Component {
   };
 
   handleSubmit = event => {
+
+    // Prevent the page from reloading
     event.preventDefault();
+
+    // Dispatch an action to begin the upload saga
     this.props.dispatch({
       type: "ADD_FILE",
       payload: this.state
     });
+
+    // Clear the local state
     this.setState({
       title: "",
-      description: ""
+      description: "",
+      file: null,
+      fileName: "",
     });
   };
 
@@ -92,25 +100,11 @@ class FileDisplay extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    // const file = this.props.myFile;
 
-    // console.log("my file url", this.state.fileName);
+    const { classes } = this.props;
 
     return (
       <div>
-        {/* <div>
-        <td> {this.props.myFile.title} </td>
-        <td>{this.props.myFile.description}</td>
-        <td>
-          <a href={this.state.signedUrl} download={this.state.signedUrl}>
-            <img src={this.state.signedUrl}></img>
-          </a>
-        </td>
-        <td>
-          <button onClick={this.deleteButton}>Delete</button>
-        </td>
-      </div> */}
       
         <ValidatorForm
           ref="form"
@@ -148,13 +142,14 @@ class FileDisplay extends Component {
             </Grid>
             <Grid item xs={8} sm={3}>
               <Button variant="contained" component="label" color="primary">
-                Upload File
+                Browse...
                 <input
                   type="file"
                   style={{ display: "none" }}
                   onChange={this.handleFileUpload}
                 />
               </Button>
+              <p>{this.state.fileName}</p>
             </Grid>
             <Grid item xs={8} sm={3}>
               {this.buttonEnable()}
@@ -171,6 +166,3 @@ const mapReduxStateToProps = reduxState => {
 };
 
 export default withStyles(styles)(connect(mapReduxStateToProps)(FileDisplay));
-
-
-   

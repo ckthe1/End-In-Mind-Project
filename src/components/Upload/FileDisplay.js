@@ -35,43 +35,20 @@ const styles = theme => ({
 });
 
 class FileDisplay extends Component {
-  state = {
-    signedUrl: ""
-  };
 
   componentDidMount() {
     this.props.dispatch({ type: "FETCH_FILES" });
   }
 
-  handleDeleteClick = () => {
-    this.props.dispatch({
-      type: "DELETE_FILE",
-      payload: this.props.myFile.key
-    });
-
-    return;
-  };
 
   render() {
+
     const { classes } = this.props;
+    const hasDeleteAccess = this.props.user.is_super_admin;
 
-    const file = this.props.myFile;
+    console.log('user is super admin:', hasDeleteAccess)
 
-    // console.log("my file url", file);
-    console.log(this.props.AWS);
     return (
-      // <div>
-      //   <td> {this.props.myFile.title} </td>
-      //   <td>{this.props.myFile.description}</td>
-      //   <td>
-      //     <a href={this.state.signedUrl} download={this.state.signedUrl}>
-      //       {this.state.signedUrl}
-      //     </a>
-      //   </td>
-      //   <td>
-      //     <button onClick={this.deleteButton}>Delete</button>
-      //   </td>
-      // </div>
 
       <Paper className={classes.root}>
         <Table className={classes.table}>
@@ -79,13 +56,19 @@ class FileDisplay extends Component {
             <TableRow>
               <CustomTableCell>Title</CustomTableCell>
               <CustomTableCell>Description</CustomTableCell>
-              <CustomTableCell>File</CustomTableCell>
-              <CustomTableCell align="right" />
+              <CustomTableCell>Download</CustomTableCell>
+              {hasDeleteAccess && 
+                <CustomTableCell align="right" /> // this is the 'delete' column
+              }
             </TableRow>
           </TableHead>
           <TableBody>
             {
-              this.props.AWS.map((file, index) => (<SingleFile key={file.id} myFile={file}/>))
+              this.props.AWS.map((file, index) => (
+              <SingleFile 
+                key={file.id} 
+                myFile={file}
+                deleteAccess={hasDeleteAccess}/>))
             }
           </TableBody>
         </Table>
