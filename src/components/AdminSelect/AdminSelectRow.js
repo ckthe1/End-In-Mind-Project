@@ -55,7 +55,7 @@ componentDidMount() {
 					</TableCell>)
 				}
 
-				{this.props.isSuperAdmin() && 
+				{(this.props.isSuperAdmin() || this.props.isAdmin()) &&
 					(<TableCell>
 						<Checkbox
 							checked={user.is_community_admin}
