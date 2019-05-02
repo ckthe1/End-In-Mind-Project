@@ -1,3 +1,8 @@
 .signup-logo img {
     height: 20px;
 }
+
+.disclaimer {
+    padding: 10px;
+    font-size: .75rem;
+}
