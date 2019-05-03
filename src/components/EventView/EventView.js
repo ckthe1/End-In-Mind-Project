@@ -56,7 +56,7 @@ class EventView extends Component {
             community.id === this.props.user.community_id
             );
 
-        if (currentCommunity.length < 1) return 'community';
+        if (currentCommunity.length < 1) return 'Community';
 
         console.log(currentCommunity);
         return currentCommunity[0].name;
@@ -72,7 +72,7 @@ class EventView extends Component {
             <div className={classes.root}>
                 <h2 style={{ marginBottom: '20px' }}>{this.communityNameDisplay()} Events</h2>
                 <Grid container spacing={16}>
-                    {this.props.events.filter(event => event.community_id === this.props.user.community_id).map((eventItem) => {
+                    {this.props.events.filter(event => event.community_id === this.props.user.community_id || this.props.user.is_super_admin).map((eventItem) => {
                         return (
                             <Grid item xs={12} md={3} sm={4}>
                                 <Card className={classes.card}>
