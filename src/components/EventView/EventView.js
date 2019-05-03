@@ -56,7 +56,7 @@ class EventView extends Component {
             community.id === this.props.user.community_id
             );
 
-        if (currentCommunity.length < 1) return 'community';
+        if (currentCommunity.length < 1) return 'Community';
 
         console.log(currentCommunity);
         return currentCommunity[0].name;
