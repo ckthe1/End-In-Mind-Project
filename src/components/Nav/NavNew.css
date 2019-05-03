@@ -75,6 +75,10 @@ a.nav-links {
     animation-duration: .5s;
 }
 
+.close {
+    display: none;
+}
+
 .dropdown .dropbtn {
   border: none;
   outline: none;

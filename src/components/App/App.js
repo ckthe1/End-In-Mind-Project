@@ -57,6 +57,11 @@ const theme = createMuiTheme({
 });
 
 class App extends Component {
+
+  state = {
+    dropDownDisplay: ''
+  }
+
   componentDidMount () {
     this.props.dispatch({type: 'FETCH_USER'})
   }
@@ -65,8 +70,8 @@ class App extends Component {
     return (
       <Router>
         <MuiThemeProvider theme={theme}>
-        <div>
-          <NavNew />
+          <div>
+          <NavNew/>
           <Switch>
             {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
             <Redirect exact from="/" to="/home" />
