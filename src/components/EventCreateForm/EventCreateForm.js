@@ -67,18 +67,20 @@ const audienceDropdown = ['0-10', '10-20', '20-30', '50-100', '100-200', '200+']
 class EventCreateForm extends Component {
 
     state = {
-        authorUserId: this.props.user.id,
-        communityId: this.props.user.community_id,
-        eventTitle: '',
-        description: '',
-        selectedDate: new Date(),
-        start_time: new Date(),
-        end_time: new Date(),
-        location: '',
-        contactName: '',
-        contactEmail: '',
-        contactPhone: '',
-        audienceSize: '',
+        eventId: !this.props.selectedEvent.id ? '' : this.props.selectedEvent.id,
+        eventHeading: !this.props.selectedEvent.id ? 'Create New Event' : 'Edit Event',
+        // authorUserId: this.props.user.id,
+        // communityId: this.props.user.community_id,
+        eventTitle: !this.props.selectedEvent.id ? '' : this.props.selectedEvent.event_name,
+        description: !this.props.selectedEvent.id ? '' : this.props.selectedEvent.description,
+        selectedDate: !this.props.selectedEvent.id ? new Date() : this.props.selectedEvent.start_time,
+        start_time: !this.props.selectedEvent.id ? new Date() : this.props.selectedEvent.start_time,
+        end_time: !this.props.selectedEvent.id ? new Date() : this.props.selectedEvent.end_time,
+        location: !this.props.selectedEvent.id ? '' : this.props.selectedEvent.location,
+        contactName: !this.props.selectedEvent.id ? '' : this.props.selectedEvent.contact_name,
+        contactEmail: !this.props.selectedEvent.id ? '' : this.props.selectedEvent.contact_email,
+        contactPhone: !this.props.selectedEvent.id ? '' : this.props.selectedEvent.contact_phone,
+        audienceSize: !this.props.selectedEvent.id ? '' : this.props.selectedEvent.expected_attendees,
         eventTypeArray: '',
         eventTypes: {
             popUpPodcast: false,
@@ -95,7 +97,7 @@ class EventCreateForm extends Component {
     }
 
     componentDidMount = () => {
-        this.props.dispatch({ type: 'CLEAR_EVENT' });
+        // this.props.dispatch({ type: 'CLEAR_EVENT' });
         console.log('this.props.editEvent ID:', this.props.editEvent);
        if(this.props.editEvent){
            console.log('editEvent ID exist in IF Statement:', this.props.editEvent);
@@ -135,6 +137,7 @@ class EventCreateForm extends Component {
         this.getEventTypes();
         !this.props.selectedEvent.id ? this.props.dispatch({ type: 'ADD_EVENT', payload: this.state }) : this.props.dispatch({ type: 'EDIT_EVENT', payload: this.state });
         this.setState({
+            eventId: '',
             eventTitle: '',
             description: '',
             selectedDate: new Date(),
@@ -160,7 +163,8 @@ class EventCreateForm extends Component {
             },
         });
 
-        alert('Your event has been created!');
+        !this.props.selectedEvent.id ? alert('Your event has been created!') : alert('Your event has been edited!');
+        this.props.history.push('/event/view');
     }
 
     // handles date/time selection for date, starttime, endtime
@@ -182,8 +186,34 @@ class EventCreateForm extends Component {
         });
     };
 
-    displayCancelButton = () => {
-
+    handleCancelEdit = () => {
+        this.props.dispatch({ type: 'CLEAR_EVENT' });
+        this.setState({
+            eventTitle: '',
+            description: '',
+            selectedDate: new Date(),
+            start_time: new Date(),
+            end_time: new Date(),
+            location: '',
+            contactName: '',
+            contactEmail: '',
+            contactPhone: '',
+            audienceSize: '',
+            eventTypeArray: '',
+            eventTypes: {
+                popUpPodcast: false,
+                endInMindClub: false,
+                deathOverDinner: false,
+                honoringTraining: false,
+                stevieRay: false,
+                deathCafe: false,
+                livingWills: false,
+                tedTalks: false,
+                writingParty: false,
+                healthStory: false,
+            },
+        });
+        this.props.history.push('/event/view');
     }
 
     // handleCancelEdit = () => {
@@ -228,6 +258,7 @@ class EventCreateForm extends Component {
         const { classes } = this.props;
         // console.log(this.state.eventTypeArray);
         // console.log('user id', this.props.user.community_id);
+        console.log('selected event id', this.props.selectedEvent)
         
 
         return (
@@ -237,7 +268,7 @@ class EventCreateForm extends Component {
                     <div className={classes.container}>
                         <Paper className={classes.root} elevation={1} style={{ marginTop: '40px' }}>
                             <Typography><h2 style={{ marginBottom: '10px', fontSize: '35px', color: '#4534e5' }}><EventIcon className={classes.icon} />
-                            {!this.props.selectedEvent.id ? 'Create New Event' : this.props.selectedEvent.event_name}</h2>
+                            {this.state.eventHeading}</h2>
                             </Typography>
                             <ValidatorForm
                                 ref="form"
@@ -255,7 +286,7 @@ class EventCreateForm extends Component {
                                             name="eventTitle"
                                             type="text"
                                             margin="normal"
-                                            value={!this.props.selectedEvent.id ? this.state.eventTitle : this.props.selectedEvent.event_name}
+                                            value={this.state.eventTitle}
                                             validators={['required']}
                                             errorMessages={['this field is required']}
                                             variant="outlined"
@@ -269,7 +300,7 @@ class EventCreateForm extends Component {
                                             fullWidth
                                             rowsMax="4"
                                             type="text"
-                                            value={!this.props.selectedEvent.id ? this.state.description : this.props.selectedEvent.description}
+                                            value={this.state.description}
                                             onChange={this.handleChange('description')}
                                             className={classes.textField}
                                             // validators={['required']}
@@ -399,8 +430,8 @@ class EventCreateForm extends Component {
                                                 margin="normal"
                                                 label="* Date"
                                                 fullWidth
-                                                value={!this.props.selectedEvent.id ? this.state.selectedDate : this.props.selectedEvent.start}
-                                                onChange={this.handleDateChange('selectedDate')}
+                                                value={this.state.selectedDate}
+                                                onChange={this.handleDateChange}
                                                 className={classNames(classes.textField)}
                                                 variant="outlined"
                                                 InputProps={{
@@ -422,7 +453,7 @@ class EventCreateForm extends Component {
                                                 margin="normal"
                                                 label="* Start Time"
                                                 fullWidth
-                                                value={!this.props.selectedEvent.id ? this.state.start_time : this.props.selectedEvent.start_time}
+                                                value={this.state.start_time}
                                                 onChange={this.handleDateChange('start_time')}
                                                 className={classNames(classes.textField)}
                                                 variant="outlined"
@@ -445,7 +476,7 @@ class EventCreateForm extends Component {
                                                 margin="normal"
                                                 label="* End Time"
                                                 fullWidth
-                                                value={!this.props.selectedEvent.id ? this.state.end_time : this.props.selectedEvent.end_time}
+                                                value={this.state.end_time}
                                                 onChange={this.handleDateChange('end_time')}
                                                 className={classNames(classes.textField)}
                                                 variant="outlined"
@@ -473,7 +504,7 @@ class EventCreateForm extends Component {
                                             name="location"
                                             type="text"
                                             margin="normal"
-                                            value={!this.props.selectedEvent.id ? this.state.location : this.props.selectedEvent.location}
+                                            value={this.state.location}
                                             validators={['required']}
                                             errorMessages={['this field is required']}
                                             variant="outlined"
@@ -486,7 +517,7 @@ class EventCreateForm extends Component {
                                             fullWidth
                                             label="Audience Size"
                                             className={classes.textField}
-                                            value={!this.props.selectedEvent.id ? this.state.audienceSize : this.props.selectedEvent.expected_attendees}
+                                            value={this.state.audienceSize}
                                             onChange={this.handleChange('audienceSize')}
                                             SelectProps={{
                                                 MenuProps: {
@@ -513,7 +544,7 @@ class EventCreateForm extends Component {
                                             fullWidth
                                             rowsMax="4"
                                             type="text"
-                                            value={!this.props.selectedEvent.id ? this.state.contactName : this.props.selectedEvent.contact_name}
+                                            value={this.state.contactName}
                                             onChange={this.handleChange('contactName')}
                                             className={classes.textField}
                                             validators={['required']}
@@ -530,7 +561,7 @@ class EventCreateForm extends Component {
                                             fullWidth
                                             rowsMax="4"
                                             type="email"
-                                            value={!this.props.selectedEvent.id ? this.state.contactEmail : this.props.selectedEvent.email}
+                                            value={this.state.contactEmail}
                                             onChange={this.handleChange('contactEmail')}
                                             className={classes.textField}
                                             validators={['required']}
@@ -547,7 +578,7 @@ class EventCreateForm extends Component {
                                             fullWidth
                                             rowsMax="4"
                                             type="text"
-                                            value={!this.props.selectedEvent.id ? this.state.contactPhone : this.props.selectedEvent.phone}
+                                            value={this.state.contactPhone}
                                             onChange={this.handleChange('contactPhone')}
                                             className={classes.textField}
                                             validators={['required']}

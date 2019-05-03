@@ -174,6 +174,39 @@ router.post('/', (req, res) => {
   })
 });
 
+
+router.put('/', (req, res) => {
+  console.log(req.body);
+  let event = req.body;
+  const queryText = `UPDATE "events" SET
+    event_name=$1, 
+    expected_attendees=$2, 
+    start_time=$3,
+    end_time=$4,
+    location=$5, 
+    description=$6, 
+    contact_name=$7, 
+    contact_email=$8, 
+    contact_phone=$9 
+    WHERE id=$10;`
+  pool.query(queryText, [
+    event.eventTitle,
+    event.audienceSize,
+    event.start_time,
+    event.end_time,
+    event.location,
+    event.description,
+    event.contactName,
+    event.contactEmail,
+    event.contactPhone,
+    event.eventId,
+  ])
+    .then(() => { res.sendStatus(201) })
+    .catch((err) => {
+      console.log('error posting event', err);
+      res.sendStatus(500);
+    })
+});
 /**Using only the day from the first param and only the time from the second,
 makes a new date and returns it. */
 const MergeDayAndTime =(dateForDay, dateForTime) => {
