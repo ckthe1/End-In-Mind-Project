@@ -19,14 +19,30 @@ class NavNew extends Component {
     handleButtonDropdown = buttonName => () => {
         buttonName === 'event' && this.state.eventDropdownDisplay === 'none' ?
             this.setState({ eventDropdownDisplay: 'block' }) : this.setState({ eventDropdownDisplay: 'none' });
-
     }
+
+    handleClose = () => {
+        console.log('handleCloseclicked')
+        this.setState({
+            eventDropdownDisplay: 'none',
+            communityDropdownDisplay: 'none',
+        })
+    }
+
+    checkOutsideCloseClick = () => {
+        if (this.props.dropDownDisplay === 'none') {
+            this.setState({
+                eventDropdownDisplay: 'none'
+            })
+        }
+    }
+
 
     render() {
         console.log('this.props.user:', this.props.user);
-        
+        console.log('props dropdown display', this.props.dropDownDisplay)   
         return (
-            <nav className="navbar">             
+            <nav className="navbar">          
                 <span className="navbar-toggle" id="js-navbar-toggle">
                     <i className="fas fa-bars" onClick={this.toggleMenu}></i>
                 </span>
@@ -50,8 +66,8 @@ class NavNew extends Component {
                             <i className="fa fa-caret-down"></i>
                             </button>
                             <div style={{ display: this.state.eventDropdownDisplay }} className="dropdown-content">
-                                <Link to="/event/view" >View</Link>
-                                <Link to="/event/create" >Create</Link>
+                                <Link to="/event/view" onClick={this.handleClose}>View</Link>
+                                <Link to="/event/create" onClick={this.handleClose} >Create</Link>
                             </div>
                         </li>
                     )}
