@@ -15,6 +15,8 @@ class CalendarView extends Component {
     this.props.dispatch({type:'FETCH_EVENTS'});
   }
 
+ 
+
 
   eventSelected = event => {
     this.props.dispatch({type:"SET_EVENT", payload: event});

@@ -2,6 +2,36 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import axios from 'axios';
 import queryString from 'query-string';
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import './FollowUp.css'
+
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    marginLeft: 8,
+    marginRight: 8,
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 4,
+    paddingBottom: theme.spacing.unit * 4
+  },
+  card: {
+    // maxWidth: 345,
+  },
+  media: {
+    height: 140
+  },
+  button: {
+    margin: theme.spacing.unit
+  },
+  input: {
+    display: "none"
+  }
+});
+
 
 class FollowUp extends Component {
 
@@ -117,20 +147,48 @@ class FollowUp extends Component {
         }
 
         return (
-            <div>
-                <h1>Followup for {event.event_name}</h1>
-                <p>{event.description}</p>
-                <form onSubmit={this.handleSubmit}>
-                    <input placeholder='comments' 
-                        value={this.state.comments}
-                        onChange={this.onCommentsChanged}/> 
-                    <button>Submit</button>
+          <div className="followUp">
+        <Typography gutterBottom variant="h4" component="h4" style={{ marginBottom: '0px' }}>
+   
+           Followup for {event.event_name}
+        </Typography>
+        <Typography gutterBottom component="p" style={{ fontSize: '13px', marginBottom: '0' }}>
 
-                </form>
-            </div>
+            {event.description}
+        </Typography>
+            <form onSubmit={this.handleSubmit}>
+            <div>
+              {/* <input
+                placeholder="comments"
+                value={this.state.comments}
+                onChange={this.onCommentsChanged}
+              /> */}
+
+              <TextField
+                value={this.state.comments}
+                onChange={this.onCommentsChanged}
+                id="standard-full-width"
+                style={{ margin: 8 }}
+                placeholder="Comments"
+                fullWidth
+                margin="normal"
+                InputLabelProps={{
+                  shrink: true
+                }}
+              />
+              </div>
+            </form>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={this.handleSubmit}
+            >
+              Submit
+            </Button>
+          </div>
         );
     }
 }
 
 
-export default connect()(FollowUp);
+export default withStyles(styles)(connect()(FollowUp));

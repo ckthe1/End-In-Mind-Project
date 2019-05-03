@@ -36,6 +36,7 @@ class EventView extends Component {
 
     componentDidMount() {
         this.props.dispatch({ type: 'FETCH_EVENTS' })
+        this.props.dispatch({ type: 'FETCH_COMMUNITIES'})
     };
 
     handleRunEvent = event => () => {
@@ -50,14 +51,28 @@ class EventView extends Component {
         this.props.history.push('/event/create');
     }
 
+    communityNameDisplay = () => {
+        let currentCommunity = this.props.communities.filter(community => 
+            community.id === this.props.user.community_id
+            );
+
+        if (currentCommunity.length < 1) return 'community';
+
+        console.log(currentCommunity);
+        return currentCommunity[0].name;
+    }
+
 
     render() {
-        console.log('this.props.eventReducer:', this.props.calendarEvents);
+        console.log('this.props.eventReducer:', this.props.events);
+        console.log('community', this.props.communities)
+        
         const { classes } = this.props;
         return (
             <div className={classes.root}>
+                <h2 style={{ marginBottom: '20px' }}>{this.communityNameDisplay()} Events</h2>
                 <Grid container spacing={16}>
-                    {this.props.events.map((eventItem) => {
+                    {this.props.events.filter(event => event.community_id === this.props.user.community_id).map((eventItem) => {
                         return (
                             <Grid item xs={12} md={3} sm={4}>
                                 <Card className={classes.card}>

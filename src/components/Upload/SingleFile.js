@@ -56,14 +56,11 @@ class FileDisplay extends Component {
 
   handleDeleteClick = () => {
     
-    console.log('my file ', this.props.myFile);
-    // console.log("key", this.props.myFile.key)
-    // console.log('id', this.props.AWS[0].id)
     this.props.dispatch({
       type: "DELETE_FILE",
       payload: {
           key: this.props.myFile.key, 
-          id: this.props.myFile.id, //this.props.AWS[0].id
+          id: this.props.myFile.id,
       }
     });
 
@@ -71,6 +68,7 @@ class FileDisplay extends Component {
   };
 
   render() {
+
     const { classes } = this.props;
 
     const file = this.props.myFile;
@@ -88,15 +86,17 @@ class FileDisplay extends Component {
           </a>
         </CustomTableCell>
 
-        <CustomTableCell style={{ width: "10%" }} align="right">
-          <IconButton
-            className={classes.iconHover}
-            onClick={this.handleDeleteClick}
-            aria-label="Delete"
-          >
-            <DeleteIcon />
-          </IconButton>
-        </CustomTableCell>
+        {this.props.deleteAccess &&
+          <CustomTableCell style={{ width: "10%" }} align="right">
+            <IconButton
+              className={classes.iconHover}
+              onClick={this.handleDeleteClick}
+              aria-label="Delete"
+            >
+              <DeleteIcon />
+            </IconButton>
+          </CustomTableCell>
+        }
       </TableRow>
     );
   }
