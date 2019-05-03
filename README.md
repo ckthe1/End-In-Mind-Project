@@ -37,7 +37,7 @@ If you would like to name your database something else, you will need to change 
     
     You'll need to paste in the mailgun key and the AWS keys in once you've set up accounts on those services.
     - Mailgun: https://www.mailgun.com/
-    - AWS S3: [todo insert link]
+    - AWS S3: https://aws.amazon.com/
 
 * Start postgres if not running already by using `brew services start postgresql`
 * Run `npm run server`
