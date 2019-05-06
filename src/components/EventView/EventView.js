@@ -50,7 +50,11 @@ class EventView extends Component {
         this.props.dispatch({ type: 'SET_EVENT', payload: event })
         this.props.history.push('/event/create');
     }
-
+    handleDeleteEvent = id => () => {
+        console.log('deleteEvent clicked', id);
+        this.props.dispatch({ type: 'ARCHIVE_EVENTS', payload: id })
+        // this.props.history.push('/event/create');
+    }
     communityNameDisplay = () => {
         let currentCommunity = this.props.communities.filter(community => 
             community.id === this.props.user.community_id
@@ -115,6 +119,9 @@ class EventView extends Component {
                                         </Button>
                                         <Button size="small" color="primary" onClick={this.handleRunEvent(eventItem)}>
                                             Run Event
+                                        </Button>
+                                        <Button size="small" color="primary" onClick={this.handleDeleteEvent(eventItem)}>
+                                            Delete Event
                                         </Button>
                                     </CardActions>
                                 </Card>

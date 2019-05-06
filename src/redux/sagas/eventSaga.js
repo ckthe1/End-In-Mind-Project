@@ -64,13 +64,29 @@ function* fetchContacts(action) {
   }
 }
 
+
+function* archiveEvents(action){
+  try{
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+    console.log('archive event', action.payload);
+    yield axios.put('api/events/archive', action.payload.id, config);
+    // yield put({ type: 'ARCHIVE_EVENTS' });
+  } catch (error) {
+    console.log('archive PUT request failed', error);
+  }
+}//end archiveEvents
+
 function* eventSaga() {
 
   yield takeLatest('FETCH_EVENTS', fetchEvents);
-  // yield takeLatest('FETCH_TABLE_EVENTS', fetchTableEvents);
+  yield takeLatest('ARCHIVE_EVENTS', archiveEvents);
   yield takeEvery('ADD_EVENT', addEvent);
   yield takeEvery('EDIT_EVENT', editEvent);
   yield takeEvery('FETCH_CONTACTS', fetchContacts);
+
 }
 
 export default eventSaga;

@@ -16,9 +16,9 @@ router.get('/', (req, res) => {
   // If no community is specified, just return all the events-------------------------
   if (!communityId) {
     pool.query(`
-      SELECT ${columnsToSelect} FROM "events" 
-      JOIN "communities" ON "events"."community_id" = "communities"."id" 
-      ORDER BY "events"."id" DESC;`)
+            SELECT ${columnsToSelect} FROM "events" 
+            JOIN "communities" ON "events"."community_id" = "communities"."id" 
+            ORDER BY "events"."id" DESC;`)
 
     .then (response => {
       const convertedEvents = response.rows.map( event => convertEvent(event));
@@ -33,10 +33,10 @@ router.get('/', (req, res) => {
   // When community is specified, we return only events related to that community.-----
   else {
     pool.query(`
-    SELECT ${columnsToSelect} FROM "events" 
-      JOIN "communities" ON "events"."community_id" = "communities"."id"
-      WHERE "community_id" = $1
-      ORDER BY "events"."id" DESC;`, [communityId])
+              SELECT ${columnsToSelect} FROM "events" 
+                JOIN "communities" ON "events"."community_id" = "communities"."id"
+                WHERE "community_id" = $1
+                ORDER BY "events"."id" DESC;`, [communityId])
 
   .then (response => {
     const convertedEvents = response.rows.map( event => convertEvent(event))
@@ -54,22 +54,20 @@ router.get('/specific', rejectUnauthenticated, (req, res) => {
   console.log("in get specific event route", req.query);
 
   pool.query(`
-  SELECT "events"."id", "event_name", "event_type", "location", 
-"events"."description", "contact_name", "contact_phone", "events"."created_at", 
-"author_user_id", "follow_up_complete",
-"follow_up_comments", "start_time", "end_time", 
-"communities"."id" as "community_id", 
-"communities"."name" as "community_name"
- FROM "events" 
-  JOIN "communities" ON "events"."community_id" = "communities"."id" 
-  WHERE "events"."id" = $1;`, [req.query.id])
+              SELECT "events"."id", "event_name", "event_type", "location", 
+            "events"."description", "contact_name", "contact_phone", "events"."created_at", 
+            "author_user_id", "follow_up_complete",
+            "follow_up_comments", "start_time", "end_time", 
+            "communities"."id" as "community_id", 
+            "communities"."name" as "community_name"
+            FROM "events" 
+              JOIN "communities" ON "events"."community_id" = "communities"."id" 
+              WHERE "events"."id" = $1;`, [req.query.id])
 
-  .then (response => {
-
-    console.log(response);
-
+    .then (response => {
+      console.log(response);
     // for calendar to read the dates, they need to be converted from strings to Date objects
-    const convertedEvents = response.rows.map( event => convertEvent(event))
+      const convertedEvents = response.rows.map( event => convertEvent(event))
 
     res.send(convertedEvents)
   })
@@ -98,10 +96,10 @@ router.put('/followup', (req, res) => {
   console.log('in followup route', req.query);
   
   pool.query(`
-    UPDATE "events"
-    SET "follow_up_comments" = $1
-    WHERE "id" = $2;`, 
-    [req.query.comments, req.query.eventId])
+            UPDATE "events"
+            SET "follow_up_comments" = $1
+            WHERE "id" = $2;`, 
+            [req.query.comments, req.query.eventId])
 
   .then(result => {
     console.log("everything is just dandy");
@@ -115,7 +113,7 @@ router.put('/followup', (req, res) => {
 })
 
 
-// Patrick's get request that grabs all users contact info from the selected community 
+// get request that grabs all users contact info from the selected community 
 router.get('/contacts/:id', (req, res) => {
 
   const queryText = `SELECT "full_name", "email", "phone_number" FROM "users" WHERE "community_id"=($1)`;
@@ -174,6 +172,27 @@ router.post('/', (req, res) => {
   })
 });
 
+//to archive event when delete event is hit
+router.put('/archive', (req, res) => {
+
+  console.log('in archive route', req.query);
+
+  pool.query(`
+            UPDATE "events"
+            SET "archived" = true
+            WHERE "id" = $2;`,
+    [req.query.comments, req.query.eventId])
+
+    .then(result => {
+      console.log("archived event successful");
+      res.sendStatus(200);
+    })
+
+    .catch(error => {
+      console.log("error in event archive route", error);
+      res.sendStatus(500);
+    });
+})
 
 router.put('/', (req, res) => {
   console.log(req.body);
