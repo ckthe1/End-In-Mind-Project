@@ -28,7 +28,7 @@ const uploadFile = (buffer, name, type) => {
   const params = {
     ACL: "public-read",
     Body: buffer,
-    Bucket: "bazookalip",
+    Bucket: process.env.S3_BUCKET,
     ContentType: type.mime,
     Key: `${name}.${type.ext}`
   };
